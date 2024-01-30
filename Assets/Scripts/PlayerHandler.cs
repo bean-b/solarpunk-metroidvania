@@ -7,6 +7,8 @@ public class PlayerHandler : MonoBehaviour
 {
     private const int TimesCanJump = 1;
 
+
+
     private float horizontal;
     private float speed = 8f;
     private float jumpingPower = 20f;
@@ -16,6 +18,8 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform groundCheck;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private Transform gunPivot;
+    [SerializeField] private GrapplingRope grapplingRope;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +45,10 @@ public class PlayerHandler : MonoBehaviour
 
     private void Movement()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");
+        if (!grapplingRope.isGrappling)
+        {
+            horizontal = Input.GetAxisRaw("Horizontal");
+        }
     }
     private void Jump(){
         if(Input.GetButtonDown("Jump") && IsGrounded())
@@ -60,6 +67,9 @@ public class PlayerHandler : MonoBehaviour
             Vector3 localScale =  transform.localScale;
             localScale.x *= -1f;
             transform.localScale = localScale;
+            Vector3 localScaleGun = transform.localScale;
+            localScaleGun.x *= -1f;
+            gunPivot.localScale = localScaleGun;
         }
     }
 }

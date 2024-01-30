@@ -29,6 +29,8 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private bool hasMaxDistance = false;
     [SerializeField] private float maxDistnace = 20;
 
+    private int layerMask;
+
     private enum LaunchType
     {
         Transform_Launch,
@@ -50,6 +52,7 @@ public class GrapplingGun : MonoBehaviour
 
     private void Start()
     {
+        layerMask = ~LayerMask.GetMask("Player");
         grappleRope.enabled = false;
         m_springJoint2D.enabled = false;
 
@@ -114,9 +117,9 @@ public class GrapplingGun : MonoBehaviour
     void SetGrapplePoint()
     {
         Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
-        if (Physics2D.Raycast(firePoint.position, distanceVector.normalized))
+        if (Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistnace, layerMask))
         {
-            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized);
+            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistnace, layerMask);
             if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
             {
                 if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace || !hasMaxDistance)
