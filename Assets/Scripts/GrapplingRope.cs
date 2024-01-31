@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GrapplingRope : MonoBehaviour
@@ -18,12 +19,21 @@ public class GrapplingRope : MonoBehaviour
     [Header("Rope Progression:")]
     public AnimationCurve ropeProgressionCurve;
     [SerializeField][Range(1, 50)] private float ropeProgressionSpeed = 1;
-
+    [SerializeField] PlayerHandler playerHandler;
     float moveTime = 0;
 
     [HideInInspector] public bool isGrappling = true;
 
     bool strightLine = true;
+
+    private LineRenderer lineRenderer;
+
+
+    private void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+    }
+
 
     private void OnEnable()
     {
@@ -53,6 +63,9 @@ public class GrapplingRope : MonoBehaviour
 
     private void Update()
     {
+        Color color = new Color(playerHandler.curDeadTime * (1f / playerHandler.maxDeadTime), 0, 0);
+        lineRenderer.startColor = color;
+        lineRenderer.endColor = color;
         moveTime += Time.deltaTime;
         DrawRope();
     }
@@ -74,7 +87,6 @@ public class GrapplingRope : MonoBehaviour
         {
             if (!isGrappling)
             {
-                grapplingGun.Grapple();
                 isGrappling = true;
             }
             if (waveSize > 0)

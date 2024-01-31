@@ -1,18 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal.Internal;
 
 public class PlayerHandler : MonoBehaviour
 {
-    private const int TimesCanJump = 1;
 
 
 
     private float horizontal;
     private float speed = 8f;
-    private float jumpingPower = 20f;
-    private int numJumps = TimesCanJump;
+    private float jumpingPower = 25f;
     private bool isFacingRight = true;
 
     [SerializeField] private Rigidbody2D rb;
@@ -20,7 +15,17 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     [SerializeField] private Transform gunPivot;
     [SerializeField] private GrapplingRope grapplingRope;
+    [SerializeField] private GrapplingGun grapplingGun;
+    [SerializeField] private float graplingSpeedBonus;
 
+
+     public float maxDeadTime;
+    public float curDeadTime = 0;
+    [SerializeField] private float deadSpeed;
+    [SerializeField] private Vector2 maxSpeed;
+
+
+    private Vector2 lastGrapple;
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +38,7 @@ public class PlayerHandler : MonoBehaviour
         Movement();
         Jump();
         Flip();
+       /* GrapplingControl();*/
     }
 
     private bool IsGrounded(){
@@ -40,29 +46,56 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        rb.velocity = new Vector2(horizontal* speed, rb.velocity.y);
-    }
+
+
+        
+
+        float curSpeed = 1f * speed;
+        if (grapplingRope.isGrappling)
+        {
+            curSpeed *= graplingSpeedBonus;
+        }
+        Vector2 playerVelocity = new Vector2(horizontal * curSpeed, 0f);
+        Vector2 graplingVelocity = grapplingGun.GrappleMovement(playerVelocity);
+        Vector2 curVelocity = new Vector2(0f, rb.velocity.y);
+        
+        
+        if (lastGrapple!=null && grapplingRope.isGrappling)
+        {
+            curVelocity = new Vector2(0f, rb.velocity.y - lastGrapple.y);
+        }
+
+
+        rb.velocity = graplingVelocity + playerVelocity + curVelocity;
+
+        Debug.Log(rb.velocity.sqrMagnitude);
+
+        rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y));
+        
+        if(rb.velocity.sqrMagnitude < deadSpeed && grapplingRope.isGrappling) {
+            curDeadTime++;
+        }
+        if(curDeadTime > maxDeadTime) {
+            grapplingGun.Disable();
+        }
+
+        lastGrapple = graplingVelocity;
+
+}
 
     private void Movement()
     {
-        if (!grapplingRope.isGrappling)
-        {
-            horizontal = Input.GetAxisRaw("Horizontal");
-        }
+        horizontal = Input.GetAxisRaw("Horizontal");
     }
     private void Jump(){
         if(Input.GetButtonDown("Jump") && IsGrounded())
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpingPower);
-            numJumps--;
-        }
-        if(Input.GetButtonDown("Jump") && rb.velocity.y > 0f){
-            rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y *0.5f);
+            rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse);
         }
     }
 
     private void Flip(){
-        if (isFacingRight && horizontal < 0f || !isFacingRight && horizontal > 0f){
+        if (isFacingRight && rb.velocity.x < 0f || !isFacingRight && rb.velocity.x > 0f){
             isFacingRight = !isFacingRight;
             Vector3 localScale =  transform.localScale;
             localScale.x *= -1f;
@@ -70,6 +103,18 @@ public class PlayerHandler : MonoBehaviour
             Vector3 localScaleGun = transform.localScale;
             localScaleGun.x *= -1f;
             gunPivot.localScale = localScaleGun;
+        }
+    }
+
+    private void GrapplingControl()
+    {
+        if (Input.GetKeyDown(KeyCode.W))
+        {
+            grapplingGun.curMaxDistance -= 0.5f;
+        }
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            grapplingGun.curMaxDistance += 0.5f;
         }
     }
 }
