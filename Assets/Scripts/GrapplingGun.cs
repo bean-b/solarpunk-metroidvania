@@ -28,7 +28,6 @@ public class GrapplingGun : MonoBehaviour
     [Header("Distance:")]
     [SerializeField] private bool hasMaxDistance = false;
     [SerializeField] private float maxDistnace = 20;
-
     private int layerMask;
 
     private enum LaunchType
@@ -55,6 +54,8 @@ public class GrapplingGun : MonoBehaviour
         layerMask = ~LayerMask.GetMask("Player");
         grappleRope.enabled = false;
         m_springJoint2D.enabled = false;
+
+
 
     }
 
@@ -97,6 +98,17 @@ public class GrapplingGun : MonoBehaviour
             Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
             RotateGun(mousePos, true);
         }
+
+
+
+
+/*        if (grappleRope.enabled)
+        {
+            Vector2 ropeDirection = (Vector2)gunHolder.position - grapplePoint;
+            float angle = Vector2.Angle(ropeDirection, Vector2.up);
+
+        }*/
+
     }
 
     void RotateGun(Vector3 lookPoint, bool allowRotationOverTime)

@@ -983,8 +983,8 @@ Camera:
     serializedVersion: 2
     x: 0
     y: 0
-    width: 1
-    height: 1
+    width: 1.5
+    height: 1.5
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 34
@@ -1384,10 +1384,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 2
   m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1.5
+  m_AngularDrag: 0
+  m_GravityScale: 1
   m_Material: {fileID: 6200000, guid: 3fbd2e75834767642a662d55d0dce213, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1487,7 +1487,7 @@ SpringJoint2D:
   m_ConnectedAnchor: {x: -0.009524822, y: -0.047624562}
   m_AutoConfigureDistance: 1
   m_Distance: 2.0725348
-  m_DampingRatio: 1
+  m_DampingRatio: 0.25
   m_Frequency: 1
 --- !u!114 &877304420
 MonoBehaviour:
@@ -2039,12 +2039,12 @@ MonoBehaviour:
   rotateOverTime: 0
   rotationSpeed: 4
   hasMaxDistance: 1
-  maxDistnace: 10
+  maxDistnace: 8
   launchToPoint: 0
   launchType: 1
   launchSpeed: 3.14
-  autoConfigureDistance: 0
-  targetDistance: 3
+  autoConfigureDistance: 1
+  targetDistance: 8
   targetFrequncy: 1
   grapplePoint: {x: 0, y: 0}
   grappleDistanceVector: {x: 0, y: 0}
