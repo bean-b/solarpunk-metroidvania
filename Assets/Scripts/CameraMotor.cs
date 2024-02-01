@@ -17,6 +17,6 @@ public class CameraMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position = player.position + offset;
+        transform.position = player.position + offset; //TODO make this better. it should react to mouse post in some ways (i.e. move towards cursor) also it should just be more complex in general lol
     }
 }

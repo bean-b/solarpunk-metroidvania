@@ -8,17 +8,17 @@ public class GrapplingRope : MonoBehaviour
     public LineRenderer m_lineRenderer;
 
     [Header("General Settings:")]
-    [SerializeField] private int percision = 40;
-    [Range(0, 20)][SerializeField] private float straightenLineSpeed = 5;
+    [SerializeField] private int percision = 40; //how many 'voxels' (wrong term but yk) the rope is made out of
+    [Range(0, 20)][SerializeField] private float straightenLineSpeed = 5; //how quick the rope goes from wavy to taught
 
     [Header("Rope Animation Settings:")]
-    public AnimationCurve ropeAnimationCurve;
-    [Range(0.01f, 4)][SerializeField] private float StartWaveSize = 2;
-    float waveSize = 0;
+    public AnimationCurve ropeAnimationCurve; //the curve of the wavy of the rope
+    [Range(0.01f, 4)][SerializeField] private float StartWaveSize = 2; //size
+    float waveSize = 0; //cur size
 
     [Header("Rope Progression:")]
-    public AnimationCurve ropeProgressionCurve;
-    [SerializeField][Range(1, 50)] private float ropeProgressionSpeed = 1;
+    public AnimationCurve ropeProgressionCurve; 
+    [SerializeField][Range(1, 50)] private float ropeProgressionSpeed = 1; 
     [SerializeField] PlayerHandler playerHandler;
     float moveTime = 0;
 
@@ -65,6 +65,7 @@ public class GrapplingRope : MonoBehaviour
 
     private void Update()
     {
+        //this code makes it more and more red before breaking
         Color color = new Color(playerHandler.curDeadTime * (1f / playerHandler.maxDeadTime), 0, 0);
         lineRenderer.startColor = color;
         lineRenderer.endColor = color;

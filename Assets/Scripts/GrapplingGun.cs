@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -9,39 +10,35 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private PlayerHandler playerHandler;  
     public GrapplingRope grappleRope;
 
-    [SerializeField] private bool grappleToAll = false;
-    [SerializeField] private int grappableLayerNumber = 9;
+    [SerializeField] private int grappableLayerNumber; //what we can grapple too, todo should be a layermask to allow for more types of grapple on dif surfances. allows us easily to only grapple to plants
 
-    public Camera m_camera;
+    public Camera m_camera; 
 
-    public Transform gunHolder;
-    public Transform gunPivot;
-    public Transform firePoint;
+    public Transform gunHolder; // our players tranform
+    public Transform gunPivot; //where the gun turns around
+    public Transform firePoint;//where we shoot from
 
-    public Rigidbody2D m_rigidbody;
-
-
-    [SerializeField] private const float maxDistnace = 10f;
-    [HideInInspector] public float curMaxDistance = 10f;
-
-    [SerializeField] private float swingForce;
-    [SerializeField] private float tensionForce;
-    [SerializeField] private float dampiningForce;
-    [SerializeField] private float swingRatio;
+    public Rigidbody2D m_rigidbody; //player rigid body
 
 
+    public const float maxDistnace = 10f; //max disstance our rope can shoot
+    public const float minDistnace = 2f; //min distnace (not implemented atm execpt for unimplented rope pulling)
+    [HideInInspector] public float curMaxDistance = 10f; // rope distance is calucating when anchoring this prevents rope from sagging out to maxdistance always
+    [SerializeField] private float grappleSwingDeduction; //not implemented (and prob shouldnt be)! basicly slowly decreases rope when we are swinging an attempt at swingier movement
+
+    [SerializeField] private float swingForce; //how much swing we get
+    [SerializeField] private float tensionForce; //our much the rope keeps us in an arc
+    [SerializeField] private float dampiningForce; //how much the rope loses momentum
+    [SerializeField] private float swingRatio; // x vs y ratio of swing velocity
 
 
-    private Vector2 swingDir = Vector2.zero;
-    private int layerMask;
 
-    private enum LaunchType
-    {
-        Transform_Launch,
-        Physics_Launch
-    }
 
-    [HideInInspector] public Vector2 grapplePoint;
+    private Vector2 swingDir = Vector2.zero; //keeps track of swinging direction
+    private int layerMask; //numbs in this layer mask are ingored. right now just includes player. means that you can shoot through objects in this type
+
+
+    [HideInInspector] public Vector2 grapplePoint; //where we are grappling too
     [HideInInspector] public Vector2 grappleDistanceVector;
 
     private void Start()
@@ -57,19 +54,19 @@ public class GrapplingGun : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerHandler.grappleAvailable > 0)
         {
             
-            SetGrapplePoint();
+            SetGrapplePoint(); 
 
         }
         else if (Input.GetKey(KeyCode.Mouse0))
         {
             if (grappleRope.enabled)
             {
-                RotateGun(grapplePoint, false);
+                RotateGun(grapplePoint, false); 
             }
             else
             {
                 Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-                RotateGun(mousePos, true);
+                RotateGun(mousePos, true); 
             }
         }
         else if (Input.GetKeyUp(KeyCode.Mouse0))
@@ -84,8 +81,16 @@ public class GrapplingGun : MonoBehaviour
 
     }
 
+    private void FixedUpdate()
+    {
+        //some jank shit
+/*        if(grappleRope.isGrappling && playerHandler.rb.velocity.sqrMagnitude > playerHandler.deadSpeed)
+        {
+            curMaxDistance -= grappleSwingDeduction;
+        }*/
+    }
 
-    void RotateGun(Vector3 lookPoint, bool allowRotationOverTime)
+    void RotateGun(Vector3 lookPoint, bool allowRotationOverTime) //gun point @ mouse
     {
         Vector3 distanceVector = lookPoint - gunPivot.position;
 
@@ -93,13 +98,13 @@ public class GrapplingGun : MonoBehaviour
         gunPivot.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
     }
 
-    void SetGrapplePoint()
+    void SetGrapplePoint() //set grapple point to nearest object that we can grapple too
     {
         Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
         if (Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistnace, layerMask))
         {
             RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistnace, layerMask);
-            if (_hit.transform.gameObject.layer == grappableLayerNumber || grappleToAll)
+            if (_hit.transform.gameObject.layer == grappableLayerNumber)
             {
                 if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace)
                 {
@@ -114,18 +119,18 @@ public class GrapplingGun : MonoBehaviour
         }
     }
 
-    public Vector2 GrappleMovement(Vector2 playerVelocity)
+    public Vector2 GrappleMovement(Vector2 playerVelocity) //the meat of the grappling velocity
     {
         
 
-        Vector2 toReturn = Vector2.zero;
+        Vector2 toReturn = Vector2.zero; //vector returned to playerhandler for caluations
 
-        float curDistance = Vector2.Distance(grapplePoint, m_rigidbody.position);
-        Vector2 ropeDirection = grapplePoint - m_rigidbody.position;
-        ropeDirection = ropeDirection.normalized;
-        float ropeAngle = Vector2.Angle(ropeDirection, Vector2.up);
+        float curDistance = Vector2.Distance(grapplePoint, m_rigidbody.position); // distnace from player to grapple point
+        Vector2 ropeDirection = grapplePoint - m_rigidbody.position; //rope direction
+        ropeDirection = ropeDirection.normalized; 
+        float ropeAngle = Vector2.Angle(ropeDirection, Vector2.up); //angle of rope vs cardinal up
 
-        if (curDistance > curMaxDistance && grappleRope.enabled)
+        if (curDistance > curMaxDistance && grappleRope.enabled) // this is the tension force, pulling you back into the arc
         {
 
 
@@ -141,7 +146,7 @@ public class GrapplingGun : MonoBehaviour
 
 
 
-        if (grappleRope.isGrappling)
+        if (grappleRope.isGrappling) //this is the swing force, giving you a swing
         {
             if (m_rigidbody.position.x > grapplePoint.x && playerVelocity.x < 0)
             {
@@ -173,7 +178,7 @@ public class GrapplingGun : MonoBehaviour
 
 
 
-    public void Disable()
+    public void Disable() //when we stop grappling
     {
         grappleRope.enabled = false;
         swingDir = Vector2.zero;
@@ -182,7 +187,7 @@ public class GrapplingGun : MonoBehaviour
         playerHandler.graplingLengthMod = 0f;
     }
 
-    private void OnDrawGizmosSelected()
+    private void OnDrawGizmosSelected() //this is just used to show max distance in scene editor, not for gameplay
     {
         if (firePoint != null)
         {
