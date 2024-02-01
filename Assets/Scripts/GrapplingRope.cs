@@ -44,6 +44,8 @@ public class GrapplingRope : MonoBehaviour
 
         LinePointsToFirePoint();
 
+        playerHandler.grappleAvailable = 0;
+
         m_lineRenderer.enabled = true;
     }
 

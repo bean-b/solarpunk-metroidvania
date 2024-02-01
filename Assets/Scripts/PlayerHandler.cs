@@ -3,7 +3,12 @@ using UnityEngine;
 public class PlayerHandler : MonoBehaviour
 {
 
+    private int jumpAvailable = 0;
+    [HideInInspector] public int grappleAvailable = 0;
+    private float lastGrounded;
+    [SerializeField] private float groundDelay;
 
+    [HideInInspector]public float graplingLengthMod = 0f;
 
     private float horizontal;
     private float speed = 8f;
@@ -19,11 +24,11 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private float graplingSpeedBonus;
 
 
-     public float maxDeadTime;
+    public float maxDeadTime;
     public float curDeadTime = 0;
     [SerializeField] private float deadSpeed;
     [SerializeField] private Vector2 maxSpeed;
-
+    [SerializeField] private float grapplePullSpeed;
 
     private Vector2 lastGrapple;
     // Start is called before the first frame update
@@ -33,22 +38,32 @@ public class PlayerHandler : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        Movement();
-        Jump();
-        Flip();
-       /* GrapplingControl();*/
-    }
 
-    private bool IsGrounded(){
-        return Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer);
+    private void Update()
+    {
+        Jump();
+        Movement();
+        Flip();
+  /*      GrapplingControl();*/
+        IsGrounded();
+    }
+    private void IsGrounded(){
+        if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer) && Time.time - lastGrounded > groundDelay)
+        {
+            jumpAvailable = 1;
+            grappleAvailable = 1;
+            grappleAvailable = 1;
+            lastGrounded = Time.time;
+        }
+        
     }
     private void FixedUpdate()
     {
 
+        grapplingGun.curMaxDistance += graplingLengthMod;
 
         
+
 
         float curSpeed = 1f * speed;
         if (grapplingRope.isGrappling)
@@ -68,7 +83,6 @@ public class PlayerHandler : MonoBehaviour
 
         rb.velocity = graplingVelocity + playerVelocity + curVelocity;
 
-        Debug.Log(rb.velocity.sqrMagnitude);
 
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y));
         
@@ -80,17 +94,23 @@ public class PlayerHandler : MonoBehaviour
         }
 
         lastGrapple = graplingVelocity;
-
-}
+        
+    }
 
     private void Movement()
     {
         horizontal = Input.GetAxisRaw("Horizontal");
     }
     private void Jump(){
-        if(Input.GetButtonDown("Jump") && IsGrounded())
+
+
+
+        if(Input.GetButtonDown("Jump") && jumpAvailable > 0)
         {
             rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse);
+            jumpAvailable--;
+            
+
         }
     }
 
@@ -110,11 +130,22 @@ public class PlayerHandler : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W))
         {
-            grapplingGun.curMaxDistance -= 0.5f;
+            graplingLengthMod = -grapplePullSpeed;
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
-            grapplingGun.curMaxDistance += 0.5f;
+            graplingLengthMod = grapplePullSpeed;
         }
+        if(Input.GetKeyUp(KeyCode.S))
+        {
+            graplingLengthMod = 0f;
+        }
+        if (Input.GetKeyUp(KeyCode.W))
+        {
+            graplingLengthMod = 0f;
+        }
+
+
+        grapplingGun.curMaxDistance += graplingLengthMod;
     }
 }

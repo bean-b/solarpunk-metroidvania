@@ -54,9 +54,9 @@ public class GrapplingGun : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Mouse0))
+        if (Input.GetKeyDown(KeyCode.Mouse0) && playerHandler.grappleAvailable > 0)
         {
-
+            
             SetGrapplePoint();
 
         }
@@ -178,7 +178,8 @@ public class GrapplingGun : MonoBehaviour
         grappleRope.enabled = false;
         swingDir = Vector2.zero;
         curMaxDistance = maxDistnace;
-        playerHandler.curDeadTime = 0;  
+        playerHandler.curDeadTime = 0;
+        playerHandler.graplingLengthMod = 0f;
     }
 
     private void OnDrawGizmosSelected()
