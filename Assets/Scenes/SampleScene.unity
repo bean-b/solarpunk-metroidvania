@@ -309,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 126010573}
   serializedVersion: 2
   m_LocalRotation: {x: -0.016142394, y: -0.011953732, z: -0.00019300079, w: 0.99979824}
-  m_LocalPosition: {x: 41.84, y: -4.13, z: 0.56}
+  m_LocalPosition: {x: 39.2, y: -4.13, z: 0.5}
   m_LocalScale: {x: 9.768586, y: 0.83277035, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1318,6 +1318,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ff728269408d34bbbe1f221cc55ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  grappleAvailable: 0
+  groundDelay: 0
+  graplingLengthMod: 0
+  grapplePullSpeed: 0
+  speed: 8
+  jumpingPower: 25
+  graplingSpeedBonus: 1.5
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
   groundLayer:
@@ -1326,7 +1333,6 @@ MonoBehaviour:
   gunPivot: {fileID: 655988026}
   grapplingRope: {fileID: 479899415}
   grapplingGun: {fileID: 1546238124}
-  graplingSpeedBonus: 1.5
   maxDeadTime: 60
   curDeadTime: 0
   deadSpeed: 50
@@ -1536,7 +1542,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHandler: {fileID: 877304420}
   grappleRope: {fileID: 479899415}
-  grappleToAll: 0
   grappableLayerNumber: 6
   m_camera: {fileID: 519420031}
   gunHolder: {fileID: 877304417}
@@ -1544,10 +1549,12 @@ MonoBehaviour:
   firePoint: {fileID: 234770382}
   m_rigidbody: {fileID: 877304415}
   curMaxDistance: 10
-  swingForce: 2
+  grappleSwingDeduction: 0
+  swingForce: 2.5
   tensionForce: 50
   dampiningForce: -0.2
   swingRatio: 0.9
+  angleImpactReduction: 1000
   grapplePoint: {x: 0, y: 0}
   grappleDistanceVector: {x: 0, y: 0}
 --- !u!1 &1873305757

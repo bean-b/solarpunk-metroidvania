@@ -102,7 +102,7 @@ public class PlayerHandler : MonoBehaviour
 
 
 
-        if(Input.GetButtonDown("Jump") && Time.time - lastGrounded < groundDelay) //can jump?
+        if(Input.GetButtonDown("Jump") && Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer)) //can jump?
         {
             rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
             jumpAvailable--;

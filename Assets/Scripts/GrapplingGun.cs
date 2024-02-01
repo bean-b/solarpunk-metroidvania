@@ -30,7 +30,7 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float tensionForce; //our much the rope keeps us in an arc
     [SerializeField] private float dampiningForce; //how much the rope loses momentum
     [SerializeField] private float swingRatio; // x vs y ratio of swing velocity
-
+    [SerializeField] private int angleImpactReduction; //minimizes effect of anglular momentum higher = less momemntun
 
 
 
@@ -150,23 +150,23 @@ public class GrapplingGun : MonoBehaviour
         {
             if (m_rigidbody.position.x > grapplePoint.x && playerVelocity.x < 0)
             {
-                swingDir = swingDir - new Vector2((swingForce * swingRatio)* (ropeAngle+ 1000) / 1000, 0f);
+                swingDir = swingDir - new Vector2((swingForce * swingRatio)* (ropeAngle+ angleImpactReduction) / angleImpactReduction, 0f);
 
             }
             else if (m_rigidbody.position.x > grapplePoint.x && playerVelocity.x > 0)
             {
-                swingDir = swingDir + new Vector2((swingForce * swingRatio) * (ropeAngle + 1000) / 1000, 0f);
+                swingDir = swingDir + new Vector2((swingForce * swingRatio) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f);
             }
 
 
             if (m_rigidbody.position.y > grapplePoint.y - curMaxDistance)
             {
-                swingDir = swingDir - new Vector2(0f, swingForce * (1 - swingRatio) * (ropeAngle + 1000) / 500);
+                swingDir = swingDir - new Vector2(0f, swingForce * (1 - swingRatio) * (ropeAngle + angleImpactReduction) / angleImpactReduction);
 
             }
             else
             {
-                swingDir = swingDir + new Vector2(0f, swingForce * (1 - swingRatio) * (ropeAngle + 1000) / 500);
+                swingDir = swingDir + new Vector2(0f, swingForce * (1 - swingRatio) * (ropeAngle + angleImpactReduction) / angleImpactReduction);
             }
 
         }
