@@ -14,7 +14,8 @@ public class PlayerHandler : MonoBehaviour
 
     [SerializeField] private float topSpeed;
     private float horizontalInput; //horizontal movement 
-    private float horizontalSpeed; //horizontal movement 
+    private float horizontalMod = 0; //horizontal movement 
+    private float horizontalSpeed = 0; //horizontal movement 
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
     private bool isFacingRight = true; //which direction facing
@@ -22,8 +23,8 @@ public class PlayerHandler : MonoBehaviour
 
 
     public Rigidbody2D rb; //our rigid body
-    [SerializeField] private Transform groundCheck; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
-    [SerializeField] private LayerMask groundLayer; //this layermask controls what counts as 'ground', add more layers for dif types of ground etc..
+    public Transform groundCheck; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
+    public LayerMask groundLayer; //this layermask controls what counts as 'ground', add more layers for dif types of ground etc..
     [SerializeField] private Transform gunPivot; //where the gun pivots from. currently set from the center of the player for gameplay reasons, can add sprites later though 
     [SerializeField] private GrapplingRope grapplingRope; // our grappling rope
     [SerializeField] private GrapplingGun grapplingGun; //our grappling gun 
@@ -64,13 +65,11 @@ public class PlayerHandler : MonoBehaviour
         
 
 
-        float curSpeed = accel;
-        if (grapplingRope.isGrappling)
-        {
-            curSpeed *= graplingSpeedBonus; //grappling 'booster'
-        }
+   
 
-        Vector2 playerVelocity = new Vector2(horizontalSpeed * curSpeed, 0f); //player control componenet
+
+        Vector2 playerVelocity = new Vector2(horizontalSpeed, 0f); //player control componenet
+        print(horizontalSpeed);
         Vector2 graplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
         Vector2 curVelocity = new Vector2(0f, rb.velocity.y); //gravity/jumping component
         
@@ -100,7 +99,35 @@ public class PlayerHandler : MonoBehaviour
     private void Movement()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");//using unity input system, left right (a,d) = horiziontal velocity
-        horizontalSpeed = horizontalInput;
+
+        if(horizontalInput == 0f)
+        {
+            horizontalMod *= 0.8f;
+        }
+
+        if(horizontalMod  < 0 && horizontalInput > 0 || horizontalMod > 0 && horizontalInput < 0)
+        {
+            horizontalMod *= 0.8f;
+        }
+
+      
+        horizontalMod += horizontalInput * accel;
+
+        float adjustedAccel = Mathf.Abs(horizontalMod); 
+        
+
+        float speedBonus = (Mathf.Log(1f + Mathf.Abs(horizontalMod), 5f + adjustedAccel) * topSpeed);
+
+        if (horizontalMod > 0)
+            {
+                horizontalSpeed = speedBonus;
+            }
+            else
+            {
+                horizontalSpeed = -speedBonus;
+            }
+
+
     }
     private void Jump(){
 
