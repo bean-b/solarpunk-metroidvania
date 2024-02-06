@@ -1225,7 +1225,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 1
   m_AngularDrag: 1
-  m_GravityScale: 1.4
+  m_GravityScale: 1.7
   m_Material: {fileID: 6200000, guid: 3fbd2e75834767642a662d55d0dce213, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1319,12 +1319,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grappleAvailable: 0
-  groundDelay: 0
-  graplingLengthMod: 0
-  grapplePullSpeed: 0
-  topSpeed: 8
-  accel: 8
-  jumpingPower: 30
+  topSpeed: 12
+  accel: 0.5
+  jumpingPower: 35
   graplingSpeedBonus: 2
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}

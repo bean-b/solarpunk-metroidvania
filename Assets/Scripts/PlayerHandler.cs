@@ -3,14 +3,7 @@ using UnityEngine;
 public class PlayerHandler : MonoBehaviour
 {
 
-    private int jumpAvailable = 0; //this is unimplemented but can allow for double jump later
     [HideInInspector] public int grappleAvailable = 0; //this controls how many graples per time touching the ground
-    private float lastGrounded;// last time on the ground, notice only checked every groundDely secs
-    [SerializeField] private float groundDelay; //see above
-
-    [HideInInspector] public float graplingLengthMod = 0f; //current modifer to grapple length, janky not used modifery my grapplepullspeed
-    [SerializeField] private float grapplePullSpeed; //if this is >0, the player can pull or push rope based on if w or s is pushed. currently jank so not in
-
 
     [SerializeField] private float topSpeed;
     private float horizontalInput; //horizontal movement 
@@ -18,6 +11,7 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalSpeed = 0; //horizontal movement 
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
+    
     private bool isFacingRight = true; //which direction facing
     [SerializeField] private float graplingSpeedBonus; //the amount our speed increases when we grapple. Essentialy the grapple boost %. 1.5 = 50% boost etc
 
@@ -40,39 +34,24 @@ public class PlayerHandler : MonoBehaviour
 
     private void Update()
     {
-        //called once per frame gets players current control etc
         Jump();
         Movement();
         Flip();
-   /*     GrapplingControl();*/ 
         IsGrounded();
     }
     private void IsGrounded(){
         //update lastgrounded and jump availible if grounded and delay true
-        if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer) && Time.time - lastGrounded > groundDelay)
+        if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
-            jumpAvailable = 1;
             grappleAvailable = 1;
-            lastGrounded = Time.time;
         }
         
     }
     private void FixedUpdate()
     {
-
-        //grapplingGun.curMaxDistance += graplingLengthMod; //testing jank
-
-        
-
-
-   
-
-
         Vector2 playerVelocity = new Vector2(horizontalSpeed, 0f); //player control componenet
-        print(horizontalSpeed);
         Vector2 graplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
         Vector2 curVelocity = new Vector2(0f, rb.velocity.y); //gravity/jumping component
-        
         
         if (lastGrapple!=null && grapplingRope.isGrappling)
         {
@@ -116,7 +95,7 @@ public class PlayerHandler : MonoBehaviour
         float adjustedAccel = Mathf.Abs(horizontalMod); 
         
 
-        float speedBonus = (Mathf.Log(1f + Mathf.Abs(horizontalMod), 5f + adjustedAccel) * topSpeed);
+        float speedBonus = (Mathf.Log(1f + Mathf.Abs(horizontalMod), 5f + adjustedAccel) * topSpeed); 
 
         if (horizontalMod > 0)
             {
@@ -130,15 +109,9 @@ public class PlayerHandler : MonoBehaviour
 
     }
     private void Jump(){
-
-
-
         if(Input.GetButtonDown("Jump") && Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer)) //can jump?
         {
             rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
-            jumpAvailable--;
-            
-
         }
     }
 
@@ -155,35 +128,4 @@ public class PlayerHandler : MonoBehaviour
         
     }
 
-    private void GrapplingControl() //some jank shit not implemented rn
-    {
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            graplingLengthMod = -grapplePullSpeed;
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            graplingLengthMod = grapplePullSpeed;
-        }
-        if(Input.GetKeyUp(KeyCode.S))
-        {
-            graplingLengthMod = 0f;
-        }
-        if (Input.GetKeyUp(KeyCode.W))
-        {
-            graplingLengthMod = 0f;
-        }
-
-
-        if(graplingLengthMod > 0 && grapplingGun.curMaxDistance < GrapplingGun.maxDistnace)
-        {
-
-        }
-        if(graplingLengthMod < 0 && grapplingGun.curMaxDistance < GrapplingGun.minDistnace)
-        {
-
-        }
-
-        grapplingGun.curMaxDistance += graplingLengthMod;
-    }
 }
