@@ -22,7 +22,6 @@ public class GrapplingGun : MonoBehaviour
 
 
     public const float maxDistnace = 10f; //max disstance our rope can shoot
-    public const float minDistnace = 2f; //min distnace (not implemented atm execpt for unimplented rope pulling)
     [HideInInspector] public float curMaxDistance = 10f; // rope distance is calucating when anchoring this prevents rope from sagging out to maxdistance always
     [SerializeField] private float grappleSwingDeduction; //not implemented (and prob shouldnt be)! basicly slowly decreases rope when we are swinging an attempt at swingier movement
 
@@ -79,15 +78,6 @@ public class GrapplingGun : MonoBehaviour
             RotateGun(mousePos, true);
         }
 
-    }
-
-    private void FixedUpdate()
-    {
-        //some jank shit
-/*        if(grappleRope.isGrappling && playerHandler.rb.velocity.sqrMagnitude > playerHandler.deadSpeed)
-        {
-            curMaxDistance -= grappleSwingDeduction;
-        }*/
     }
 
     void RotateGun(Vector3 lookPoint, bool allowRotationOverTime) //gun point @ mouse
