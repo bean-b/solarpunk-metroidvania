@@ -309,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 126010573}
   serializedVersion: 2
   m_LocalRotation: {x: -0.016142394, y: -0.011953732, z: -0.00019300079, w: 0.99979824}
-  m_LocalPosition: {x: 39.2, y: -4.13, z: 0.5}
+  m_LocalPosition: {x: 35.52, y: -4.13, z: 0.41}
   m_LocalScale: {x: 9.768586, y: 0.83277035, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1225,7 +1225,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 1
   m_AngularDrag: 1
-  m_GravityScale: 1
+  m_GravityScale: 1.4
   m_Material: {fileID: 6200000, guid: 3fbd2e75834767642a662d55d0dce213, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1322,9 +1322,10 @@ MonoBehaviour:
   groundDelay: 0
   graplingLengthMod: 0
   grapplePullSpeed: 0
-  speed: 8
-  jumpingPower: 25
-  graplingSpeedBonus: 1.5
+  topSpeed: 8
+  accel: 8
+  jumpingPower: 30
+  graplingSpeedBonus: 2
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
   groundLayer:
@@ -1550,10 +1551,10 @@ MonoBehaviour:
   m_rigidbody: {fileID: 877304415}
   curMaxDistance: 10
   grappleSwingDeduction: 0
-  swingForce: 2.5
+  swingForce: 3
   tensionForce: 50
-  dampiningForce: -0.2
-  swingRatio: 0.9
+  dampiningForce: -0.3
+  swingRatio: 0.8
   angleImpactReduction: 1000
   grapplePoint: {x: 0, y: 0}
   grappleDistanceVector: {x: 0, y: 0}

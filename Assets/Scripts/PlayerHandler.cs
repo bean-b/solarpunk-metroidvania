@@ -11,8 +11,11 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float graplingLengthMod = 0f; //current modifer to grapple length, janky not used modifery my grapplepullspeed
     [SerializeField] private float grapplePullSpeed; //if this is >0, the player can pull or push rope based on if w or s is pushed. currently jank so not in
 
-    private float horizontal; //horizontal movement 
-    [SerializeField] private float speed; //speed mod
+
+    [SerializeField] private float topSpeed;
+    private float horizontalInput; //horizontal movement 
+    private float horizontalSpeed; //horizontal movement 
+    [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
     private bool isFacingRight = true; //which direction facing
     [SerializeField] private float graplingSpeedBonus; //the amount our speed increases when we grapple. Essentialy the grapple boost %. 1.5 = 50% boost etc
@@ -61,13 +64,13 @@ public class PlayerHandler : MonoBehaviour
         
 
 
-        float curSpeed = speed;
+        float curSpeed = accel;
         if (grapplingRope.isGrappling)
         {
             curSpeed *= graplingSpeedBonus; //grappling 'booster'
         }
 
-        Vector2 playerVelocity = new Vector2(horizontal * curSpeed, 0f); //player control componenet
+        Vector2 playerVelocity = new Vector2(horizontalSpeed * curSpeed, 0f); //player control componenet
         Vector2 graplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
         Vector2 curVelocity = new Vector2(0f, rb.velocity.y); //gravity/jumping component
         
@@ -96,7 +99,8 @@ public class PlayerHandler : MonoBehaviour
 
     private void Movement()
     {
-        horizontal = Input.GetAxisRaw("Horizontal");//using unity input system, left right (a,d) = horiziontal velocity
+        horizontalInput = Input.GetAxisRaw("Horizontal");//using unity input system, left right (a,d) = horiziontal velocity
+        horizontalSpeed = horizontalInput;
     }
     private void Jump(){
 
