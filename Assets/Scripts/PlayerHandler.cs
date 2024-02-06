@@ -48,7 +48,9 @@ public class PlayerHandler : MonoBehaviour
         if (!grapplingRope.isGrappling)
         {
             horizontal = Input.GetAxisRaw("Horizontal");
+            
         }
+        
     }
     private void Jump(){
         if(Input.GetButtonDown("Jump") && IsGrounded())
