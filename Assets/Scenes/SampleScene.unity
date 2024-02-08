@@ -5066,6 +5066,7 @@ MonoBehaviour:
   dampiningForce: -0.2
   angleImpactReduction: 275
   lengthImpactReduction: 30
+  grappleBackSwingStr: 0.95
   swingAccel: 7.5
   grapplePoint: {x: 0, y: 0}
   grappleDistanceVector: {x: 0, y: 0}
