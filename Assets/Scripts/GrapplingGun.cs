@@ -175,6 +175,7 @@ public class GrapplingGun : MonoBehaviour
         swingDir = Vector2.zero;
         curMaxDistance = maxDistnace;
         playerHandler.curDeadTime = 0;
+        m_rigidbody.gravityScale = playerHandler.grappleGravMod;
     }
 
     private void OnDrawGizmosSelected() //this is just used to show max distance in scene editor, not for gameplay

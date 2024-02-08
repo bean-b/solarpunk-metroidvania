@@ -12,10 +12,10 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
 
-    [SerializeField] private float gravityMod;
+    public float gravityMod;
     [SerializeField] private float gravityJumpMod;
-    private float lastJump;
-    [SerializeField] private float JumpGravDelay; // higher  = slower
+    public float grappleGravMod;
+    [SerializeField] private float gravRestoreTime; // higher  = slower
 
 
     private bool isFacingRight = true; //which direction facing
@@ -62,7 +62,7 @@ public class PlayerHandler : MonoBehaviour
         if(rb.gravityScale < gravityMod)
         {
 
-            rb.gravityScale += (gravityMod - gravityJumpMod) / JumpGravDelay;
+            rb.gravityScale += (gravityMod - gravityJumpMod) / gravRestoreTime;
             if(rb.gravityScale > gravityMod)
             {
                 rb.gravityScale = gravityMod;
@@ -136,7 +136,6 @@ public class PlayerHandler : MonoBehaviour
         {
             rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
             rb.gravityScale = gravityJumpMod;
-            lastJump = Time.time;
         }
     }
 

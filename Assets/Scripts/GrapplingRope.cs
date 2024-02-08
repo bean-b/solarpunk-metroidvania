@@ -47,6 +47,8 @@ public class GrapplingRope : MonoBehaviour
         playerHandler.grappleAvailable = 0;
 
         m_lineRenderer.enabled = true;
+
+        
     }
 
     private void OnDisable()
