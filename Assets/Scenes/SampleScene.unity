@@ -1958,10 +1958,10 @@ MonoBehaviour:
   accel: 0.4
   jumpingPower: 25
   jumpingPowerSecond: 15
-  gravityMod: 3.25
+  gravityMod: 3.5
   gravityJumpMod: 0.5
-  grappleGravMod: 1
-  gravRestoreTime: 15
+  grappleGravMod: 0.75
+  gravRestoreTime: 17
   graplingSpeedBonus: 1.75
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
@@ -2502,9 +2502,9 @@ MonoBehaviour:
   gunPivot: {fileID: 655988026}
   firePoint: {fileID: 234770382}
   m_rigidbody: {fileID: 877304415}
+  maxDistnace: 12
   curMaxDistance: 10
-  grappleSwingDeduction: 0
-  swingForce: 4.5
+  swingForce: 3
   tensionForce: 60
   dampiningForce: -0.3
   angleImpactReduction: 1500

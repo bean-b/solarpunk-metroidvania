@@ -28,6 +28,7 @@ public class GrapplingRope : MonoBehaviour
 
     private LineRenderer lineRenderer;
 
+    [HideInInspector] public float lastEnabled;
 
     private void Start()
     {
@@ -94,6 +95,7 @@ public class GrapplingRope : MonoBehaviour
             {
                 isGrappling = true;
                 grapplingGun.curMaxDistance = Vector2.Distance(grapplingGun.grapplePoint, playerHandler.rb.position);
+                lastEnabled = Time.time;
             }
             if (waveSize > 0)
             {

@@ -11,17 +11,22 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalMod = 0; //horizontal movement 
     private float horizontalSpeed = 0; //horizontal movement 
     [SerializeField] private float accel; //speed mod
+    [SerializeField] private float accelFloating; //speed mod
+    private float actualAccel;
     [SerializeField]  private float jumpingPower; //jump power
     [SerializeField]  private float jumpingPowerSecond; //jump power
 
+    [SerializeField] private float fastFallMod;
+    [SerializeField] private float jumpingSecondGravReduction;
+
     public float gravityMod;
     [SerializeField] private float gravityJumpMod;
+    [SerializeField] private float gravityJumpModSecond;
     public float grappleGravMod;
     [SerializeField] private float gravRestoreTime; // higher  = slower
 
 
     private bool isFacingRight = true; //which direction facing
-    [SerializeField] private float graplingSpeedBonus; //the amount our speed increases when we grapple. Essentialy the grapple boost %. 1.5 = 50% boost etc
 
 
     public Rigidbody2D rb; //our rigid body
@@ -41,6 +46,7 @@ public class PlayerHandler : MonoBehaviour
     private void Start()
     {
         rb.gravityScale = gravityMod;
+
     }
 
     private void Update()
@@ -56,6 +62,11 @@ public class PlayerHandler : MonoBehaviour
         {
             grappleAvailable = 1;
             jumpAvailable = 1;
+            actualAccel = accel;
+        }
+        else
+        {
+            actualAccel = accelFloating;
         }
         
     }
@@ -65,12 +76,19 @@ public class PlayerHandler : MonoBehaviour
         if(rb.gravityScale < gravityMod)
         {
 
-            rb.gravityScale += (gravityMod - gravityJumpMod) / gravRestoreTime;
+            rb.gravityScale += ((gravityMod - rb.gravityScale) / gravRestoreTime) + 0.01f;
             if(rb.gravityScale > gravityMod)
             {
                 rb.gravityScale = gravityMod;
             }
 
+        }else if (rb.gravityScale > gravityMod)
+        {
+            rb.gravityScale -= ((gravityMod - rb.gravityScale / gravRestoreTime)) + 0.01f;
+            if(rb.gravityScale < gravityMod)
+            {
+                rb.gravityScale = gravityMod;
+            }
         }
 
 
@@ -84,7 +102,6 @@ public class PlayerHandler : MonoBehaviour
             curVelocity = new Vector2(0f, rb.velocity.y - lastGrapple.y); //prevents grapple rocketing maybe theres a better solution
         }
 
-
         rb.velocity = graplingVelocity + playerVelocity + curVelocity; //add in velocity based on all 3 componenets
 
 
@@ -95,6 +112,8 @@ public class PlayerHandler : MonoBehaviour
         }
         if(curDeadTime > maxDeadTime) {
             grapplingGun.Disable(); //if dead time over limit, break rope...prevents just hanging out on ropes 
+            rb.gravityScale = gravityMod * fastFallMod;
+            jumpAvailable = 0;
         }
 
         lastGrapple = graplingVelocity; //resets last grapple velocity vector
@@ -116,7 +135,7 @@ public class PlayerHandler : MonoBehaviour
         }
 
       
-        horizontalMod += horizontalInput * accel;
+        horizontalMod += horizontalInput * actualAccel;
 
         float adjustedAccel = Mathf.Abs(horizontalMod); 
         
@@ -135,20 +154,29 @@ public class PlayerHandler : MonoBehaviour
 
     }
     private void Jump(){
-        if(Input.GetButtonDown("Jump") && jumpAvailable > 0) //can jump?
+        if(Input.GetButtonDown("Jump") && jumpAvailable > 0 && !grapplingRope.isGrappling) //can jump?
         {
-            if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+            if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
             {
                 rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
-                rb.gravityScale = gravityJumpMod;
-            }
-            else
-            {   
-                if(rb.velocity.y < 0f)
+                if (rb.gravityScale > gravityJumpMod)
                 {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.25f);
+                    rb.gravityScale = gravityJumpMod;
                 }
-                rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+            }
+            else if (jumpAvailable > 0)
+            {
+                {
+                    if (rb.velocity.y < 0f)
+                    {
+                        rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
+                    }
+                    if (rb.gravityScale > gravityJumpModSecond)
+                    {
+                        rb.gravityScale = gravityJumpModSecond;
+                    }
+                    rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+                }
             }
             jumpAvailable--;
         }

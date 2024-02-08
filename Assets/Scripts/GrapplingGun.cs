@@ -21,15 +21,17 @@ public class GrapplingGun : MonoBehaviour
     public Rigidbody2D m_rigidbody; //player rigid body
 
 
-    public const float maxDistnace = 10f; //max disstance our rope can shoot
+    public float maxDistnace = 10f; //max disstance our rope can shoot
     [HideInInspector] public float curMaxDistance = 10f; // rope distance is calucating when anchoring this prevents rope from sagging out to maxdistance always
-    [SerializeField] private float grappleSwingDeduction; //not implemented (and prob shouldnt be)! basicly slowly decreases rope when we are swinging an attempt at swingier movement
 
-    [SerializeField] private float swingForce; //how much swing we get
+    [SerializeField] private float swingForce; //how much swing we
+    [SerializeField] private float swingForceTwo; //how much swing we get
     [SerializeField] private float tensionForce; //our much the rope keeps us in an arc
     [SerializeField] private float dampiningForce; //how much the rope loses momentum
     [SerializeField] private int angleImpactReduction; //minimizes effect of anglular momentum higher = less momemntun
+    [SerializeField] private int lengthImpactReduction;
 
+    [SerializeField] private float swingAccel;
 
 
     private Vector2 swingDir = Vector2.zero; //keeps track of swinging direction
@@ -138,19 +140,40 @@ public class GrapplingGun : MonoBehaviour
 
         if (grappleRope.isGrappling && !Physics2D.OverlapCircle(playerHandler.groundCheck.position, 0.2f, playerHandler.groundLayer)) //this is the swing force, giving you a swing
         {
-            if (m_rigidbody.position.x < grapplePoint.x && playerVelocity.x < 0)
+            if (playerVelocity.x < 0)
             {
-                swingDir = swingDir - new Vector2((swingForce)* (ropeAngle+ angleImpactReduction) / angleImpactReduction, 0f);
+                if(m_rigidbody.position.x > grapplePoint.x)
+                {
+                    swingDir = swingDir - (new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f)*((lengthImpactReduction+curMaxDistance) / (maxDistnace+ lengthImpactReduction)));
+                }
+                else
+                {
+                    swingDir = swingDir - new Vector2((swingForceTwo) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction));
+                }
+                
 
             }
-            else if (m_rigidbody.position.x > grapplePoint.x && playerVelocity.x > 0)
+            else if (playerVelocity.x > 0)
             {
-                swingDir = swingDir + new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f);
+                if (m_rigidbody.position.x < grapplePoint.x)
+                {
+                    swingDir = swingDir + new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction));
+                }
+                else
+                {
+                    swingDir = swingDir + new Vector2((swingForceTwo) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction));
+                }
+                
             }
 
 
 
         }
+
+
+        float elapsedTime = Time.time - grappleRope.lastEnabled;
+        float scaleFactor = Mathf.Min(1.0f, elapsedTime * swingAccel);
+        swingDir *= scaleFactor;
 
         return toReturn + swingDir;
 
