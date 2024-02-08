@@ -1459,7 +1459,7 @@ MonoBehaviour:
   grapplingGun: {fileID: 1546238124}
   m_lineRenderer: {fileID: 479899414}
   percision: 40
-  straightenLineSpeed: 5
+  straightenLineSpeed: 8
   ropeAnimationCurve:
     serializedVersion: 2
     m_Curve:
