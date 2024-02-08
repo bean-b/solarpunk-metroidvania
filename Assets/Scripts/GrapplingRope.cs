@@ -93,6 +93,7 @@ public class GrapplingRope : MonoBehaviour
             if (!isGrappling)
             {
                 isGrappling = true;
+                grapplingGun.curMaxDistance = Vector2.Distance(grapplingGun.grapplePoint, playerHandler.rb.position);
             }
             if (waveSize > 0)
             {

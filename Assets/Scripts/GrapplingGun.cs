@@ -102,7 +102,7 @@ public class GrapplingGun : MonoBehaviour
                     grapplePoint = _hit.point;
                     grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
                     grappleRope.enabled = true;
-                    curMaxDistance = Vector2.Distance(grapplePoint, m_rigidbody.position);
+                    
 
                     
                 }
@@ -121,7 +121,7 @@ public class GrapplingGun : MonoBehaviour
         ropeDirection = ropeDirection.normalized; 
         float ropeAngle = Vector2.Angle(ropeDirection, Vector2.up); //angle of rope vs cardinal up
 
-        if (curDistance > curMaxDistance && grappleRope.enabled) // this is the tension force, pulling you back into the arc
+        if (curDistance > curMaxDistance && grappleRope.isGrappling) // this is the tension force, pulling you back into the arc
         {
 
 
