@@ -1859,7 +1859,7 @@ Rigidbody2D:
   m_Mass: 2
   m_LinearDrag: 1
   m_AngularDrag: 1
-  m_GravityScale: 1.7
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 3fbd2e75834767642a662d55d0dce213, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1954,15 +1954,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   grappleAvailable: 0
   jumpAvailable: 2
-  topSpeed: 12
-  accel: 0.5
+  topSpeed: 14
+  accel: 0.4
   jumpingPower: 25
   jumpingPowerSecond: 15
-  gravityMod: 2
+  gravityMod: 2.5
   gravityJumpMod: 0.5
   grappleGravMod: 1
   gravRestoreTime: 30
-  graplingSpeedBonus: 2
+  graplingSpeedBonus: 1.75
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
   groundLayer:
@@ -2505,10 +2505,9 @@ MonoBehaviour:
   curMaxDistance: 10
   grappleSwingDeduction: 0
   swingForce: 4.5
-  tensionForce: 50
+  tensionForce: 60
   dampiningForce: -0.3
-  swingRatio: 0.8
-  angleImpactReduction: 2000
+  angleImpactReduction: 1500
   grapplePoint: {x: 0, y: 0}
   grappleDistanceVector: {x: 0, y: 0}
 --- !u!1 &1873305757

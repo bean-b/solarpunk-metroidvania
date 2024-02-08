@@ -28,7 +28,6 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private float swingForce; //how much swing we get
     [SerializeField] private float tensionForce; //our much the rope keeps us in an arc
     [SerializeField] private float dampiningForce; //how much the rope loses momentum
-    [SerializeField] private float swingRatio; // x vs y ratio of swing velocity
     [SerializeField] private int angleImpactReduction; //minimizes effect of anglular momentum higher = less momemntun
 
 
@@ -141,12 +140,12 @@ public class GrapplingGun : MonoBehaviour
         {
             if (m_rigidbody.position.x < grapplePoint.x && playerVelocity.x < 0)
             {
-                swingDir = swingDir - new Vector2((swingForce * swingRatio)* (ropeAngle+ angleImpactReduction) / angleImpactReduction, 0f);
+                swingDir = swingDir - new Vector2((swingForce)* (ropeAngle+ angleImpactReduction) / angleImpactReduction, 0f);
 
             }
             else if (m_rigidbody.position.x > grapplePoint.x && playerVelocity.x > 0)
             {
-                swingDir = swingDir + new Vector2((swingForce * swingRatio) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f);
+                swingDir = swingDir + new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f);
             }
 
 
@@ -166,7 +165,10 @@ public class GrapplingGun : MonoBehaviour
         swingDir = Vector2.zero;
         curMaxDistance = maxDistnace;
         playerHandler.curDeadTime = 0;
-        m_rigidbody.gravityScale = playerHandler.grappleGravMod;
+        if (m_rigidbody.gravityScale > playerHandler.grappleGravMod)
+        {
+            m_rigidbody.gravityScale = playerHandler.grappleGravMod;
+        }
     }
 
     private void OnDrawGizmosSelected() //this is just used to show max distance in scene editor, not for gameplay
