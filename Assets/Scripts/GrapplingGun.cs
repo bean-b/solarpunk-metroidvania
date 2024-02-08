@@ -113,6 +113,7 @@ public class GrapplingGun : MonoBehaviour
 
     public Vector2 GrappleMovement(Vector2 playerVelocity) //the meat of the grappling velocity
     {
+
         
 
         Vector2 toReturn = Vector2.zero; //vector returned to playerhandler for caluations
@@ -140,8 +141,9 @@ public class GrapplingGun : MonoBehaviour
 
         if (grappleRope.isGrappling && !Physics2D.OverlapCircle(playerHandler.groundCheck.position, 0.2f, playerHandler.groundLayer)) //this is the swing force, giving you a swing
         {
-            if (playerVelocity.x < 0)
+            if (playerVelocity.x < 0 || (m_rigidbody.position.x > grapplePoint.x && Mathf.Abs(playerHandler.rb.velocity.x) < 5 ))
             {
+                print(playerHandler.rb.velocity.x);
                 if(m_rigidbody.position.x > grapplePoint.x)
                 {
                     swingDir = swingDir - (new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f)*((lengthImpactReduction+curMaxDistance) / (maxDistnace+ lengthImpactReduction)));
@@ -150,10 +152,14 @@ public class GrapplingGun : MonoBehaviour
                 {
                     swingDir = swingDir - new Vector2((swingForceTwo) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction));
                 }
+                if(! (playerVelocity.x < 0))
+                {
+                    swingDir *= 0.5f;
+                }
                 
 
             }
-            else if (playerVelocity.x > 0)
+            else if (playerVelocity.x > 0 || (m_rigidbody.position.x < grapplePoint.x && Mathf.Abs(playerHandler.rb.velocity.x) < 5))
             {
                 if (m_rigidbody.position.x < grapplePoint.x)
                 {
@@ -163,7 +169,10 @@ public class GrapplingGun : MonoBehaviour
                 {
                     swingDir = swingDir + new Vector2((swingForceTwo) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction));
                 }
-                
+                if (!(playerVelocity.x > 0))
+                {
+                    swingDir *= 0.5f;
+                }
             }
 
 
