@@ -150,15 +150,6 @@ public class GrapplingGun : MonoBehaviour
             }
 
 
-            if (m_rigidbody.position.y > grapplePoint.y - curMaxDistance)
-            {
-                swingDir = swingDir - new Vector2(0f, swingForce * (1 - swingRatio) * (ropeAngle + angleImpactReduction) / angleImpactReduction);
-
-            }
-            else
-            {
-                swingDir = swingDir + new Vector2(0f, swingForce * (1 - swingRatio) * (ropeAngle + angleImpactReduction) / angleImpactReduction);
-            }
 
         }
 
