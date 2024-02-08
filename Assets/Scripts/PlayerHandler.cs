@@ -11,7 +11,13 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalSpeed = 0; //horizontal movement 
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
-    
+
+    [SerializeField] private float gravityMod;
+    [SerializeField] private float gravityJumpMod;
+    private float lastJump;
+    [SerializeField] private float JumpGravDelay; // higher  = slower
+
+
     private bool isFacingRight = true; //which direction facing
     [SerializeField] private float graplingSpeedBonus; //the amount our speed increases when we grapple. Essentialy the grapple boost %. 1.5 = 50% boost etc
 
@@ -30,7 +36,10 @@ public class PlayerHandler : MonoBehaviour
     
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
-
+    private void Start()
+    {
+        rb.gravityScale = gravityMod;
+    }
 
     private void Update()
     {
@@ -49,6 +58,20 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
+        if(rb.gravityScale < gravityMod)
+        {
+
+            rb.gravityScale += (gravityMod - gravityJumpMod) / JumpGravDelay;
+            if(rb.gravityScale > gravityMod)
+            {
+                rb.gravityScale = gravityMod;
+            }
+
+        }
+
+
+
         Vector2 playerVelocity = new Vector2(horizontalSpeed, 0f); //player control componenet
         Vector2 graplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
         Vector2 curVelocity = new Vector2(0f, rb.velocity.y); //gravity/jumping component
@@ -81,7 +104,7 @@ public class PlayerHandler : MonoBehaviour
 
         if(horizontalInput == 0f)
         {
-            horizontalMod *= 0.8f;
+            horizontalMod *= 0.2f;
         }
 
         if(horizontalMod  < 0 && horizontalInput > 0 || horizontalMod > 0 && horizontalInput < 0)
@@ -112,6 +135,8 @@ public class PlayerHandler : MonoBehaviour
         if(Input.GetButtonDown("Jump") && Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer)) //can jump?
         {
             rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+            rb.gravityScale = gravityJumpMod;
+            lastJump = Time.time;
         }
     }
 

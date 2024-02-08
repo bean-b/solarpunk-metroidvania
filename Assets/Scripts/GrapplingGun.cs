@@ -48,6 +48,7 @@ public class GrapplingGun : MonoBehaviour
 
     }
 
+
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerHandler.grappleAvailable > 0)
