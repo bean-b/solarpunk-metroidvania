@@ -143,7 +143,6 @@ public class GrapplingGun : MonoBehaviour
         {
             if (playerVelocity.x < 0 || (m_rigidbody.position.x > grapplePoint.x && Mathf.Abs(playerHandler.rb.velocity.x) < 5 ))
             {
-                print(playerHandler.rb.velocity.x);
                 if(m_rigidbody.position.x > grapplePoint.x)
                 {
                     swingDir = swingDir - (new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f)*((lengthImpactReduction+curMaxDistance) / (maxDistnace+ lengthImpactReduction)));
