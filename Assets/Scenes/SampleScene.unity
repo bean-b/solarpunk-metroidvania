@@ -1958,10 +1958,10 @@ MonoBehaviour:
   accel: 0.4
   jumpingPower: 25
   jumpingPowerSecond: 15
-  gravityMod: 2.5
+  gravityMod: 3.25
   gravityJumpMod: 0.5
   grappleGravMod: 1
-  gravRestoreTime: 30
+  gravRestoreTime: 15
   graplingSpeedBonus: 1.75
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
