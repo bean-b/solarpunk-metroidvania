@@ -139,7 +139,7 @@ public class GrapplingGun : MonoBehaviour
 
         if (grappleRope.isGrappling && !Physics2D.OverlapCircle(playerHandler.groundCheck.position, 0.2f, playerHandler.groundLayer)) //this is the swing force, giving you a swing
         {
-            if (m_rigidbody.position.x > grapplePoint.x && playerVelocity.x < 0)
+            if (m_rigidbody.position.x < grapplePoint.x && playerVelocity.x < 0)
             {
                 swingDir = swingDir - new Vector2((swingForce * swingRatio)* (ropeAngle+ angleImpactReduction) / angleImpactReduction, 0f);
 
