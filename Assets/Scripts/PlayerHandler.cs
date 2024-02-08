@@ -4,6 +4,7 @@ public class PlayerHandler : MonoBehaviour
 {
 
     [HideInInspector] public int grappleAvailable = 0; //this controls how many graples per time touching the ground
+    [HideInInspector] public int jumpAvailable = 1; //this controls how many jumps per time touching the ground
 
     [SerializeField] private float topSpeed;
     private float horizontalInput; //horizontal movement 
@@ -11,6 +12,7 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalSpeed = 0; //horizontal movement 
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
+    [SerializeField]  private float jumpingPowerSecond; //jump power
 
     public float gravityMod;
     [SerializeField] private float gravityJumpMod;
@@ -53,6 +55,7 @@ public class PlayerHandler : MonoBehaviour
         if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
             grappleAvailable = 1;
+            jumpAvailable = 1;
         }
         
     }
@@ -132,10 +135,22 @@ public class PlayerHandler : MonoBehaviour
 
     }
     private void Jump(){
-        if(Input.GetButtonDown("Jump") && Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer)) //can jump?
+        if(Input.GetButtonDown("Jump") && jumpAvailable > 0) //can jump?
         {
-            rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
-            rb.gravityScale = gravityJumpMod;
+            if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+            {
+                rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+                rb.gravityScale = gravityJumpMod;
+            }
+            else
+            {   
+                if(rb.velocity.y < 0f)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * 0.25f);
+                }
+                rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+            }
+            jumpAvailable--;
         }
     }
 

@@ -1961,9 +1961,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grappleAvailable: 0
+  jumpAvailable: 2
   topSpeed: 12
   accel: 0.5
-  jumpingPower: 35
+  jumpingPower: 25
+  jumpingPowerSecond: 15
+  gravityMod: 2
+  gravityJumpMod: 0.5
+  grappleGravMod: 1
+  gravRestoreTime: 30
   graplingSpeedBonus: 2
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
