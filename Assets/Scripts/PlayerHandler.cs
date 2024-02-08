@@ -113,6 +113,7 @@ public class PlayerHandler : MonoBehaviour
         if(curDeadTime > maxDeadTime) {
             grapplingGun.Disable(); //if dead time over limit, break rope...prevents just hanging out on ropes 
             rb.gravityScale = gravityMod * fastFallMod;
+            rb.velocity = new Vector2(rb.velocity.x*(1/fastFallMod), rb.velocity.y);
             jumpAvailable = 0;
         }
 

@@ -309,7 +309,7 @@ Transform:
   m_GameObject: {fileID: 23855860}
   serializedVersion: 2
   m_LocalRotation: {x: -0.019705134, y: -0.0038956788, z: 0.427689, w: 0.9037028}
-  m_LocalPosition: {x: 60.4, y: 7.5, z: 1.2}
+  m_LocalPosition: {x: 66.57, y: 4.35, z: 1.49}
   m_LocalScale: {x: 2.510258, y: 6.4283834, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -783,7 +783,7 @@ Transform:
   m_GameObject: {fileID: 126010573}
   serializedVersion: 2
   m_LocalRotation: {x: -0.016142394, y: -0.011953732, z: -0.00019300079, w: 0.99979824}
-  m_LocalPosition: {x: 34.9, y: -1.4, z: 0.3}
+  m_LocalPosition: {x: 34.65, y: -2.62, z: 0.37}
   m_LocalScale: {x: 9.768586, y: 0.83277035, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1355,6 +1355,7 @@ MonoBehaviour:
   ropeProgressionSpeed: 6
   playerHandler: {fileID: 877304420}
   isGrappling: 1
+  lastEnabled: 0
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1463,7 @@ Camera:
   far clip plane: 1000
   field of view: 34
   orthographic: 1
-  orthographic size: 10
+  orthographic size: 15
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -1535,7 +1536,7 @@ Transform:
   m_GameObject: {fileID: 573852318}
   serializedVersion: 2
   m_LocalRotation: {x: -0.016142394, y: -0.011953732, z: -0.00019300079, w: 0.99979824}
-  m_LocalPosition: {x: -6.9, y: -8.4, z: -0.3}
+  m_LocalPosition: {x: -9.24, y: -6.94, z: -0.4}
   m_LocalScale: {x: 9.768586, y: 0.83277035, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1857,8 +1858,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 1
-  m_AngularDrag: 1
+  m_LinearDrag: 1.25
+  m_AngularDrag: 1.25
   m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 3fbd2e75834767642a662d55d0dce213, type: 2}
   m_IncludeLayers:
@@ -1932,9 +1933,9 @@ Transform:
   m_GameObject: {fileID: 877304412}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.044, y: -0.14, z: 0}
+  m_LocalPosition: {x: -18.68, y: -8.21, z: 0}
   m_LocalScale: {x: 0.28095254, y: 0.28369504, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1873305758}
   - {fileID: 655988026}
@@ -1955,14 +1956,17 @@ MonoBehaviour:
   grappleAvailable: 0
   jumpAvailable: 2
   topSpeed: 14
-  accel: 0.4
-  jumpingPower: 25
+  accel: 0.15
+  accelFloating: 0.075
+  jumpingPower: 30
   jumpingPowerSecond: 15
-  gravityMod: 3.5
+  fastFallMod: 1.5
+  jumpingSecondGravReduction: 0.1
+  gravityMod: 4
   gravityJumpMod: 0.5
-  grappleGravMod: 0.75
-  gravRestoreTime: 17
-  graplingSpeedBonus: 1.75
+  gravityJumpModSecond: 0.25
+  grappleGravMod: 0.1
+  gravRestoreTime: 11
   rb: {fileID: 877304415}
   groundCheck: {fileID: 1873305758}
   groundLayer:
@@ -1971,9 +1975,9 @@ MonoBehaviour:
   gunPivot: {fileID: 655988026}
   grapplingRope: {fileID: 479899415}
   grapplingGun: {fileID: 1546238124}
-  maxDeadTime: 60
+  maxDeadTime: 15
   curDeadTime: 0
-  deadSpeed: 50
+  deadSpeed: 20
   maxSpeed: {x: 50, y: 50}
 --- !u!1 &1133977693
 GameObject:
@@ -2003,7 +2007,7 @@ Transform:
   m_GameObject: {fileID: 1133977693}
   serializedVersion: 2
   m_LocalRotation: {x: -0.016142394, y: -0.011953732, z: -0.00019300079, w: 0.99979824}
-  m_LocalPosition: {x: 85, y: -6.3, z: 1.6}
+  m_LocalPosition: {x: 87.3, y: -9.38, z: 1.73}
   m_LocalScale: {x: 9.768586, y: 0.83277035, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2502,12 +2506,15 @@ MonoBehaviour:
   gunPivot: {fileID: 655988026}
   firePoint: {fileID: 234770382}
   m_rigidbody: {fileID: 877304415}
-  maxDistnace: 12
+  maxDistnace: 13.5
   curMaxDistance: 10
-  swingForce: 3
-  tensionForce: 60
-  dampiningForce: -0.3
-  angleImpactReduction: 1500
+  swingForce: 2.5
+  swingForceTwo: 1
+  tensionForce: 75
+  dampiningForce: -0.2
+  angleImpactReduction: 275
+  lengthImpactReduction: 30
+  swingAccel: 7.5
   grapplePoint: {x: 0, y: 0}
   grappleDistanceVector: {x: 0, y: 0}
 --- !u!1 &1873305757
