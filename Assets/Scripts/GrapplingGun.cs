@@ -185,6 +185,11 @@ public class GrapplingGun : MonoBehaviour
 
     public void Disable() //when we stop grappling
     {
+        if (grappleRope.isGrappling && playerHandler.curDeadTime < playerHandler.maxDeadTime)
+        {
+            playerHandler.doubleJump();
+        }
+
         grappleRope.enabled = false;
         swingDir = Vector2.zero;
         curMaxDistance = maxDistnace;
@@ -193,6 +198,7 @@ public class GrapplingGun : MonoBehaviour
         {
             m_rigidbody.gravityScale = playerHandler.grappleGravMod;
         }
+        
     }
 
     private void findGrapplePoints()

@@ -4,7 +4,6 @@ public class PlayerHandler : MonoBehaviour
 {
 
     [HideInInspector] public int grappleAvailable = 0; //this controls how many graples per time touching the ground
-    [HideInInspector] public int jumpAvailable = 1; //this controls how many jumps per time touching the ground
 
     [SerializeField] private float topSpeed;
     private float horizontalInput; //horizontal movement 
@@ -61,7 +60,6 @@ public class PlayerHandler : MonoBehaviour
         if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
         {
             grappleAvailable = 1;
-            jumpAvailable = 1;
             actualAccel = accel;
         }
         else
@@ -114,7 +112,6 @@ public class PlayerHandler : MonoBehaviour
             grapplingGun.Disable(); //if dead time over limit, break rope...prevents just hanging out on ropes 
             rb.gravityScale = gravityMod * fastFallMod;
             rb.velocity = new Vector2(rb.velocity.x*(1/fastFallMod), rb.velocity.y);
-            jumpAvailable = 0;
         }
 
         lastGrapple = graplingVelocity; //resets last grapple velocity vector
@@ -154,8 +151,9 @@ public class PlayerHandler : MonoBehaviour
 
 
     }
-    private void Jump(){
-        if(Input.GetButtonDown("Jump") && jumpAvailable > 0 && !grapplingRope.isGrappling) //can jump?
+    private void Jump()
+    {
+        if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling) //can jump?
         {
             if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
             {
@@ -165,25 +163,11 @@ public class PlayerHandler : MonoBehaviour
                     rb.gravityScale = gravityJumpMod;
                 }
             }
-            else if (jumpAvailable > 0)
-            {
-                {
-                    if (rb.velocity.y < 0f)
-                    {
-                        rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
-                    }
-                    if (rb.gravityScale > gravityJumpModSecond)
-                    {
-                        rb.gravityScale = gravityJumpModSecond;
-                    }
-                    rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
-                }
-            }
-            jumpAvailable--;
         }
     }
 
-    private void Flip(){//flips our sprite if needed
+
+            private void Flip(){//flips our sprite if needed
         if (isFacingRight && rb.velocity.x < 0f || !isFacingRight && rb.velocity.x > 0f){ 
             isFacingRight = !isFacingRight;
             Vector3 localScale =  transform.localScale;
@@ -195,5 +179,22 @@ public class PlayerHandler : MonoBehaviour
         } 
         
     }
+        public void doubleJump()
+        {
+        {
+            {
+                if (rb.velocity.y < 0f)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
+                }
+                if (rb.gravityScale > gravityJumpModSecond)
+                {
+                    rb.gravityScale = gravityJumpModSecond;
+                }
+                rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+            }
+        }
+    }
 
-}
+    }
+
