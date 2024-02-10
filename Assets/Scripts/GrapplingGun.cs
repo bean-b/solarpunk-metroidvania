@@ -10,11 +10,11 @@ using static UnityEngine.GraphicsBuffer;
 public class GrapplingGun : MonoBehaviour
 {
 
+    public bool GrappleTarget = false;
+
 
     [SerializeField] private PlayerHandler playerHandler;  
     public GrapplingRope grappleRope;
-
-    [SerializeField] private int grappableLayerNumber; //what we can grapple too, todo should be a layermask to allow for more types of grapple on dif surfances. allows us easily to only grapple to plants
 
     public Camera m_camera; 
 
@@ -62,32 +62,20 @@ public class GrapplingGun : MonoBehaviour
 
         findGrapplePoints();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && playerHandler.grappleAvailable > 0)
+        if (Input.GetKeyDown(KeyCode.LeftShift) && playerHandler.grappleAvailable > 0 && GrappleTarget)
         {
-            
             SetGrapplePoint(); 
-
         }
-        else if (Input.GetKey(KeyCode.Mouse0))
+        else if (Input.GetKey(KeyCode.LeftShift))
         {
             if (grappleRope.enabled)
             {
                 RotateGun(grapplePoint, false); 
             }
-            else
-            {
-                Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-                RotateGun(mousePos, true); 
-            }
         }
-        else if (Input.GetKeyUp(KeyCode.Mouse0))
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             Disable();
-        }
-        else
-        {
-            Vector2 mousePos = m_camera.ScreenToWorldPoint(Input.mousePosition);
-            RotateGun(mousePos, true);
         }
 
     }
@@ -102,23 +90,8 @@ public class GrapplingGun : MonoBehaviour
 
     void SetGrapplePoint() //set grapple point to nearest object that we can grapple too
     {
-        Vector2 distanceVector = m_camera.ScreenToWorldPoint(Input.mousePosition) - gunPivot.position;
-        if (Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistnace, layerMask))
-        {
-            RaycastHit2D _hit = Physics2D.Raycast(firePoint.position, distanceVector.normalized, maxDistnace, layerMask);
-            if (_hit.transform.gameObject.layer == grappableLayerNumber)
-            {
-                if (Vector2.Distance(_hit.point, firePoint.position) <= maxDistnace)
-                {
-                    grapplePoint = _hit.point;
-                    grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
-                    grappleRope.enabled = true;
-                    
-
-                    
-                }
-            }
-        }
+        grappleDistanceVector = grapplePoint - (Vector2)gunPivot.position;
+        grappleRope.enabled = true;
     }
 
     public Vector2 GrappleMovement(Vector2 playerVelocity) //the meat of the grappling velocity
@@ -222,15 +195,6 @@ public class GrapplingGun : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected() //this is just used to show max distance in scene editor, not for gameplay
-    {
-        if (firePoint != null)
-        {
-            Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(firePoint.position, maxDistnace);
-        }
-    }
-
     private void findGrapplePoints()
     {
         Vector2 playerLoc = playerHandler.transform.position;
@@ -256,11 +220,16 @@ public class GrapplingGun : MonoBehaviour
                     index = i;
                 }
         }
-
-        if(index != -1)
+        if(index == -1)
         {
-            gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
+            GrappleTarget = false;
         }
+       else
+       {
+            gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
+            GrappleTarget = true;
+            grapplePoint = gameObjectsWithinBounds[index].transform.position;
+       }
 
     }
 
