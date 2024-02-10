@@ -1,4 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics.CodeAnalysis;
+using TMPro.EditorUtilities;
 using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
@@ -55,6 +59,9 @@ public class GrapplingGun : MonoBehaviour
 
     private void Update()
     {
+
+        findGrapplePoints();
+
         if (Input.GetKeyDown(KeyCode.Mouse0) && playerHandler.grappleAvailable > 0)
         {
             
@@ -223,5 +230,39 @@ public class GrapplingGun : MonoBehaviour
             Gizmos.DrawWireSphere(firePoint.position, maxDistnace);
         }
     }
+
+    private void findGrapplePoints()
+    {
+        Vector2 playerLoc = playerHandler.transform.position;
+        float grappleLen = maxDistnace;
+        GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
+        List<GameObject> gameObjectsWithinBounds = new List<GameObject>();
+        for(int i=0; i<gameObjectsWithTag.Length; i++) {
+            gameObjectsWithTag[i].SendMessage("NotClosest");
+            if (Utility.IsWithinBounds(gameObjectsWithTag[i].transform.position, new Vector2(playerLoc.x - grappleLen, playerLoc.y - grappleLen), new Vector2(playerLoc.x + grappleLen, playerLoc.y + grappleLen))){
+                gameObjectsWithinBounds.Add(gameObjectsWithTag[i]);
+            }
+        }
+
+        float closeset = maxDistnace * 5f;
+        int index = -1;
+
+        for(int i=0;i< gameObjectsWithinBounds.Count; i++)
+        {
+            float dist = Vector2.Distance(playerLoc, gameObjectsWithinBounds[i].transform.position);
+                if(dist < closeset)
+                {
+                    dist = closeset;
+                    index = i;
+                }
+        }
+
+        if(index != -1)
+        {
+            gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
+        }
+
+    }
+
 
 }
