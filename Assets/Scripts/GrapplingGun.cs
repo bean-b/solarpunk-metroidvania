@@ -185,7 +185,7 @@ public class GrapplingGun : MonoBehaviour
 
     public void Disable() //when we stop grappling
     {
-        if (grappleRope.isGrappling && playerHandler.curDeadTime < playerHandler.maxDeadTime)
+        if (grappleRope.isGrappling && playerHandler.curDeadTime < playerHandler.maxDeadTime && Input.GetKey(KeyCode.Space))
         {
             playerHandler.doubleJump();
         }
