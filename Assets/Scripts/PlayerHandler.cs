@@ -92,7 +92,7 @@ public class PlayerHandler : MonoBehaviour
 
 
         Vector2 playerVelocity = new Vector2(horizontalSpeed, 0f); //player control componenet
-        Vector2 graplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
+        Vector2 grapplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
         Vector2 curVelocity = new Vector2(0f, rb.velocity.y); //gravity/jumping component
         
         if (lastGrapple!=null && grapplingRope.isGrappling)
@@ -100,7 +100,7 @@ public class PlayerHandler : MonoBehaviour
             curVelocity = new Vector2(0f, rb.velocity.y - lastGrapple.y); //prevents grapple rocketing maybe theres a better solution
         }
 
-        rb.velocity = graplingVelocity + playerVelocity + curVelocity; //add in velocity based on all 3 componenets
+        rb.velocity = grapplingVelocity + playerVelocity + curVelocity; //add in velocity based on all 3 componenets
 
 
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)); //clamp based on max speed
@@ -114,7 +114,7 @@ public class PlayerHandler : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x*(1/fastFallMod), rb.velocity.y);
         }
 
-        lastGrapple = graplingVelocity; //resets last grapple velocity vector
+        lastGrapple = grapplingVelocity; //resets last grapple velocity vector
         
     }
 
