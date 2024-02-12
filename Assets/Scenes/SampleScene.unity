@@ -2085,7 +2085,7 @@ MonoBehaviour:
   accel: 0.075
   accelFloating: 0.05
   jumpingPower: 31
-  jumpingPowerSecond: 12
+  jumpingPowerSecond: 18
   fastFallMod: 1.5
   jumpingSecondGravReduction: 0.1
   gravityMod: 4.1
