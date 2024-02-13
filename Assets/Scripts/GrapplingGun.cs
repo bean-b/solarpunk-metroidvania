@@ -18,6 +18,8 @@ public class GrapplingGun : MonoBehaviour
 
     public Camera m_camera; 
 
+    
+
     public Transform gunHolder; // our players tranform
     public Transform gunPivot; //where the gun turns around
     public Transform firePoint;//where we shoot from
@@ -62,20 +64,13 @@ public class GrapplingGun : MonoBehaviour
 
         findGrapplePoints();
 
-        if (Input.GetKeyDown(KeyCode.LeftShift) && playerHandler.grappleAvailable > 0 && GrappleTarget)
+        if (!grappleRope.enabled && Input.GetKeyDown(KeyCode.LeftShift ) && playerHandler.grappleAvailable > 0 && GrappleTarget)
         {
             SetGrapplePoint(); 
-        }
-        else if (Input.GetKey(KeyCode.LeftShift))
-        {
-            if (grappleRope.enabled)
-            {
-                RotateGun(grapplePoint, false); 
-            }
-        }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        }else if (grappleRope.enabled && (Input.GetKeyDown(KeyCode.LeftShift)))
         {
             Disable();
+            playerHandler.doubleJump();
         }
 
     }
@@ -136,7 +131,7 @@ public class GrapplingGun : MonoBehaviour
                     if (m_rigidbody.position.x > grapplePoint.x)
                 {
 
-                    swingDir = swingDir - ((new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction)) * grappleMod)* grappleMod);
+                    swingDir = swingDir - ((new Vector2((swingForce) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction)) * grappleMod));
                 }
                 else
                 {
@@ -185,10 +180,6 @@ public class GrapplingGun : MonoBehaviour
 
     public void Disable() //when we stop grappling
     {
-        if (grappleRope.isGrappling && playerHandler.curDeadTime < playerHandler.maxDeadTime && Input.GetKey(KeyCode.Space))
-        {
-            playerHandler.doubleJump();
-        }
 
         grappleRope.enabled = false;
         swingDir = Vector2.zero;
