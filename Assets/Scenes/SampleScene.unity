@@ -2139,7 +2139,7 @@ MonoBehaviour:
   rb: {fileID: 877304415}
   groundCheckDistance: 0.5
   numberOfRays: 5
-  width: 4
+  width: 2
   groundCheckStartPoint: {fileID: 1873305758}
   groundLayer:
     serializedVersion: 2
