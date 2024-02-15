@@ -115,7 +115,7 @@ public class GrapplingGun : MonoBehaviour
 
 
 
-        if (grappleRope.isGrappling && !Physics2D.OverlapCircle(playerHandler.groundCheck.position, 0.2f, playerHandler.groundLayer)) //this is the swing force, giving you a swing
+        if (grappleRope.isGrappling && !playerHandler.isGrounded()) //this is the swing force, giving you a swing
         {
 
             if (playerVelocity.x < 0 || (m_rigidbody.position.x > grapplePoint.x && Mathf.Abs(playerHandler.rb.velocity.x) < 3 ))
