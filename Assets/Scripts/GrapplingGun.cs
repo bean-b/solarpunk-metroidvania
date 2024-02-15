@@ -49,12 +49,15 @@ public class GrapplingGun : MonoBehaviour
 
     [HideInInspector] public Vector2 grapplePoint; //where we are grappling too
     [HideInInspector] public Vector2 grappleDistanceVector;
+    public GameObject grapplePointObj;
+
 
     private void Start()
     {
         layerMask = ~LayerMask.GetMask("Player");
         grappleRope.enabled = false;
         curMaxDistance = maxDistnace;
+        grapplePointObj = null;
 
     }
 
@@ -64,7 +67,7 @@ public class GrapplingGun : MonoBehaviour
 
         findGrapplePoints();
 
-        if (!grappleRope.enabled && Input.GetKeyDown(KeyCode.LeftShift ) && playerHandler.grappleAvailable > 0 && GrappleTarget)
+        if (!grappleRope.enabled && Input.GetKeyDown(KeyCode.LeftShift ) && GrappleTarget)
         {
             SetGrapplePoint(); 
         }else if (grappleRope.enabled && (Input.GetKeyDown(KeyCode.LeftShift)))
@@ -203,7 +206,11 @@ public class GrapplingGun : MonoBehaviour
         for(int i=0; i<gameObjectsWithTag.Length; i++) {
             gameObjectsWithTag[i].SendMessage("NotClosest");
             if (Utility.IsWithinBounds(gameObjectsWithTag[i].transform.position, new Vector2(playerLoc.x - grappleLen, playerLoc.y - grappleLen), new Vector2(playerLoc.x + grappleLen, playerLoc.y + grappleLen))){
-                gameObjectsWithinBounds.Add(gameObjectsWithTag[i]);
+
+                if (!gameObjectsWithTag[i].GetComponent<GrapplePoint>().hasBeenGrappled)
+                {
+                    gameObjectsWithinBounds.Add(gameObjectsWithTag[i]);
+                }
             }
         }
 
@@ -226,6 +233,7 @@ public class GrapplingGun : MonoBehaviour
        else
        {
             gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
+            grapplePointObj = gameObjectsWithinBounds[index];
             GrappleTarget = true;
             grapplePoint = gameObjectsWithinBounds[index].transform.position;
        }

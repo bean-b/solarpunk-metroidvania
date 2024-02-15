@@ -1,9 +1,9 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
 
-    [HideInInspector] public int grappleAvailable = 0; //this controls how many graples per time touching the ground
 
     [SerializeField] private float topSpeed;
     private float horizontalInput; //horizontal movement 
@@ -46,6 +46,8 @@ public class PlayerHandler : MonoBehaviour
     public float deadSpeed; // minimum speed to not be considered slow grapling
     public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
     
+    
+
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
     private void Start()
@@ -62,8 +64,12 @@ public class PlayerHandler : MonoBehaviour
         Flip();
         if (isGrounded())
         {
-            grappleAvailable = 1;
             actualAccel = accel;
+            GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
+            for (int i = 0; i < gameObjectsWithTag.Length; i++)
+            {
+                gameObjectsWithTag[i].SendMessage("PlayerGrounded");
+            }
         }
         else
         {

@@ -45,7 +45,6 @@ public class GrapplingRope : MonoBehaviour
 
         LinePointsToFirePoint();
 
-        playerHandler.grappleAvailable = 0;
 
         m_lineRenderer.enabled = true;
 
@@ -56,6 +55,7 @@ public class GrapplingRope : MonoBehaviour
     {
         m_lineRenderer.enabled = false;
         isGrappling = false;
+        grapplingGun.grapplePointObj.SendMessage("Used");
     }
 
     private void LinePointsToFirePoint()
