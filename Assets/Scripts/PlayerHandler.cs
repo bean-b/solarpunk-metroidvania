@@ -167,7 +167,7 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-            private void Flip(){//flips our sprite if needed
+            private void Flip(){ //flips our sprite if needed
         if (isFacingRight && rb.velocity.x < 0f || !isFacingRight && rb.velocity.x > 0f){ 
             isFacingRight = !isFacingRight;
             Vector3 localScale =  transform.localScale;
