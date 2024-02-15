@@ -76,6 +76,8 @@ public class GrapplingGun : MonoBehaviour
 
     }
 
+
+
     void RotateGun(Vector3 lookPoint, bool allowRotationOverTime) //gun point @ mouse
     {
         Vector3 distanceVector = lookPoint - gunPivot.position;
@@ -107,6 +109,12 @@ public class GrapplingGun : MonoBehaviour
 
             toReturn = springForce + dampingForce;
         }
+
+
+
+
+
+
         if (grappleRope.isGrappling && !Physics2D.OverlapCircle(playerHandler.groundCheck.position, 0.2f, playerHandler.groundLayer)) //this is the swing force, giving you a swing
         {
 

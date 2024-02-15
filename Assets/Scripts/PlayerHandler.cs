@@ -28,8 +28,14 @@ public class PlayerHandler : MonoBehaviour
     private bool isFacingRight = true; //which direction facing
 
 
+
     public Rigidbody2D rb; //our rigid body
-    public Transform groundCheck; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
+
+    public float groundCheckDistance = 1.5f; // How far down we check for ground
+    public int numberOfRays = 5; // Number of rays to cast
+    public float width = 3f;
+
+    public Transform groundCheckStartPoint; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
     public LayerMask groundLayer; //this layermask controls what counts as 'ground', add more layers for dif types of ground etc..
     [SerializeField] private Transform gunPivot; //where the gun pivots from. currently set from the center of the player for gameplay reasons, can add sprites later though 
     [SerializeField] private GrapplingRope grapplingRope; // our grappling rope
@@ -46,6 +52,7 @@ public class PlayerHandler : MonoBehaviour
     {
         rb.gravityScale = gravityMod;
 
+
     }
 
     private void Update()
@@ -53,11 +60,7 @@ public class PlayerHandler : MonoBehaviour
         Jump();
         Movement();
         Flip();
-        IsGrounded();
-    }
-    private void IsGrounded(){
-        //update lastgrounded and jump availible if grounded and delay true
-        if(Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+        if (isGrounded())
         {
             grappleAvailable = 1;
             actualAccel = accel;
@@ -66,7 +69,6 @@ public class PlayerHandler : MonoBehaviour
         {
             actualAccel = accelFloating;
         }
-        
     }
     private void FixedUpdate()
     {
@@ -118,6 +120,27 @@ public class PlayerHandler : MonoBehaviour
         
     }
 
+
+    public bool isGrounded()
+    {
+        bool isGrounded = false;
+        float distanceBetweenRays = width / (numberOfRays - 1);
+
+        for (int i = 0; i < numberOfRays; i++)
+        {
+            Vector2 rayStart = groundCheckStartPoint.position - Vector3.right * (width / 2) + Vector3.right * (distanceBetweenRays * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.down, groundCheckDistance, groundLayer);
+
+            if (hit.collider != null)
+            {
+                isGrounded = true;
+                // Optionally, handle ground angle here based on hit.normal
+                break;
+            }
+        }
+        return isGrounded;
+    }
+
     private void Movement()
     {
         horizontalInput = Input.GetAxisRaw("Horizontal");//using unity input system, left right (a,d) = horiziontal velocity
@@ -155,7 +178,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling) //can jump?
         {
-            if (Physics2D.OverlapCircle(groundCheck.position, 0.2f, groundLayer))
+            if (isGrounded())
             {
                 rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
                 if (rb.gravityScale > gravityJumpMod)
