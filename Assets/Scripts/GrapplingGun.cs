@@ -176,10 +176,6 @@ public class GrapplingGun : MonoBehaviour
         swingDir = Vector2.zero;
         curMaxDistance = maxDistnace;
         playerHandler.curDeadTime = 0;
-        if (m_rigidbody.gravityScale > playerHandler.grappleGravMod)
-        {
-            m_rigidbody.gravityScale = playerHandler.grappleGravMod;
-        }
         
     }
 

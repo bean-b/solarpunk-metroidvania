@@ -21,7 +21,6 @@ public class PlayerHandler : MonoBehaviour
     public float gravityMod;
     [SerializeField] private float gravityJumpMod;
     [SerializeField] private float gravityJumpModSecond;
-    public float grappleGravMod;
     [SerializeField] private float gravRestoreTime; // higher  = slower
 
 
