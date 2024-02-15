@@ -64,7 +64,6 @@ public class GrapplingGun : MonoBehaviour
 
     private void Update()
     {
-
         findGrapplePoints();
 
         if (!grappleRope.enabled && Input.GetKeyDown(KeyCode.LeftShift ) && GrappleTarget)
@@ -72,6 +71,8 @@ public class GrapplingGun : MonoBehaviour
             SetGrapplePoint(); 
         }else if (grappleRope.enabled && (Input.GetKeyDown(KeyCode.LeftShift)))
         {
+            Disable();
+        }else if (grappleRope.enabled && (Input.GetKeyDown(KeyCode.Space))){
             Disable();
             playerHandler.doubleJump();
         }
@@ -96,9 +97,6 @@ public class GrapplingGun : MonoBehaviour
 
     public Vector2 GrappleMovement(Vector2 playerVelocity) //the meat of the grappling velocity
     {
-
-        
-
         Vector2 toReturn = Vector2.zero; //vector returned to playerhandler for caluations
 
         float curDistance = Vector2.Distance(grapplePoint, m_rigidbody.position); // distnace from player to grapple point
@@ -108,8 +106,6 @@ public class GrapplingGun : MonoBehaviour
 
         if (curDistance > curMaxDistance && grappleRope.isGrappling) // this is the tension force, pulling you back into the arc
         {
-
-
             float springForceMagnitude = (curDistance - curMaxDistance) * tensionForce;
             Vector2 springForce = ropeDirection * springForceMagnitude;
             Vector2 dampingForce = m_rigidbody.velocity * dampiningForce;
@@ -142,11 +138,7 @@ public class GrapplingGun : MonoBehaviour
                 {
                     swingDir = swingDir - (new Vector2((swingForceTwo) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction))* grappleMod);
                 }
-
-                
-
             }
-            
             if (playerVelocity.x > 0 || (m_rigidbody.position.x < grapplePoint.x && Mathf.Abs(playerHandler.rb.velocity.x) < 3))
             {
 
@@ -164,14 +156,8 @@ public class GrapplingGun : MonoBehaviour
                 {
                     swingDir = swingDir + (new Vector2((swingForceTwo) * (ropeAngle + angleImpactReduction) / angleImpactReduction, 0f) * ((lengthImpactReduction + curMaxDistance) / (maxDistnace + lengthImpactReduction)) * grappleMod);
                 }
-
             }
-
-
-
         }
-
-
         float elapsedTime = Time.time - grappleRope.lastEnabled;
         float scaleFactor = Mathf.Min(1.0f, elapsedTime * swingAccel);
         swingDir *= scaleFactor;
