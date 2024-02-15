@@ -51,7 +51,7 @@ public class GrapplingRope : MonoBehaviour
         
     }
 
-    private void OnDisable()
+    public void OnDisable()
     {
         m_lineRenderer.enabled = false;
         isGrappling = false;

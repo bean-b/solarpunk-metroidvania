@@ -228,6 +228,7 @@ public class PlayerHandler : MonoBehaviour
     {
         transform.position = new Vector3 (-11f, -4.8f, 0f);
         rb.velocity = Vector3.zero;
+        grapplingRope.OnDisable();
     }
 
     }

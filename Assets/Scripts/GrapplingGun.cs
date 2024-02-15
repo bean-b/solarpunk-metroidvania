@@ -212,7 +212,7 @@ public class GrapplingGun : MonoBehaviour
         {
             GrappleTarget = false;
         }
-       else
+       else if(!grappleRope.isGrappling) 
        {
             gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
             grapplePointObj = gameObjectsWithinBounds[index];
