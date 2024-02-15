@@ -224,5 +224,11 @@ public class PlayerHandler : MonoBehaviour
         }
     }
 
+    public void die()
+    {
+        transform.position = new Vector3 (-11f, 0f, 0f);
+        rb.velocity = Vector3.zero;
+    }
+
     }
 

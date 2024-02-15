@@ -17,7 +17,7 @@ public class GrapplePoint : MonoBehaviour
     {
         if (!hasBeenGrappled)
         {
-            spr.color = Color.red;
+            spr.color = Color.yellow;
         }
     }
     public void NotClosest()
