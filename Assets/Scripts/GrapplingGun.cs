@@ -52,7 +52,8 @@ public class GrapplingGun : MonoBehaviour
     public GameObject grapplePointObj;
 
 
-    private GameObject[] grapplePoints;
+    private GrapplePoint[] grapplePoints;
+    private GameObject[] grapplePointsOBJ;
 
     private void Start()
     {
@@ -60,7 +61,15 @@ public class GrapplingGun : MonoBehaviour
         grappleRope.enabled = false;
         curMaxDistance = maxDistnace;
         grapplePointObj = null;
-        grapplePoints = GameObject.FindGameObjectsWithTag("GrapplePoint"); //this should use quadtrees for preformance
+        grapplePointsOBJ = GameObject.FindGameObjectsWithTag("GrapplePoint"); //this should use quadtrees for preformance
+
+        grapplePoints = new GrapplePoint[grapplePointsOBJ.Length];
+        int i = 0;
+        foreach (GameObject go in grapplePointsOBJ)
+        {
+            grapplePoints[i] = go.GetComponent<GrapplePoint>();
+            i = i + 1;
+        }
 
     }
 
@@ -184,21 +193,26 @@ public class GrapplingGun : MonoBehaviour
 
     private void findGrapplePoints()
     {
-        Vector2 playerLoc = playerHandler.transform.position;
-        float grappleLen = maxDistnace;
-        GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
-        List<GameObject> gameObjectsWithinBounds = new List<GameObject>();
-        for(int i=0; i<gameObjectsWithTag.Length; i++) {
-            gameObjectsWithTag[i].SendMessage("NotClosest");
-            if (Utility.IsWithinBounds(gameObjectsWithTag[i].transform.position, new Vector2(playerLoc.x - grappleLen, playerLoc.y - grappleLen), new Vector2(playerLoc.x + grappleLen, playerLoc.y + grappleLen))){ //this should be replaced with a quadtree for preformance reasons
 
-                if (!gameObjectsWithTag[i].GetComponent<GrapplePoint>().hasBeenGrappled)
+        if(grappleRope.isGrappling)
+        {
+            return;
+        }
+
+        Vector2 playerLoc = playerHandler.transform.position;
+        List<GameObject> gameObjectsWithinBounds = new List<GameObject>();
+
+        for(int i=0; i<grapplePoints.Length; i++) {
+            grapplePoints[i].NotClosest();
+            if (Utility.IsWithinBounds(grapplePointsOBJ[i].transform.position, new Vector2(playerLoc.x - maxDistnace, playerLoc.y - maxDistnace), new Vector2(playerLoc.x + maxDistnace, playerLoc.y + maxDistnace))){ //this should be replaced with a quadtree for preformance reasons
+
+                if (!grapplePoints[i].hasBeenGrappled)
                 {
 
-                    Vector2 direction = gameObjectsWithTag[i].transform.position - firePoint.position;
+                    Vector2 direction = grapplePointsOBJ[i].transform.position - firePoint.position;
 
                     // Calculate the distance to the target for the raycast
-                    float distance = Vector2.Distance(firePoint.position, gameObjectsWithTag[i].transform.position);
+                    float distance = Vector2.Distance(firePoint.position, grapplePointsOBJ[i].transform.position);
 
 
                     // Perform the raycast
@@ -208,7 +222,7 @@ public class GrapplingGun : MonoBehaviour
                     {
                         if (hit.collider.CompareTag("GrapplePoint"))
                         {
-                            gameObjectsWithinBounds.Add(gameObjectsWithTag[i]);
+                            gameObjectsWithinBounds.Add(grapplePointsOBJ[i]);
                         }
                     
                     }
@@ -224,10 +238,11 @@ public class GrapplingGun : MonoBehaviour
 
         for(int i=0;i< gameObjectsWithinBounds.Count; i++)
         {
-            float dist = Vector2.Distance(playerLoc, gameObjectsWithinBounds[i].transform.position);
+
+            float dist = Vector2.Distance(firePoint.position, gameObjectsWithinBounds[i].transform.position);
                 if(dist < closeset)
                 {
-                    dist = closeset;
+                    closeset = dist;
                     index = i;
                 }
         }
@@ -235,7 +250,7 @@ public class GrapplingGun : MonoBehaviour
         {
             GrappleTarget = false;
         }
-       else if(!grappleRope.isGrappling) 
+       else 
        {
            gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
            grapplePointObj = gameObjectsWithinBounds[index];

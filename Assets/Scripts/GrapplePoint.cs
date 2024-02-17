@@ -20,6 +20,12 @@ public class GrapplePoint : MonoBehaviour
             spr.color = Color.yellow;
         }
     }
+
+
+    public void turnBlue()
+    {
+        spr.color = Color.blue;
+    }
     public void NotClosest()
     {
         spr.color = Color.white;

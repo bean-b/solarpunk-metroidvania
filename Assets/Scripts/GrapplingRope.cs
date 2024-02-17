@@ -33,7 +33,11 @@ public class GrapplingRope : MonoBehaviour
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
+
+
+
     }
+
 
 
     private void OnEnable()
@@ -55,7 +59,7 @@ public class GrapplingRope : MonoBehaviour
     {
         m_lineRenderer.enabled = false;
         isGrappling = false;
-        grapplingGun.grapplePointObj.SendMessage("Used");
+        
     }
 
     private void LinePointsToFirePoint()
@@ -74,6 +78,12 @@ public class GrapplingRope : MonoBehaviour
         lineRenderer.endColor = color;
         moveTime += Time.deltaTime;
         DrawRope();
+
+
+        if (isGrappling)
+        {
+            grapplingGun.grapplePointObj.SendMessage("Used");
+        }
     }
 
     void DrawRope()
