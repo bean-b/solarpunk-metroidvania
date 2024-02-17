@@ -33,7 +33,11 @@ public class PlayerHandler : MonoBehaviour
     public float groundCheckDistance = 1.5f; // How far down we check for ground
     public int numberOfRays = 5; // Number of rays to cast
     public float width = 3f;
+    public float height = 1f;
 
+
+    public Transform leftCheckStartPoint;
+    public Transform rightCheckStartPoint;
     public Transform groundCheckStartPoint; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
     public LayerMask groundLayer; //this layermask controls what counts as 'ground', add more layers for dif types of ground etc..
     [SerializeField] private Transform gunPivot; //where the gun pivots from. currently set from the center of the player for gameplay reasons, can add sprites later though 
@@ -74,6 +78,9 @@ public class PlayerHandler : MonoBehaviour
         {
             actualAccel = accelFloating;
         }
+
+
+
     }
     private void FixedUpdate()
     {
@@ -145,6 +152,47 @@ public class PlayerHandler : MonoBehaviour
         }
         return isGrounded;
     }
+
+    public bool isTouchingLeftWall()
+    {
+        bool isTouchingLeft = false;
+        float distanceBetweenRays = height / (numberOfRays - 1);
+
+        for (int i = 0; i < numberOfRays; i++)
+        {
+            Vector2 rayStart = leftCheckStartPoint.position - Vector3.up * (height / 2) + Vector3.up * (distanceBetweenRays * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.left, groundCheckDistance, groundLayer);
+
+            if (hit.collider != null)
+            {
+                isTouchingLeft = true;
+                break;
+            }
+        }
+        return isTouchingLeft;
+    }
+
+    public bool isTouchingRightWall()
+    {
+        bool isTouchingRight = false;
+        float distanceBetweenRays = height / (numberOfRays - 1);
+
+        for (int i = 0; i < numberOfRays; i++)
+        {
+            Vector2 rayStart = rightCheckStartPoint.position - Vector3.up * (height / 2) + Vector3.up * (distanceBetweenRays * i);
+            RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.right, groundCheckDistance, groundLayer);
+
+            if (hit.collider != null)
+            {
+                isTouchingRight = true;
+                break;
+            }
+        }
+        return isTouchingRight;
+    }
+
+
+
 
     private void Movement()
     {
@@ -228,7 +276,10 @@ public class PlayerHandler : MonoBehaviour
     {
         transform.position = new Vector3 (-11f, -4.8f, 0f);
         rb.velocity = Vector3.zero;
-        grapplingRope.OnDisable();
+        if(grapplingRope.isGrappling)
+        {
+            grapplingRope.OnDisable();
+        }
     }
 
     }

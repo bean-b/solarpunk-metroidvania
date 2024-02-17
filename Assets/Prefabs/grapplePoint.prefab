@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4367043857596650067}
   - component: {fileID: 8071849082579337268}
   - component: {fileID: 3827725815121168291}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: grapplePoint
   m_TagString: GrapplePoint
   m_Icon: {fileID: 0}
@@ -97,3 +97,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1552a1a9f8999ed4eae06776e91eea11, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  hasBeenGrappled: 0

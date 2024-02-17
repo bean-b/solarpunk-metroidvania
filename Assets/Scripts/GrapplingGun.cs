@@ -52,12 +52,15 @@ public class GrapplingGun : MonoBehaviour
     public GameObject grapplePointObj;
 
 
+    private GameObject[] grapplePoints;
+
     private void Start()
     {
         layerMask = ~LayerMask.GetMask("Player");
         grappleRope.enabled = false;
         curMaxDistance = maxDistnace;
         grapplePointObj = null;
+        grapplePoints = GameObject.FindGameObjectsWithTag("GrapplePoint"); //this should use quadtrees for preformance
 
     }
 
@@ -187,11 +190,31 @@ public class GrapplingGun : MonoBehaviour
         List<GameObject> gameObjectsWithinBounds = new List<GameObject>();
         for(int i=0; i<gameObjectsWithTag.Length; i++) {
             gameObjectsWithTag[i].SendMessage("NotClosest");
-            if (Utility.IsWithinBounds(gameObjectsWithTag[i].transform.position, new Vector2(playerLoc.x - grappleLen, playerLoc.y - grappleLen), new Vector2(playerLoc.x + grappleLen, playerLoc.y + grappleLen))){
+            if (Utility.IsWithinBounds(gameObjectsWithTag[i].transform.position, new Vector2(playerLoc.x - grappleLen, playerLoc.y - grappleLen), new Vector2(playerLoc.x + grappleLen, playerLoc.y + grappleLen))){ //this should be replaced with a quadtree for preformance reasons
 
                 if (!gameObjectsWithTag[i].GetComponent<GrapplePoint>().hasBeenGrappled)
                 {
-                    gameObjectsWithinBounds.Add(gameObjectsWithTag[i]);
+
+                    Vector2 direction = gameObjectsWithTag[i].transform.position - firePoint.position;
+
+                    // Calculate the distance to the target for the raycast
+                    float distance = Vector2.Distance(firePoint.position, gameObjectsWithTag[i].transform.position);
+
+
+                    // Perform the raycast
+                    RaycastHit2D hit = Physics2D.Raycast(firePoint.position, direction.normalized, distance, layerMask);
+
+                    if (hit.collider != null)
+                    {
+                        if (hit.collider.CompareTag("GrapplePoint"))
+                        {
+                            gameObjectsWithinBounds.Add(gameObjectsWithTag[i]);
+                        }
+                    
+                    }
+
+
+                        
                 }
             }
         }
@@ -214,13 +237,16 @@ public class GrapplingGun : MonoBehaviour
         }
        else if(!grappleRope.isGrappling) 
        {
-            gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
-            grapplePointObj = gameObjectsWithinBounds[index];
-            GrappleTarget = true;
-            grapplePoint = gameObjectsWithinBounds[index].transform.position;
+           gameObjectsWithinBounds[index].SendMessage("ClosestGrapple");
+           grapplePointObj = gameObjectsWithinBounds[index];
+           GrappleTarget = true;
+           grapplePoint = gameObjectsWithinBounds[index].transform.position;
+       }
+
+
        }
 
     }
 
 
-}
+
