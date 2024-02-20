@@ -61,7 +61,7 @@ public class GrapplingGun : MonoBehaviour
         grappleRope.enabled = false;
         curMaxDistance = maxDistnace;
         grapplePointObj = null;
-        grapplePointsOBJ = GameObject.FindGameObjectsWithTag("GrapplePoint"); //this should use quadtrees for preformance
+        grapplePointsOBJ = GameObject.FindGameObjectsWithTag("GrapplePoint"); //this should use quadtrees for preformance if that becoms an issue
 
         grapplePoints = new GrapplePoint[grapplePointsOBJ.Length];
         int i = 0;
@@ -194,7 +194,7 @@ public class GrapplingGun : MonoBehaviour
     private void findGrapplePoints()
     {
 
-        if(grappleRope.isGrappling)
+        if(grappleRope.enabled)
         {
             return;
         }

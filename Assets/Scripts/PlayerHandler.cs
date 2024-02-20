@@ -85,6 +85,9 @@ public class PlayerHandler : MonoBehaviour
     private void FixedUpdate()
     {
 
+
+
+
         if(rb.gravityScale < gravityMod)
         {
 
@@ -244,15 +247,15 @@ public class PlayerHandler : MonoBehaviour
 
 
             private void Flip(){ //flips our sprite if needed
-        if (isFacingRight && rb.velocity.x < 0f || !isFacingRight && rb.velocity.x > 0f){ 
-            isFacingRight = !isFacingRight;
-            Vector3 localScale =  transform.localScale;
-            localScale.x *= -1f;
-            transform.localScale = localScale;
-            Vector3 localScaleGun = transform.localScale;
-            localScaleGun.x *= -1f;
-            gunPivot.localScale = localScaleGun;
-        } 
+                if (isFacingRight && rb.velocity.x < 0f || !isFacingRight && rb.velocity.x > 0f){ 
+                    isFacingRight = !isFacingRight;
+                    Vector3 localScale =  transform.localScale;
+                    localScale.x *= -1f;
+                    transform.localScale = localScale;
+                    Vector3 localScaleGun = transform.localScale;
+                    localScaleGun.x *= -1f;
+                    gunPivot.localScale = localScaleGun;
+                } 
         
     }
         public void doubleJump()
@@ -282,5 +285,11 @@ public class PlayerHandler : MonoBehaviour
         }
     }
 
+
+    private void wallSlide()
+    {
+        
     }
+
+}
 
