@@ -42,6 +42,15 @@ TagManager:
   - name: background
     uniqueID: 2570368623
     locked: 0
+  - name: sprite assets
+    uniqueID: 493279073
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: platform
+    uniqueID: 1445999201
+    locked: 0
+  - name: player
+    uniqueID: 3335546773
     locked: 0
