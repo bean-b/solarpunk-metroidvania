@@ -9,6 +9,7 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalInput; //horizontal movement 
     private float horizontalMod = 0; //horizontal movement 
     private float horizontalSpeed = 0; //horizontal movement 
+    public float wallSlideGrav = .2f;
     [SerializeField] private float accel; //speed mod
     [SerializeField] private float accelFloating; //speed mod
     private float actualAccel;
@@ -78,6 +79,8 @@ public class PlayerHandler : MonoBehaviour
         {
             actualAccel = accelFloating;
         }
+
+        wallSlide();
 
 
 
@@ -288,7 +291,15 @@ public class PlayerHandler : MonoBehaviour
 
     private void wallSlide()
     {
-        
+        if(isTouchingRightWall() && horizontalInput > 0 && !isGrounded())
+        {
+
+
+            rb.gravityScale = wallSlideGrav;
+        }
+        else if(isTouchingLeftWall() && horizontalInput < 0 && !isGrounded() ) {
+            rb.gravityScale = wallSlideGrav;
+        }
     }
 
 }
