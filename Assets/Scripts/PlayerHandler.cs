@@ -9,7 +9,9 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalInput; //horizontal movement 
     private float horizontalMod = 0; //horizontal movement 
     private float horizontalSpeed = 0; //horizontal movement 
-    public float wallSlideGrav = .2f;
+    public float wallSlideForce = 10f;
+    public float wallSlideForceCur = 10f;
+    public float wallSlideTime = 10f;
     [SerializeField] private float accel; //speed mod
     [SerializeField] private float accelFloating; //speed mod
     private float actualAccel;
@@ -57,7 +59,7 @@ public class PlayerHandler : MonoBehaviour
     private void Start()
     {
         rb.gravityScale = gravityMod;
-
+        wallSlideForceCur = wallSlideForce;
 
     }
 
@@ -293,12 +295,24 @@ public class PlayerHandler : MonoBehaviour
     {
         if(isTouchingRightWall() && horizontalInput > 0 && !isGrounded())
         {
+            print(wallSlideForce);
+            rb.AddForce(new Vector2(0f, wallSlideForceCur), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, 0));
+            wallSlideForceCur -= (wallSlideForceCur / wallSlideTime);
+            wallSlideForceCur = Mathf.Min(wallSlideForceCur, 0);
 
-
-            rb.gravityScale = wallSlideGrav;
         }
         else if(isTouchingLeftWall() && horizontalInput < 0 && !isGrounded() ) {
-            rb.gravityScale = wallSlideGrav;
+            print(wallSlideForce);
+
+            rb.AddForce(new Vector2(0f, wallSlideForceCur), ForceMode2D.Impulse);
+            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, 0));
+            wallSlideForceCur -= (wallSlideForceCur / wallSlideTime);
+            wallSlideForceCur = Mathf.Min(wallSlideForceCur, 0);
+        }
+        else
+        {
+            wallSlideForceCur = wallSlideForce;
         }
     }
 
