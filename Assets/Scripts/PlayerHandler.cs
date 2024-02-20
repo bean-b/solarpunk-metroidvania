@@ -27,6 +27,10 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private float gravRestoreTime; // higher  = slower
 
 
+    private float timeLastWallSLideJumped= -100f;
+    private float wallSlideJumpDir = 0f;
+    public float wallSlideJumpTime = 0.05f;
+
     private bool isFacingRight = true; //which direction facing
 
 
@@ -70,6 +74,7 @@ public class PlayerHandler : MonoBehaviour
         Flip();
         if (isGrounded())
         {
+            timeLastWallSLideJumped = -100f;
             actualAccel = accel;
             GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
             for (int i = 0; i < gameObjectsWithTag.Length; i++)
@@ -89,7 +94,7 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        wallSlide();
+        //wallSlide();
 
 
 
@@ -120,6 +125,14 @@ public class PlayerHandler : MonoBehaviour
         if (lastGrapple!=null && grapplingRope.isGrappling)
         {
             curVelocity = new Vector2(0f, rb.velocity.y - lastGrapple.y); //prevents grapple rocketing maybe theres a better solution
+        }
+
+
+
+        if (timeLastWallSLideJumped + wallSlideJumpTime > Time.time )
+        {
+            print("hi");
+            playerVelocity = new Vector2(horizontalSpeed + (jumpingPower * wallSlideJumpDir), 0f);
         }
 
         rb.velocity = grapplingVelocity + playerVelocity + curVelocity; //add in velocity based on all 3 componenets
@@ -295,24 +308,39 @@ public class PlayerHandler : MonoBehaviour
     {
         if(isTouchingRightWall() && horizontalInput > 0 && !isGrounded())
         {
-            print(wallSlideForceCur);
             rb.AddForce(new Vector2(0f, wallSlideForceCur), ForceMode2D.Impulse);
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, 0));
             wallSlideForceCur -= (wallSlideForceCur / wallSlideTime);
             wallSlideForceCur = Mathf.Max(wallSlideForceCur, 0);
+
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
+                wallSlideJumpDir = 1;
+                timeLastWallSLideJumped = Time.time;
+            }
 
         }
         else if(isTouchingLeftWall() && horizontalInput < 0 && !isGrounded() ) {
-            print(wallSlideForceCur);
 
             rb.AddForce(new Vector2(0f, wallSlideForceCur), ForceMode2D.Impulse);
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, 0));
             wallSlideForceCur -= (wallSlideForceCur / wallSlideTime);
             wallSlideForceCur = Mathf.Max(wallSlideForceCur, 0);
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
+                wallSlideJumpDir = -1;
+                timeLastWallSLideJumped = Time.time;
+            }
+
         }
         else
         {
-            wallSlideForceCur = wallSlideForce;
+            wallSlideForceCur += (wallSlideForce / wallSlideTime);
+            wallSlideForceCur = Mathf.Min(wallSlideForceCur, wallSlideForce);
         }
     }
 
