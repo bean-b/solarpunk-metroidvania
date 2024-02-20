@@ -94,7 +94,7 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        //wallSlide();
+        wallSlide();
 
 
 
@@ -129,11 +129,10 @@ public class PlayerHandler : MonoBehaviour
 
 
 
-        if (timeLastWallSLideJumped + wallSlideJumpTime > Time.time )
+ /*       if (timeLastWallSLideJumped + wallSlideJumpTime > Time.time )
         {
-            print("hi");
-            playerVelocity = new Vector2(horizontalSpeed + (jumpingPower * wallSlideJumpDir), 0f);
-        }
+            playerVelocity = new Vector2((jumpingPower/3f * wallSlideJumpDir), 0f);
+        }*/
 
         rb.velocity = grapplingVelocity + playerVelocity + curVelocity; //add in velocity based on all 3 componenets
 
@@ -317,7 +316,7 @@ public class PlayerHandler : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
-                wallSlideJumpDir = 1;
+                wallSlideJumpDir = -1;
                 timeLastWallSLideJumped = Time.time;
             }
 
@@ -332,7 +331,7 @@ public class PlayerHandler : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
-                wallSlideJumpDir = -1;
+                wallSlideJumpDir = 1;
                 timeLastWallSLideJumped = Time.time;
             }
 
