@@ -86,7 +86,11 @@ public class GrapplingGun : MonoBehaviour
             Disable();
         }else if (grappleRope.enabled && (Input.GetKeyDown(KeyCode.Space))){
             Disable();
-            playerHandler.doubleJump();
+
+            if (grappleRope.isGrappling)
+            {
+                playerHandler.doubleJump();
+            }
         }
 
     }
