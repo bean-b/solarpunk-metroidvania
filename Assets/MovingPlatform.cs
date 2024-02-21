@@ -61,4 +61,18 @@ public class MovingPlatform : MonoBehaviour
         }
         return _waypoints[_currentWaypointIndex];
     }
+
+    private void OnCollisionEnter2D(Collision2D other) {
+        var playerHandler = other.collider.GetComponent<PlayerHandler>();
+        if(playerHandler != null) {
+            playerHandler.setParent(transform);
+        }
+    }
+
+    private void OnCollisionExit2D(Collision2D other) {
+        var playerHandler = other.collider.GetComponent<PlayerHandler>();
+        if(playerHandler != null) {
+            playerHandler.resetParent();
+        }
+    }
 }

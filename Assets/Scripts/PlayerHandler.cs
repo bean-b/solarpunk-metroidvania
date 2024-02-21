@@ -55,6 +55,8 @@ public class PlayerHandler : MonoBehaviour
     public float curDeadTime = 0; //how long weve been slow 
     public float deadSpeed; // minimum speed to not be considered slow grapling
     public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
+
+    private Transform originalParent;
     
     
 
@@ -62,6 +64,7 @@ public class PlayerHandler : MonoBehaviour
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
     private void Start()
     {
+        originalParent = transform.parent;
         rb.gravityScale = gravityMod;
         wallSlideForceCur = wallSlideForce;
 
@@ -341,6 +344,15 @@ public class PlayerHandler : MonoBehaviour
             wallSlideForceCur += (wallSlideForce / wallSlideTime);
             wallSlideForceCur = Mathf.Min(wallSlideForceCur, wallSlideForce);
         }
+    }
+
+    public void setParent(Transform newParent) {
+        originalParent = transform.parent;
+        transform.parent = newParent;
+    }
+
+    public void resetParent() {
+        transform.parent = originalParent;
     }
 
 }
