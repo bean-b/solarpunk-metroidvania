@@ -66,14 +66,18 @@ public class MovingPlatform : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) { // player standing on platform
         var playerHandler = other.collider.GetComponent<PlayerHandler>();
         if(playerHandler != null) {
-            playerHandler.setParent(transform);
+            if(playerHandler.isGrounded()) {
+                playerHandler.setParent(transform);
+            }
         }
     }
 
     private void OnCollisionExit2D(Collision2D other) { // player leaving platform
         var playerHandler = other.collider.GetComponent<PlayerHandler>();
         if(playerHandler != null) {
-            playerHandler.resetParent();
+            //if(playerHandler.isGrounded()) {
+                playerHandler.resetParent();
+            //}
         }
     }
 }
