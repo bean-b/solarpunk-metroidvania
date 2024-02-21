@@ -9,12 +9,8 @@ public class PlayerHandler : MonoBehaviour
     private float horizontalInput; //horizontal movement 
     private float horizontalMod = 0; //horizontal movement 
     private float horizontalSpeed = 0; //horizontal movement 
-    public float wallSlideForce = 10f;
-    public float wallSlideForceCur = 10f;
-    public float wallSlideTime = 100f;
+
     [SerializeField] private float accel; //speed mod
-    [SerializeField] private float accelFloating; //speed mod
-    private float actualAccel;
     [SerializeField]  private float jumpingPower; //jump power
     [SerializeField]  private float jumpingPowerSecond; //jump power
 
@@ -23,13 +19,7 @@ public class PlayerHandler : MonoBehaviour
 
     public float gravityMod;
     [SerializeField] private float gravityJumpMod;
-    [SerializeField] private float gravityJumpModSecond;
     [SerializeField] private float gravRestoreTime; // higher  = slower
-
-
-    private float timeLastWallSLideJumped= -100f;
-    private float wallSlideJumpDir = 0f;
-    public float wallSlideJumpTime = 0.05f;
 
     private bool isFacingRight = true; //which direction facing
 
@@ -62,33 +52,27 @@ public class PlayerHandler : MonoBehaviour
 
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
+    private Vector2 lastMovement;
     private void Start()
     {
         originalParent = transform.parent;
         rb.gravityScale = gravityMod;
-        wallSlideForceCur = wallSlideForce;
 
     }
 
     private void Update()
     {
         Jump();
-        Movement();
         Flip();
         if (isGrounded())
         {
-            timeLastWallSLideJumped = -100f;
-            actualAccel = accel;
             GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
             for (int i = 0; i < gameObjectsWithTag.Length; i++)
             {
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
         }
-        else
-        {
-            actualAccel = accelFloating;
-        }
+   
 
        
 
@@ -97,9 +81,11 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        wallSlide();
-
-
+        /*     wallSlide();*/
+        if (!grapplingRope.isGrappling)
+        {
+            Movement();
+        }
 
         if (rb.gravityScale < gravityMod)
         {
@@ -121,23 +107,18 @@ public class PlayerHandler : MonoBehaviour
 
 
 
-        Vector2 playerVelocity = new Vector2(horizontalSpeed, 0f); //player control componenet
-        Vector2 grapplingVelocity = grapplingGun.GrappleMovement(playerVelocity);  //grappling component
-        Vector2 curVelocity = new Vector2(0f, rb.velocity.y); //gravity/jumping component
+        Vector2 grapplingVelocity = grapplingGun.GrappleMovement(new Vector2(Input.GetAxis("Horizontal"), 0f));  //grappling component
+        Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y); 
         
         if (lastGrapple!=null && grapplingRope.isGrappling)
         {
-            curVelocity = new Vector2(0f, rb.velocity.y - lastGrapple.y); //prevents grapple rocketing maybe theres a better solution
+            curVelocity = new Vector2(rb.velocity.x - lastGrapple.x, rb.velocity.y - lastGrapple.y); //prevents grapple rocketing maybe theres a better solution
         }
 
 
+        curVelocity = new Vector2(curVelocity.x, curVelocity.y);
 
- /*       if (timeLastWallSLideJumped + wallSlideJumpTime > Time.time )
-        {
-            playerVelocity = new Vector2((jumpingPower/3f * wallSlideJumpDir), 0f);
-        }*/
-
-        rb.velocity = grapplingVelocity + playerVelocity + curVelocity; //add in velocity based on all 3 componenets
+        rb.velocity = grapplingVelocity + curVelocity; //add in velocity based on all 2 componenets
 
 
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)); //clamp based on max speed
@@ -152,7 +133,8 @@ public class PlayerHandler : MonoBehaviour
         }
 
         lastGrapple = grapplingVelocity; //resets last grapple velocity vector
-        
+
+
     }
 
 
@@ -219,35 +201,27 @@ public class PlayerHandler : MonoBehaviour
 
     private void Movement()
     {
-        horizontalInput = Input.GetAxisRaw("Horizontal");//using unity input system, left right (a,d) = horiziontal velocity
 
-        if(horizontalInput == 0f)
-        {
-            horizontalMod *= 0.2f;
-        }
 
-        if(horizontalMod  < 0 && horizontalInput > 0 || horizontalMod > 0 && horizontalInput < 0)
-        {
-            horizontalMod *= 0.8f;
-        }
+        Transform originalParent = transform.parent;
+        transform.parent = null;
+
+
+        float moveHorizontal = Input.GetAxis("Horizontal");
+
+        Vector2 targetVelocity = new Vector2(moveHorizontal * topSpeed, rb.velocity.y);
+
+        Vector2 velocityDiff = targetVelocity - rb.velocity;
+
+        Vector2 force = velocityDiff.x * Vector3.right * accel;
+
+        rb.AddForce(force, ForceMode2D.Force);
+
+
+
+        transform.parent = originalParent;
 
       
-        horizontalMod += horizontalInput * actualAccel;
-
-        float adjustedAccel = Mathf.Abs(horizontalMod); 
-        
-
-        float speedBonus = (Mathf.Log(1f + Mathf.Abs(horizontalMod), 5f + adjustedAccel) * topSpeed); 
-
-        if (horizontalMod > 0)
-            {
-                horizontalSpeed = speedBonus;
-            }
-            else
-            {
-                horizontalSpeed = -speedBonus;
-            }
-
 
     }
     private void Jump()
@@ -267,16 +241,21 @@ public class PlayerHandler : MonoBehaviour
 
 
             private void Flip(){ //flips our sprite if needed
-                if (isFacingRight && rb.velocity.x < 0f || !isFacingRight && rb.velocity.x > 0f){ 
-                    isFacingRight = !isFacingRight;
-                    Vector3 localScale =  transform.localScale;
-                    localScale.x *= -1f;
-                    transform.localScale = localScale;
-                    Vector3 localScaleGun = transform.localScale;
-                    localScaleGun.x *= -1f;
-                    gunPivot.localScale = localScaleGun;
-                } 
-        
+        float flipDeadzone = 0.1f;
+            if ((isFacingRight && rb.velocity.x < -flipDeadzone) || (!isFacingRight && rb.velocity.x > flipDeadzone))
+            {
+                FlipCharacter();
+            }
+        }
+    private void FlipCharacter()
+    {
+        isFacingRight = !isFacingRight;
+        Vector3 localScale = transform.localScale;
+        localScale.x *= -1f;
+        transform.localScale = localScale;
+        Vector3 localScaleGun = transform.localScale;
+        localScaleGun.x *= -1f;
+        gunPivot.localScale = localScaleGun;
     }
         public void doubleJump()
         {
@@ -286,9 +265,9 @@ public class PlayerHandler : MonoBehaviour
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
                 }
-                if (rb.gravityScale > gravityJumpModSecond)
+                if (rb.gravityScale > gravityJumpMod)
                 {
-                    rb.gravityScale = gravityJumpModSecond;
+                    rb.gravityScale = gravityJumpMod;
                 }
                 rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
             }
@@ -306,7 +285,7 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-    private void wallSlide()
+   /* private void wallSlide()
     {
         if(isTouchingRightWall() && horizontalInput > 0 && !isGrounded())
         {
@@ -319,8 +298,8 @@ public class PlayerHandler : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
-                wallSlideJumpDir = -1;
-                timeLastWallSLideJumped = Time.time;
+            *//*    wallSlideJumpDir = -1;
+                timeLastWallSLideJumped = Time.time;*//*
             }
 
         }
@@ -334,8 +313,8 @@ public class PlayerHandler : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
-                wallSlideJumpDir = 1;
-                timeLastWallSLideJumped = Time.time;
+  *//*              wallSlideJumpDir = 1;
+                timeLastWallSLideJumped = Time.time;*//*
             }
 
         }
@@ -345,7 +324,7 @@ public class PlayerHandler : MonoBehaviour
             wallSlideForceCur = Mathf.Min(wallSlideForceCur, wallSlideForce);
         }
     }
-
+*/
     public void setParent(Transform newParent) {
         originalParent = transform.parent;
         transform.parent = newParent;
