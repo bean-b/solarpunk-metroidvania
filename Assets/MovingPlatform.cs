@@ -7,11 +7,12 @@ public class MovingPlatform : MonoBehaviour
 {
     [SerializeField] private Transform[] _waypoints;
     [SerializeField] private float _speed;
-    [SerializeField] private bool _isCircuit;
+    [SerializeField] private bool _isCircuit; // whether it will treat waypoints[]
+                                            //as a circle or a line (will be the same for two)
     private Transform _targetWaypoint;
     private int _currentWaypointIndex=0;
     private float _checkDistance = 0.05f;
-    private bool _frontwards = true;
+    private bool _frontwards = true; //for linear movement
 
     // Start is called before the first frame update
     void Start()
@@ -38,14 +39,14 @@ public class MovingPlatform : MonoBehaviour
 
     }
 
-    private Transform getNextWPCircuit() {
+    private Transform getNextWPCircuit() { // waypoints are in a circuit (a,b,c,a,b,c)
         _currentWaypointIndex++;
         if(_currentWaypointIndex >= _waypoints.Length) {
             _currentWaypointIndex = 0;
         }
         return _waypoints[_currentWaypointIndex];
     }
-    private Transform getNextWPLinear() {
+    private Transform getNextWPLinear() { // waypoints are in a line (a,b,c,b,a,b)
         if(_frontwards) {
             _currentWaypointIndex++;
         }else{
@@ -62,14 +63,14 @@ public class MovingPlatform : MonoBehaviour
         return _waypoints[_currentWaypointIndex];
     }
 
-    private void OnCollisionEnter2D(Collision2D other) {
+    private void OnCollisionEnter2D(Collision2D other) { // player standing on platform
         var playerHandler = other.collider.GetComponent<PlayerHandler>();
         if(playerHandler != null) {
             playerHandler.setParent(transform);
         }
     }
 
-    private void OnCollisionExit2D(Collision2D other) {
+    private void OnCollisionExit2D(Collision2D other) { // player leaving platform
         var playerHandler = other.collider.GetComponent<PlayerHandler>();
         if(playerHandler != null) {
             playerHandler.resetParent();
