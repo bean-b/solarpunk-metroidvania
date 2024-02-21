@@ -6,9 +6,6 @@ public class PlayerHandler : MonoBehaviour
 
 
     [SerializeField] private float topSpeed;
-    private float horizontalInput; //horizontal movement 
-    private float horizontalMod = 0; //horizontal movement 
-    private float horizontalSpeed = 0; //horizontal movement 
 
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
@@ -333,6 +330,9 @@ public class PlayerHandler : MonoBehaviour
     public void resetParent() {
         transform.parent = originalParent;
     }
-
+    public void addVelocity(Vector2 vel)
+    {
+        rb.velocity += vel;
+    }
 }
 

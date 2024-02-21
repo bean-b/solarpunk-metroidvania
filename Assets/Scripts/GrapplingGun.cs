@@ -38,7 +38,6 @@ public class GrapplingGun : MonoBehaviour
     [SerializeField] private int lengthImpactReduction;
 
 
-    [SerializeField] private float grappleBackSwingStr;
 
     [SerializeField] private float swingAccel;
 
