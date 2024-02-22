@@ -4,8 +4,9 @@ using UnityEngine;
 public class PlayerHandler : MonoBehaviour
 {
 
-
-    [SerializeField] private float topSpeed;
+    [SerializeField] private float topSpeed3; //sprinting
+     private float topSpeed;
+    [SerializeField] private float topSpeed2; //running
 
     [SerializeField] private float accel; //speed mod
     [SerializeField]  private float jumpingPower; //jump power
@@ -46,7 +47,7 @@ public class PlayerHandler : MonoBehaviour
     private Transform originalParent;
     
     
-
+    public Animator animator;
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
     private Vector2 lastMovement;
@@ -54,6 +55,7 @@ public class PlayerHandler : MonoBehaviour
     {
         originalParent = transform.parent;
         rb.gravityScale = gravityMod;
+        topSpeed = topSpeed2;
 
     }
 
@@ -69,6 +71,32 @@ public class PlayerHandler : MonoBehaviour
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
         }
+
+
+
+        animator.SetBool("FacingRight", isFacingRight);
+        animator.SetBool("IsGrappling", grapplingRope.isGrappling);
+        animator.SetBool("IsGrounded", isGrounded());
+        animator.SetBool("IsWallSlide", false);
+        if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
+        {
+            animator.SetBool("isRunning", true);
+            if (Mathf.Abs(rb.velocity.x) >= topSpeed2 - 1f)
+            {
+                animator.SetBool("IsSprinting", true);
+                topSpeed = topSpeed3;
+            }
+            else
+            {
+                animator.SetBool("IsSprinting", false);
+                topSpeed = topSpeed2;
+            }
+        }
+        else
+        {
+            animator.SetBool("isRunning", false);
+        }
+        
    
 
        
@@ -78,7 +106,7 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        /*     wallSlide();*/
+        /*wallSlide();*/
         if (!grapplingRope.isGrappling)
         {
             Movement();
