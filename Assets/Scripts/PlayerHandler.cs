@@ -35,7 +35,7 @@ public class PlayerHandler : MonoBehaviour
     public Transform groundCheckStartPoint; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
     public LayerMask groundLayer; //this layermask controls what counts as 'ground', add more layers for dif types of ground etc..
     [SerializeField] private Transform gunPivot; //where the gun pivots from. currently set from the center of the player for gameplay reasons, can add sprites later though 
-    [SerializeField] private GrapplingRope grapplingRope; // our grappling rope
+    [SerializeField] public GrapplingRope grapplingRope; // our grappling rope
     [SerializeField] private GrapplingGun grapplingGun; //our grappling gun 
 
     public float maxDeadTime; // max time we can be slow while grapling before it breaks
@@ -275,6 +275,13 @@ public class PlayerHandler : MonoBehaviour
     {
         transform.position = new Vector3 (-11f, -4.8f, 0f);
         rb.velocity = Vector3.zero;
+        if(grapplingRope.isGrappling)
+        {
+            grapplingRope.OnDisable();
+        }
+    }
+    public void forceMovement(Vector2 snap) {
+        transform.position = snap;
         if(grapplingRope.isGrappling)
         {
             grapplingRope.OnDisable();
