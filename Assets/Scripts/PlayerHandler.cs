@@ -45,7 +45,7 @@ public class PlayerHandler : MonoBehaviour
     public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
 
     private Transform originalParent;
-    
+
     
     public Animator animator;
 
@@ -95,6 +95,15 @@ public class PlayerHandler : MonoBehaviour
         else
         {
             animator.SetBool("isRunning", false);
+        }
+        if(rb.velocity.y > topSpeed2/ 10f)
+        {
+            animator.SetBool("IsJumping", true);
+            print("true");
+        }
+        else
+        {
+            animator.SetBool("IsJumping", false);
         }
         
    
