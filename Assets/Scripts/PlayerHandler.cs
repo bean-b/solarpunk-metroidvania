@@ -75,7 +75,7 @@ public class PlayerHandler : MonoBehaviour
 
 
         animator.SetBool("FacingRight", isFacingRight);
-        animator.SetBool("IsGrappling", grapplingRope.isGrappling);
+        animator.SetBool("IsGrappling", grapplingRope.enabled);
         animator.SetBool("IsGrounded", isGrounded());
         animator.SetBool("IsWallSlide", false);
         if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
@@ -96,10 +96,9 @@ public class PlayerHandler : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
-        if(rb.velocity.y > topSpeed2/ 10f)
+        if(rb.velocity.y > topSpeed2 / 10f)
         {
             animator.SetBool("IsJumping", true);
-            print("true");
         }
         else
         {
