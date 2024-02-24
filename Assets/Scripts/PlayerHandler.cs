@@ -75,6 +75,7 @@ public class PlayerHandler : MonoBehaviour
 
 
         animator.SetBool("FacingRight", isFacingRight);
+        print(isFacingRight);
         animator.SetBool("IsGrappling", grapplingRope.enabled);
         animator.SetBool("IsGrounded", isGrounded());
         animator.SetBool("IsWallSlide", false);

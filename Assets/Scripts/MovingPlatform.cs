@@ -76,7 +76,19 @@ public class MovingPlatform : MonoBehaviour
         var playerHandler = other.collider.GetComponent<PlayerHandler>();
         if(playerHandler != null) {
             playerHandler.resetParent();
-            playerHandler.addVelocity(GetComponent<Rigidbody2D>().velocity);
+
+            Vector2 velocity = GetComponent<Rigidbody2D>().velocity;
+
+            if (velocity.y < 0)
+            {
+                playerHandler.addVelocity(new Vector2(velocity.x, 0f));
+            }
+            else
+            {
+                playerHandler.addVelocity(velocity);
+            }
+
+          
         }
     }
 }
