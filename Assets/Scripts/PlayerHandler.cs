@@ -99,10 +99,19 @@ public class PlayerHandler : MonoBehaviour
         if(rb.velocity.y > topSpeed2 / 10f)
         {
             animator.SetBool("IsJumping", true);
+            animator.SetBool("IsFalling", false);
         }
         else
         {
             animator.SetBool("IsJumping", false);
+            if(rb.velocity.y < -topSpeed2 / 20f)
+            {
+                animator.SetBool("IsFalling", true);
+            }
+            else
+            {
+                animator.SetBool("IsFalling", false);
+            }
         }
         
    
