@@ -87,7 +87,7 @@ public class PlayerHandler : MonoBehaviour
         if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
         {
             animator.SetBool("isRunning", true);
-            if (Mathf.Abs(rb.velocity.x) >= topSpeed2 - topSpeed2/30f)
+            if (Mathf.Abs(rb.velocity.x) >= topSpeed2 - topSpeed2/50f)
             {
                 animator.SetBool("IsSprinting", true);
                 topSpeed = topSpeed3;
