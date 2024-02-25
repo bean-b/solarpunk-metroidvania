@@ -21,7 +21,7 @@ public class PlayerHandler : MonoBehaviour
 
     private bool isFacingRight = true; //which direction facing
 
-
+    public float wallSlideSpeed;
 
     public Rigidbody2D rb; //our rigid body
 
@@ -45,6 +45,7 @@ public class PlayerHandler : MonoBehaviour
     public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
 
     private Transform originalParent;
+    public bool wallSliding = false;
 
     
     public Animator animator;
@@ -56,13 +57,14 @@ public class PlayerHandler : MonoBehaviour
         originalParent = transform.parent;
         rb.gravityScale = gravityMod;
         topSpeed = topSpeed2;
-
+        
     }
 
     private void Update()
     {
         Jump();
         Flip();
+        wallSlide();
         if (isGrounded())
         {
             GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
@@ -72,13 +74,16 @@ public class PlayerHandler : MonoBehaviour
             }
         }
 
+        animatorSettings();
+    }
 
 
+    private void animatorSettings()
+    {
         animator.SetBool("FacingRight", isFacingRight);
-        print(isFacingRight);
         animator.SetBool("IsGrappling", grapplingRope.enabled);
         animator.SetBool("IsGrounded", isGrounded());
-        animator.SetBool("IsWallSlide", false);
+        animator.SetBool("IsWallSlide", wallSliding);
         if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
         {
             animator.SetBool("isRunning", true);
@@ -97,7 +102,7 @@ public class PlayerHandler : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
-        if(rb.velocity.y > topSpeed2 / 10f)
+        if (rb.velocity.y > topSpeed2 / 10f)
         {
             animator.SetBool("IsJumping", true);
             animator.SetBool("IsFalling", false);
@@ -105,7 +110,7 @@ public class PlayerHandler : MonoBehaviour
         else
         {
             animator.SetBool("IsJumping", false);
-            if(rb.velocity.y < -topSpeed2 / 20f)
+            if (rb.velocity.y < -topSpeed2 / 20f)
             {
                 animator.SetBool("IsFalling", true);
             }
@@ -114,13 +119,6 @@ public class PlayerHandler : MonoBehaviour
                 animator.SetBool("IsFalling", false);
             }
         }
-        
-   
-
-       
-
-
-
     }
     private void FixedUpdate()
     {
@@ -335,46 +333,62 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-   /* private void wallSlide()
+    private void wallSlide()
     {
-        if(isTouchingRightWall() && horizontalInput > 0 && !isGrounded())
+        float horizontalInput = Input.GetAxis("Horizontal");
+
+        if ((isTouchingLeftWall()||(isTouchingRightWall()) && horizontalInput > 0))
         {
-            rb.AddForce(new Vector2(0f, wallSlideForceCur), ForceMode2D.Impulse);
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, 0));
-            wallSlideForceCur -= (wallSlideForceCur / wallSlideTime);
-            wallSlideForceCur = Mathf.Max(wallSlideForceCur, 0);
-
-
+            if (rb.velocity.y < 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            }
+            wallSliding = true;
+            print(Time.time);
+            if (isFacingRight)
+            {
+                FlipCharacter();
+            }
             if (Input.GetButtonDown("Jump"))
             {
-                rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
-            *//*    wallSlideJumpDir = -1;
-                timeLastWallSLideJumped = Time.time;*//*
+                if (rb.velocity.y < 0f)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
+                }
+                rb.AddForce(new Vector2(jumpingPower, jumpingPower), ForceMode2D.Impulse);
+
             }
 
         }
-        else if(isTouchingLeftWall() && horizontalInput < 0 && !isGrounded() ) {
+/*        else if ((isTouchingLeftWall() && horizontalInput < 0) || ((wallSliding && isTouchingRightWall()) && horizontalInput < 0) && !isGrounded())
+        {
 
-            rb.AddForce(new Vector2(0f, wallSlideForceCur), ForceMode2D.Impulse);
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Min(rb.velocity.y, 0));
-            wallSlideForceCur -= (wallSlideForceCur / wallSlideTime);
-            wallSlideForceCur = Mathf.Max(wallSlideForceCur, 0);
-
+            if (rb.velocity.y < 0)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+            }
+            wallSliding = true;
+            if (!isFacingRight)
+            {   
+                FlipCharacter();
+            }
             if (Input.GetButtonDown("Jump"))
             {
-                rb.AddForce(new Vector2(0, jumpingPower), ForceMode2D.Impulse);
-  *//*              wallSlideJumpDir = 1;
-                timeLastWallSLideJumped = Time.time;*//*
+                if (rb.velocity.y < 0f)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
+                }
+                rb.AddForce(new Vector2(-jumpingPower, jumpingPower), ForceMode2D.Impulse);
+
             }
 
-        }
-        else
-        {
-            wallSlideForceCur += (wallSlideForce / wallSlideTime);
-            wallSlideForceCur = Mathf.Min(wallSlideForceCur, wallSlideForce);
+        }*/
+        else if(!isTouchingRightWall()) { 
+        
+            wallSliding = false;
         }
     }
-*/
+
     public void setParent(Transform newParent) {
         originalParent = transform.parent;
         transform.parent = newParent;
