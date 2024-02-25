@@ -23,13 +23,15 @@ public class PlayerHandler : MonoBehaviour
 
     public float wallSlideSpeed;
 
+    public float wallSlideSpeedactual;
+
     public Rigidbody2D rb; //our rigid body
 
     public float groundCheckDistance = 1.5f; // How far down we check for ground
     public int numberOfRays = 5; // Number of rays to cast
     public float width = 3f;
     public float height = 1f;
-
+    private int wallSlideJumps = 1;
 
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
@@ -45,13 +47,12 @@ public class PlayerHandler : MonoBehaviour
     public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
 
     private Transform originalParent;
-    public bool wallSliding = false;
-
+    [HideInInspector] public float wallSlidingTime = -100f;
+    public float wallSlideDelay = 0.5f;
     
     public Animator animator;
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
-    private Vector2 lastMovement;
     private void Start()
     {
         originalParent = transform.parent;
@@ -64,7 +65,7 @@ public class PlayerHandler : MonoBehaviour
     {
         Jump();
         Flip();
-       /* wallSlide();*/
+        
         if (isGrounded())
         {
             GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
@@ -72,6 +73,7 @@ public class PlayerHandler : MonoBehaviour
             {
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
+            wallSlideJumps = 1;
         }
 
         animatorSettings();
@@ -83,7 +85,19 @@ public class PlayerHandler : MonoBehaviour
         animator.SetBool("FacingRight", isFacingRight);
         animator.SetBool("IsGrappling", grapplingRope.enabled);
         animator.SetBool("IsGrounded", isGrounded());
-        animator.SetBool("IsWallSlide", wallSliding);
+
+
+        if(wallSlidingTime + wallSlideDelay > Time.time)
+        {
+            animator.SetBool("IsWallSlide", true);
+        }
+        else
+        {
+            animator.SetBool("IsWallSlide", false);
+        }
+
+        
+        
         if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
         {
             animator.SetBool("isRunning", true);
@@ -122,7 +136,7 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        /*wallSlide();*/
+       
         if (!grapplingRope.isGrappling)
         {
             Movement();
@@ -147,6 +161,17 @@ public class PlayerHandler : MonoBehaviour
         }
 
 
+        if (!(wallSlidingTime + wallSlideDelay > Time.time))
+        {
+            if (wallSlideSpeedactual > wallSlideSpeed)
+            {
+                wallSlideSpeedactual -= (wallSlideSpeedactual - wallSlideSpeed) / gravRestoreTime + 0.01f;
+                if (wallSlideSpeedactual < wallSlideSpeed)
+                {
+                    wallSlideSpeedactual = wallSlideSpeed;
+                }
+            }
+        }
 
         Vector2 grapplingVelocity = grapplingGun.GrappleMovement(new Vector2(Input.GetAxis("Horizontal"), 0f));  //grappling component
         Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y); 
@@ -175,7 +200,7 @@ public class PlayerHandler : MonoBehaviour
 
         lastGrapple = grapplingVelocity; //resets last grapple velocity vector
 
-
+        wallSlide();
     }
 
 
@@ -281,12 +306,12 @@ public class PlayerHandler : MonoBehaviour
     }
 
 
-            private void Flip(){ //flips our sprite if needed
+    private void Flip(){ //flips our sprite if needed
         float flipDeadzone = 0.1f;
-            if ((isFacingRight && rb.velocity.x < -flipDeadzone) || (!isFacingRight && rb.velocity.x > flipDeadzone))
-            {
-                FlipCharacter();
-            }
+        if ((isFacingRight && rb.velocity.x < -flipDeadzone) || (!isFacingRight && rb.velocity.x > flipDeadzone))
+        {
+            FlipCharacter();
+        }
         }
     private void FlipCharacter()
     {
@@ -337,56 +362,67 @@ public class PlayerHandler : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
 
-        if ((isTouchingLeftWall()||(isTouchingRightWall()) && horizontalInput > 0))
+         bool wallSlideing = (wallSlidingTime + wallSlideDelay > Time.time);
+
+        if (((wallSlideing && isTouchingLeftWall()) || isTouchingRightWall()) && horizontalInput > 0)
         {
             if (rb.velocity.y < 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
             }
-            wallSliding = true;
-            print(Time.time);
+            wallSlidingTime = Time.time;
             if (isFacingRight)
             {
                 FlipCharacter();
             }
-            if (Input.GetButtonDown("Jump"))
-            {
-                if (rb.velocity.y < 0f)
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
-                }
-                rb.AddForce(new Vector2(jumpingPower, jumpingPower), ForceMode2D.Impulse);
 
+
+            if(wallSlideSpeedactual < gravityMod * 4f)
+            {
+                wallSlideSpeedactual += 0.1f;
             }
+            
 
         }
-/*        else if ((isTouchingLeftWall() && horizontalInput < 0) || ((wallSliding && isTouchingRightWall()) && horizontalInput < 0) && !isGrounded())
+        else if (((wallSlideing && isTouchingRightWall()) || isTouchingLeftWall()) && horizontalInput < 0)
         {
-
             if (rb.velocity.y < 0)
             {
-                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeed);
+                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
             }
-            wallSliding = true;
+            wallSlidingTime = Time.time;
             if (!isFacingRight)
-            {   
+            {
                 FlipCharacter();
             }
-            if (Input.GetButtonDown("Jump"))
-            {
-                if (rb.velocity.y < 0f)
-                {
-                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
-                }
-                rb.AddForce(new Vector2(-jumpingPower, jumpingPower), ForceMode2D.Impulse);
 
+            if (wallSlideSpeedactual < gravityMod * 4f)
+            {
+                wallSlideSpeedactual += 0.1f;
+            }
+        }
+        
+      
+
+        if (wallSlideing && Input.GetButtonDown("Jump") && wallSlideJumps > 0) {
+            if (rb.velocity.y < 0f)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
             }
 
-        }*/
-        else if(!isTouchingRightWall()) { 
-        
-            wallSliding = false;
+            if (isFacingRight)
+            {
+                rb.AddForce(new Vector2(jumpingPower * -2f, jumpingPower * 1.5f), ForceMode2D.Impulse);
+            }
+            else
+            {
+                rb.AddForce(new Vector2(jumpingPower * -2f , jumpingPower * 1.5f), ForceMode2D.Impulse);
+            }
+            wallSlideJumps--;
+
         }
+         
+
     }
 
     public void setParent(Transform newParent) {
