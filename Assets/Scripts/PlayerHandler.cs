@@ -64,7 +64,7 @@ public class PlayerHandler : MonoBehaviour
     {
         Jump();
         Flip();
-        wallSlide();
+       /* wallSlide();*/
         if (isGrounded())
         {
             GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
@@ -87,7 +87,7 @@ public class PlayerHandler : MonoBehaviour
         if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
         {
             animator.SetBool("isRunning", true);
-            if (Mathf.Abs(rb.velocity.x) >= topSpeed2 - 1f)
+            if (Mathf.Abs(rb.velocity.x) >= topSpeed2 - topSpeed2/30f)
             {
                 animator.SetBool("IsSprinting", true);
                 topSpeed = topSpeed3;
