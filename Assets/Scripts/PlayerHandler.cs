@@ -55,6 +55,7 @@ public class PlayerHandler : MonoBehaviour
     public Animator animator;
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
+    private Vector2 lastWallJump;
     private void Start()
     {
         originalParent = transform.parent;
@@ -177,26 +178,34 @@ public class PlayerHandler : MonoBehaviour
         }
 
         Vector2 grapplingVelocity = grapplingGun.GrappleMovement(new Vector2(Input.GetAxis("Horizontal"), 0f));  //grappling component
-        Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y); 
+        Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
+        Vector2 wallJump = new Vector2(0f, 0f);
         
         if (lastGrapple!=null && grapplingRope.isGrappling)
         {
             curVelocity = new Vector2(rb.velocity.x - lastGrapple.x, rb.velocity.y - lastGrapple.y); //prevents grapple rocketing maybe theres a better solution
         }
 
-
-        rb.velocity = grapplingVelocity + curVelocity; //add in velocity based on all 2 componenets
-
-
-        if (wallSlideJumpTime + wallSlideDelay*2f > Time.time)
+        if(wallSlideJumpTime + wallSlideDelay *2f > Time.time)
         {
-            rb.velocity = new Vector2(rb.velocity.x + (3f * wallJumpDir), rb.velocity.y + (2f)); //this needs to be differnt lol
+            float elapsedTimeRatio = (Time.time - wallSlideJumpTime) / (wallSlideDelay * 2);
+
+            float currentSpeedBonus = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
+
+
+            wallJump += new Vector2(currentSpeedBonus*wallJumpDir, currentSpeedBonus);
+            curVelocity -= lastWallJump;
         }
+        rb.velocity = grapplingVelocity + curVelocity + wallJump; //add in velocity based on all 2 componenets
+
+
+
 
 
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)); //clamp based on max speed
         
         if(rb.velocity.sqrMagnitude < deadSpeed && grapplingRope.isGrappling) {
+
             curDeadTime++; //if slow and grapling increase dead time
         }
         if(curDeadTime > maxDeadTime) {
@@ -206,7 +215,7 @@ public class PlayerHandler : MonoBehaviour
         }
 
         lastGrapple = grapplingVelocity; //resets last grapple velocity vector
-
+        lastWallJump = wallJump;
         wallSlide();
     }
 
