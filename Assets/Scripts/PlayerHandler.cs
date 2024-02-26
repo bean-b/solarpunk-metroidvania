@@ -56,6 +56,9 @@ public class PlayerHandler : MonoBehaviour
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
     private Vector2 lastWallJump;
+
+    private float wallSlideDuration = 0f;
+
     private void Start()
     {
         originalParent = transform.parent;
@@ -78,6 +81,23 @@ public class PlayerHandler : MonoBehaviour
             }
             wallSlideJumps = 1;
             wallSlideJumpTime = -100f;
+            wallSlideDuration = 0f;
+        }
+
+        float horizontalInput = Input.GetAxis("Horizontal");
+        if (isTouchingRightWall() && horizontalInput > 0)
+        {
+            animator.SetBool("IsWallSlide", true);
+
+
+        }
+        else if (isTouchingLeftWall() && horizontalInput < 0)
+        {
+            animator.SetBool("IsWallSlide", true);
+        }
+        else
+        {
+            animator.SetBool("IsWallSlide", false);
         }
 
         animatorSettings();
@@ -90,15 +110,15 @@ public class PlayerHandler : MonoBehaviour
         animator.SetBool("IsGrappling", grapplingRope.enabled);
         animator.SetBool("IsGrounded", isGrounded());
 
-
-        if(wallSlidingTime + wallSlideDelay/10f > Time.time)
+/*
+        if(wallSlidingTime + wallSlideDelay/15f > Time.time)
         {
             animator.SetBool("IsWallSlide", true);
         }
         else
         {
             animator.SetBool("IsWallSlide", false);
-        }
+        }*/
 
         
         
@@ -141,7 +161,7 @@ public class PlayerHandler : MonoBehaviour
     private void FixedUpdate()
     {
        
-        if (!grapplingRope.isGrappling)
+        if (!grapplingRope.isGrappling && !(wallSlideJumpTime + wallSlideDelay * 2f > Time.time))
         {
             Movement();
         }
@@ -295,10 +315,8 @@ public class PlayerHandler : MonoBehaviour
         Vector2 velocityDiff = targetVelocity - rb.velocity;
 
         Vector2 force = velocityDiff.x * Vector3.right * accel;
-        if (!(wallSlideJumpTime + wallSlideDelay*2f > Time.time))
-        {
-            rb.AddForce(force, ForceMode2D.Force);
-        }
+        
+        rb.AddForce(force, ForceMode2D.Force);
 
 
 
@@ -337,6 +355,8 @@ public class PlayerHandler : MonoBehaviour
         }
     private void FlipCharacter()
     {
+
+       
         isFacingRight = !isFacingRight;
         Vector3 localScale = transform.localScale;
         localScale.x *= -1f;
@@ -393,35 +413,41 @@ public class PlayerHandler : MonoBehaviour
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
             }
             wallSlidingTime = Time.time;
+            wallSlideDuration++;
 
-
-
-            if(wallSlideSpeedactual < gravityMod * 4f)
+            if (wallSlideSpeedactual < gravityMod * 4f)
             {
                 wallSlideSpeedactual += 0.1f;
             }
-            
-                
+
+
         }
-        
-        if (isTouchingLeftWall() && horizontalInput < 0)
+        else if (isTouchingLeftWall() && horizontalInput < 0)
         {
             if (rb.velocity.y < 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
             }
             wallSlidingTime = Time.time;
-
+            wallSlideDuration++;
 
             if (wallSlideSpeedactual < gravityMod * 4f)
             {
                 wallSlideSpeedactual += 0.1f;
             }
         }
+        else
+        {
+            wallSlideDuration-=2;
+            if(wallSlideDuration < 0)
+            {
+                wallSlideDuration = 0;
+            }
+        }
         
       
 
-        if ((wallSlidingTime - 0.25f < Time.time) && wallSlideing && Input.GetButton("Jump") && wallSlideJumps > 0 && !isGrounded()) {
+        if (wallSlideDuration > 10 && wallSlideing && Input.GetButton("Jump") && wallSlideJumps > 0 && !isGrounded()) {
             if (rb.velocity.y < 0f)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
