@@ -49,7 +49,9 @@ public class PlayerHandler : MonoBehaviour
     private Transform originalParent;
     [HideInInspector] public float wallSlidingTime = -100f;
     public float wallSlideDelay = 0.5f;
-    
+
+    private float wallSlideJumpTime = -100f;
+    private float wallJumpDir = 1;
     public Animator animator;
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
@@ -182,9 +184,13 @@ public class PlayerHandler : MonoBehaviour
         }
 
 
-        curVelocity = new Vector2(curVelocity.x, curVelocity.y);
-
         rb.velocity = grapplingVelocity + curVelocity; //add in velocity based on all 2 componenets
+
+
+        if (wallSlideJumpTime + wallSlideDelay > Time.time)
+        {
+            rb.velocity = new Vector2(rb.velocity.x + (3f * wallJumpDir), rb.velocity.y + (3f));
+        }
 
 
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)); //clamp based on max speed
@@ -217,7 +223,6 @@ public class PlayerHandler : MonoBehaviour
             if (hit.collider != null)
             {
                 isGrounded = true;
-                // Optionally, handle ground angle here based on hit.normal
                 break;
             }
         }
@@ -280,8 +285,11 @@ public class PlayerHandler : MonoBehaviour
         Vector2 velocityDiff = targetVelocity - rb.velocity;
 
         Vector2 force = velocityDiff.x * Vector3.right * accel;
+        if (!(wallSlideJumpTime + wallSlideDelay*2f > Time.time))
+        {
+            rb.AddForce(force, ForceMode2D.Force);
+        }
 
-        rb.AddForce(force, ForceMode2D.Force);
 
 
 
@@ -294,8 +302,12 @@ public class PlayerHandler : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling) //can jump?
         {
-            if (isGrounded())
+            if (isGrounded() && !(wallSlidingTime + wallSlideDelay > Time.time))
             {
+                if (rb.velocity.y < 0f)
+                {
+                    rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
+                }
                 rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
                 if (rb.gravityScale > gravityJumpMod)
                 {
@@ -346,7 +358,7 @@ public class PlayerHandler : MonoBehaviour
         rb.velocity = Vector3.zero;
         if(grapplingRope.isGrappling)
         {
-            grapplingRope.OnDisable();
+            grapplingRope.enabled = false;
         }
     }
     public void forceMovement(Vector2 snap) {
@@ -404,20 +416,20 @@ public class PlayerHandler : MonoBehaviour
         
       
 
-        if (wallSlideing && Input.GetButtonDown("Jump") && wallSlideJumps > 0) {
+        if (wallSlideing && Input.GetButton("Jump") && wallSlideJumps > 0) {
             if (rb.velocity.y < 0f)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
             }
+            wallJumpDir = isFacingRight ? 1f : -1f;
 
-            if (isFacingRight)
+/*            FlipCharacter();*/
+/*            rb.AddForce(new Vector2(jumpingPower * wallJumpDir, 0f), ForceMode2D.Impulse);*/
+            if (rb.gravityScale > gravityJumpMod)
             {
-                rb.AddForce(new Vector2(jumpingPower * -2f, jumpingPower * 1.5f), ForceMode2D.Impulse);
+                rb.gravityScale = gravityJumpMod;
             }
-            else
-            {
-                rb.AddForce(new Vector2(jumpingPower * -2f , jumpingPower * 1.5f), ForceMode2D.Impulse);
-            }
+            wallSlideJumpTime = Time.time;
             wallSlideJumps--;
 
         }
