@@ -91,7 +91,7 @@ public class PlayerHandler : MonoBehaviour
         animator.SetBool("IsGrounded", isGrounded());
 
 
-        if(wallSlidingTime + wallSlideDelay/5f > Time.time)
+        if(wallSlidingTime + wallSlideDelay > Time.time)
         {
             animator.SetBool("IsWallSlide", true);
         }
@@ -246,7 +246,7 @@ public class PlayerHandler : MonoBehaviour
 
         for (int i = 0; i < numberOfRays; i++)
         {
-            Vector2 rayStart = leftCheckStartPoint.position - Vector3.up * (height / 2) + Vector3.up * (distanceBetweenRays * i);
+            Vector2 rayStart = rightCheckStartPoint.position - Vector3.up * (height / 2) + Vector3.up * (distanceBetweenRays * i);
             RaycastHit2D hit = Physics2D.Raycast(rayStart, Vector2.left, groundCheckDistance, groundLayer);
 
             if (hit.collider != null)
@@ -401,9 +401,10 @@ public class PlayerHandler : MonoBehaviour
                 wallSlideSpeedactual += 0.1f;
             }
             
-
+                
         }
-        else if (isTouchingRightWall() && horizontalInput < 0)
+        
+        if (isTouchingLeftWall() && horizontalInput < 0)
         {
             if (rb.velocity.y < 0)
             {
