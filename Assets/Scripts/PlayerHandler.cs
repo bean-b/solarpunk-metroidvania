@@ -76,6 +76,7 @@ public class PlayerHandler : MonoBehaviour
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
             wallSlideJumps = 1;
+            wallSlideJumpTime = -100f;
         }
 
         animatorSettings();
@@ -187,9 +188,9 @@ public class PlayerHandler : MonoBehaviour
         rb.velocity = grapplingVelocity + curVelocity; //add in velocity based on all 2 componenets
 
 
-        if (wallSlideJumpTime + wallSlideDelay > Time.time)
+        if (wallSlideJumpTime + wallSlideDelay*2f > Time.time)
         {
-            rb.velocity = new Vector2(rb.velocity.x + (3f * wallJumpDir), rb.velocity.y + (3f));
+            rb.velocity = new Vector2(rb.velocity.x + (3f * wallJumpDir), rb.velocity.y + (2f)); //this needs to be differnt lol
         }
 
 
@@ -376,17 +377,14 @@ public class PlayerHandler : MonoBehaviour
 
          bool wallSlideing = (wallSlidingTime + wallSlideDelay > Time.time);
 
-        if (((wallSlideing && isTouchingLeftWall()) || isTouchingRightWall()) && horizontalInput > 0)
+        if (isTouchingRightWall() && horizontalInput > 0)
         {
             if (rb.velocity.y < 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
             }
             wallSlidingTime = Time.time;
-            if (isFacingRight)
-            {
-                FlipCharacter();
-            }
+
 
 
             if(wallSlideSpeedactual < gravityMod * 4f)
@@ -396,17 +394,14 @@ public class PlayerHandler : MonoBehaviour
             
 
         }
-        else if (((wallSlideing && isTouchingRightWall()) || isTouchingLeftWall()) && horizontalInput < 0)
+        else if (isTouchingLeftWall() && horizontalInput < 0)
         {
             if (rb.velocity.y < 0)
             {
                 rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
             }
             wallSlidingTime = Time.time;
-            if (!isFacingRight)
-            {
-                FlipCharacter();
-            }
+
 
             if (wallSlideSpeedactual < gravityMod * 4f)
             {
@@ -421,14 +416,12 @@ public class PlayerHandler : MonoBehaviour
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
             }
-            wallJumpDir = isFacingRight ? 1f : -1f;
-
-/*            FlipCharacter();*/
-/*            rb.AddForce(new Vector2(jumpingPower * wallJumpDir, 0f), ForceMode2D.Impulse);*/
+            wallJumpDir = isFacingRight ? -1f : 1f;
             if (rb.gravityScale > gravityJumpMod)
             {
                 rb.gravityScale = gravityJumpMod;
             }
+           /* rb.AddForce(new Vector2(-10f, 10f));*/
             wallSlideJumpTime = Time.time;
             wallSlideJumps--;
 
