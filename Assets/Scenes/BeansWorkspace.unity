@@ -1830,7 +1830,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: groundCheckDistance
-      value: 2
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+      propertyPath: leftCheckStartPoint
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: jumpingSecondGravReduction

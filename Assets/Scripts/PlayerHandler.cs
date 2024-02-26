@@ -91,7 +91,7 @@ public class PlayerHandler : MonoBehaviour
         animator.SetBool("IsGrounded", isGrounded());
 
 
-        if(wallSlidingTime + wallSlideDelay > Time.time)
+        if(wallSlidingTime + wallSlideDelay/10f > Time.time)
         {
             animator.SetBool("IsWallSlide", true);
         }
@@ -421,7 +421,7 @@ public class PlayerHandler : MonoBehaviour
         
       
 
-        if (wallSlideing && Input.GetButton("Jump") && wallSlideJumps > 0) {
+        if ((wallSlidingTime - 0.25f < Time.time) && wallSlideing && Input.GetButton("Jump") && wallSlideJumps > 0 && !isGrounded()) {
             if (rb.velocity.y < 0f)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
