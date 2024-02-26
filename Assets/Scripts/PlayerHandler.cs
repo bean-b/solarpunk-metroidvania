@@ -31,7 +31,6 @@ public class PlayerHandler : MonoBehaviour
     public int numberOfRays = 5; // Number of rays to cast
     public float width = 3f;
     public float height = 1f;
-    private int wallSlideJumps = 1;
 
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
@@ -71,7 +70,7 @@ public class PlayerHandler : MonoBehaviour
     {
         Jump();
         Flip();
-        
+        wallJump();
         if (isGrounded())
         {
             GameObject[] gameObjectsWithTag = GameObject.FindGameObjectsWithTag("GrapplePoint");
@@ -79,7 +78,6 @@ public class PlayerHandler : MonoBehaviour
             {
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
-            wallSlideJumps = 1;
             wallSlideJumpTime = -100f;
             wallSlideDuration = 0f;
         }
@@ -101,6 +99,7 @@ public class PlayerHandler : MonoBehaviour
         }
 
         animatorSettings();
+
     }
 
 
@@ -404,7 +403,6 @@ public class PlayerHandler : MonoBehaviour
     {
         float horizontalInput = Input.GetAxis("Horizontal");
 
-         bool wallSlideing = (wallSlidingTime + wallSlideDelay > Time.time);
 
         if (isTouchingRightWall() && horizontalInput > 0)
         {
@@ -444,10 +442,12 @@ public class PlayerHandler : MonoBehaviour
                 wallSlideDuration = 0;
             }
         }
-        
-      
+    }
 
-        if (wallSlideDuration > 10 && wallSlideing && Input.GetButton("Jump") && wallSlideJumps > 0 && !isGrounded()) {
+    private void wallJump()
+    {
+        if (wallSlideDuration > 5 && (wallSlidingTime + wallSlideDelay > Time.time) && Input.GetButtonDown("Jump") && !isGrounded())
+        {
             if (rb.velocity.y < 0f)
             {
                 rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
@@ -457,13 +457,8 @@ public class PlayerHandler : MonoBehaviour
             {
                 rb.gravityScale = gravityJumpMod;
             }
-           /* rb.AddForce(new Vector2(-10f, 10f));*/
             wallSlideJumpTime = Time.time;
-            wallSlideJumps--;
-
         }
-         
-
     }
 
     public void setParent(Transform newParent) {
