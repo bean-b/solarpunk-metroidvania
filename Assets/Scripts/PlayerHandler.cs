@@ -91,7 +91,7 @@ public class PlayerHandler : MonoBehaviour
         animator.SetBool("IsGrounded", isGrounded());
 
 
-        if(wallSlidingTime + wallSlideDelay > Time.time)
+        if(wallSlidingTime + wallSlideDelay/5f > Time.time)
         {
             animator.SetBool("IsWallSlide", true);
         }
@@ -403,7 +403,7 @@ public class PlayerHandler : MonoBehaviour
             
 
         }
-        else if (isTouchingLeftWall() && horizontalInput < 0)
+        else if (isTouchingRightWall() && horizontalInput < 0)
         {
             if (rb.velocity.y < 0)
             {
