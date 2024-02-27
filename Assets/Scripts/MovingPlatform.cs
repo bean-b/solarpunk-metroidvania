@@ -14,15 +14,21 @@ public class MovingPlatform : MonoBehaviour
     private float checkDistance = 0.05f;
     private bool frontwards = true; //for linear movement
 
+    private Vector2 lastPos;
+
+
     // Start is called before the first frame update
     void Start()
     {
         targetWaypoint = waypoints[0];
+        lastPos = transform.position;
     }
 
     // Update is called once per frame
     void Update()
     {
+        lastPos = transform.position;
+
         transform.position = Vector2.MoveTowards(
             transform.position,
             targetWaypoint.position,
@@ -36,6 +42,8 @@ public class MovingPlatform : MonoBehaviour
             }
             
         }
+
+        
 
     }
 
@@ -77,15 +85,16 @@ public class MovingPlatform : MonoBehaviour
         if(playerHandler != null) {
             playerHandler.resetParent();
 
-            Vector2 velocity = GetComponent<Rigidbody2D>().velocity;
+            Vector2 velocity = new Vector2(transform.position.x, transform.position.y) - lastPos;
+            velocity *= 600;
 
             if (velocity.y < 0)
             {
-                playerHandler.addVelocity(new Vector2(velocity.x, 0f));
+                playerHandler.addForce(new Vector2(velocity.x, 0f));
             }
             else
             {
-                playerHandler.addVelocity(velocity);
+                playerHandler.addForce(velocity);
             }
 
           

@@ -469,9 +469,9 @@ public class PlayerHandler : MonoBehaviour
     public void resetParent() {
         transform.parent = originalParent;
     }
-    public void addVelocity(Vector2 vel)
+    public void addForce(Vector2 vel)
     {
-        rb.velocity += vel;
+        rb.AddForce(vel, ForceMode2D.Impulse);
     }
 }
 
