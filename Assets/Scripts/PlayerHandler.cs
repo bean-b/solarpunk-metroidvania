@@ -139,7 +139,7 @@ public class PlayerHandler : MonoBehaviour
         {
             animator.SetBool("isRunning", false);
         }
-        if (rb.velocity.y > topSpeed2 / 10f)
+        if (rb.velocity.y > topSpeed2 / 40f)
         {
             animator.SetBool("IsJumping", true);
             animator.SetBool("IsFalling", false);
