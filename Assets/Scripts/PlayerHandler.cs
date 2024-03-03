@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
-
     [SerializeField] private float topSpeed3; //sprinting
      private float topSpeed;
     [SerializeField] private float topSpeed2; //running
@@ -58,8 +57,11 @@ public class PlayerHandler : MonoBehaviour
 
     private float wallSlideDuration = 0f;
 
+    [SerializeField] private CameraMotor cam;
+
     private void Start()
     {
+        GetComponent<Renderer>().enabled = true;
         originalParent = transform.parent;
         rb.gravityScale = gravityMod;
         topSpeed = topSpeed2;
@@ -217,10 +219,6 @@ public class PlayerHandler : MonoBehaviour
         }
         rb.velocity = grapplingVelocity + curVelocity + wallJump; //add in velocity based on all 2 componenets
 
-
-
-
-
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)); //clamp based on max speed
         
         if(rb.velocity.sqrMagnitude < deadSpeed && grapplingRope.isGrappling) {
@@ -296,13 +294,8 @@ public class PlayerHandler : MonoBehaviour
         return isTouchingRight;
     }
 
-
-
-
     private void Movement()
     {
-
-
         Transform originalParent = transform.parent;
         transform.parent = null;
 
@@ -310,19 +303,12 @@ public class PlayerHandler : MonoBehaviour
         float moveHorizontal = Input.GetAxis("Horizontal");
 
         Vector2 targetVelocity = new Vector2(moveHorizontal * topSpeed, rb.velocity.y);
-
         Vector2 velocityDiff = targetVelocity - rb.velocity;
-
         Vector2 force = velocityDiff.x * Vector3.right * accel;
         
         rb.AddForce(force, ForceMode2D.Force);
 
-
-
-
         transform.parent = originalParent;
-
-      
 
     }
     private void Jump()
@@ -383,18 +369,24 @@ public class PlayerHandler : MonoBehaviour
 
     public void die()
     {
-        transform.position = new Vector3 (-11f, -4.8f, 0f);
+        GetComponent<Renderer>().enabled = false;
+        enabled = false;
+        forceMovement(new Vector2 (-9f, -4f));
         rb.velocity = Vector3.zero;
-        if(grapplingRope.isGrappling)
-        {
-            grapplingRope.enabled = false;
-        }
+        Invoke("respawn", 3);
+        cam.addDest(new Vector2 (-9f, -4f));
+    }
+    public void respawn() {
+        cam.clearDest();
+        GetComponent<Renderer>().enabled = true;
+        enabled = true;
     }
     public void forceMovement(Vector2 snap) {
         transform.position = snap;
         if(grapplingRope.isGrappling)
         {
             grapplingRope.OnDisable();
+            grapplingRope.enabled = false; //??
         }
     }
 
@@ -474,4 +466,3 @@ public class PlayerHandler : MonoBehaviour
         rb.AddForce(vel, ForceMode2D.Impulse);
     }
 }
-
