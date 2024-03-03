@@ -16,9 +16,12 @@ public class CameraMotor : MonoBehaviour
     private float speed = 10f;
     private float timeElapsed = 0;
     private float maxTime = 2.5f;
+
+    public float followSpeed;
     void Start()
     {
         dests = new Stack<Vector3>();
+        transform.position = player.position;
     }
 
     // Update is called once per frame
@@ -34,7 +37,8 @@ public class CameraMotor : MonoBehaviour
             }
         } else {
             //dests.Push(player.position + offset);
-            transform.position = player.position + offset; //TODO make this better. it should react to mouse post in some ways (i.e. move towards cursor) also it should just be more complex in general lol
+            Vector3 targetPosition = player.position + offset;
+            transform.position = Vector3.Lerp(transform.position, targetPosition, followSpeed * Time.deltaTime);
         }
     }
 

@@ -680,6 +680,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 1711717778}
   offset: {x: 0, y: 0, z: -15}
+  followSpeed: 5
 --- !u!4 &755070235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2952942817110704220, guid: dbb3339ec48a136409f8ce706bfdd347, type: 3}
