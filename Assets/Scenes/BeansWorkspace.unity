@@ -1526,6 +1526,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d8158129f777c4c923bae59790ac37, type: 3}
+--- !u!114 &1891589697 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+  m_PrefabInstance: {fileID: 4385128675957701052}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4d30d31aa10e04459eed69023cf4f3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2060715635
 GameObject:
   m_ObjectHideFlags: 0
@@ -2313,6 +2324,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -9.89
       objectReference: {fileID: 0}
+    - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+      propertyPath: cam
+      value: 
+      objectReference: {fileID: 1891589697}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: accel
       value: 140
