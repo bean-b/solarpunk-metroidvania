@@ -22,6 +22,7 @@ public class PlayerHandler : MonoBehaviour
     public int numberOfRays = 5; // Number of rays to cast
     public float width = 3f;
     public float height = 1f;
+    public float respawnTime = 1f;
 
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
@@ -354,7 +355,7 @@ public class PlayerHandler : MonoBehaviour
         enabled = false;
         forceMovement(new Vector2(-15f, -11f));
         rb.velocity = Vector3.zero;
-        Invoke("respawn", 3);
+        Invoke("respawn", respawnTime);
         cam.addDest(new Vector2(-15f, -11f));
     }
     public void respawn()
