@@ -215,10 +215,10 @@ public class PlayerHandler : MonoBehaviour
 
                 wallJump += new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonusY);
 
-                if (Input.GetAxis("Horizontal") == wallJumpDir * -1 && !isTouchingRightWall())
+      /*          if (Input.GetAxis("Horizontal") == wallJumpDir * -1 && !isTouchingRightWall())
                 {
                     wallJump = new Vector2(0f, wallJump.y / 2f);
-                }
+                }*/
 
                 curVelocity -= lastWallJump;
             }
@@ -411,6 +411,11 @@ public class PlayerHandler : MonoBehaviour
             {
                 wallSlideSpeedactual += 0.1f;
             }
+            if ((wallSlideJumpTime + wallSlideDelay * 2f > Time.time) && wallJumpDir == 1)
+            {
+                wallSlideJumpTime = -1f;
+            }
+
         }
         else if (isTouchingLeftWall() && horizontalInput < 0)
         {
@@ -425,6 +430,12 @@ public class PlayerHandler : MonoBehaviour
             {
                 wallSlideSpeedactual += 0.1f;
             }
+
+            if((wallSlideJumpTime + wallSlideDelay * 2f > Time.time) && wallJumpDir == -1)
+            {
+                wallSlideJumpTime = -1f;
+            }
+
         }
         else
         {
@@ -437,7 +448,7 @@ public class PlayerHandler : MonoBehaviour
     }
     private void wallJump()
     {
-        if (wallSlideDuration > 5 && (wallSlidingTime + wallSlideDelay > Time.time) && Input.GetButtonDown("Jump") && !isGrounded())
+        if (wallSlideDuration > 5 && (wallSlidingTime + wallSlideDelay > Time.time) && Input.GetButtonDown("Jump") && !isGrounded() && !(wallSlideJumpTime + wallSlideDelay * 2f > Time.time))
         {
             if (rb.velocity.y < 0f)
             {

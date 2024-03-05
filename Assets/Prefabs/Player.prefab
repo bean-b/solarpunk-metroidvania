@@ -115,7 +115,7 @@ MonoBehaviour:
   gunPivot: {fileID: 9208029476053926306}
   firePoint: {fileID: 3871300393032830651}
   m_rigidbody: {fileID: 4546988442831128946}
-  maxDistnace: 14
+  maxDistnace: 15
   curMaxDistance: 10
   swingForce: 4
   swingForceTwo: 2
@@ -401,7 +401,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  ropeProgressionSpeed: 6
+  ropeProgressionSpeed: 10
   playerHandler: {fileID: 5401138603741292740}
   isGrappling: 1
   lastEnabled: 0
