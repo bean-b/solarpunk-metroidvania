@@ -23,6 +23,7 @@ public class PlayerHandler : MonoBehaviour
     public float width = 3f;
     public float height = 1f;
     public float respawnTime = 1f;
+    public float wallJumpPower;
 
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
@@ -197,12 +198,31 @@ public class PlayerHandler : MonoBehaviour
 
         if (wallSlideJumpTime + wallSlideDelay * 2f > Time.time)
         {
-            float elapsedTimeRatio = (Time.time - wallSlideJumpTime) / (wallSlideDelay * 2);
 
-            float currentSpeedBonus = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
+            if (grapplingRope.isGrappling)
+            {
+                wallSlideJumpTime = -1f;
+            }
+            else
+            {
+                float elapsedTimeRatio = (Time.time - wallSlideJumpTime) / (wallSlideDelay * 2);
 
-            wallJump += new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonus);
-            curVelocity -= lastWallJump;
+                float currentSpeedBonus = Mathf.Lerp(wallJumpPower, 0, elapsedTimeRatio);
+
+
+                float currentSpeedBonusY = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
+
+
+                wallJump += new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonusY);
+
+                if (Input.GetAxis("Horizontal") == wallJumpDir * -1 && !isTouchingRightWall())
+                {
+                    wallJump = new Vector2(0f, wallJump.y / 2f);
+                }
+
+                curVelocity -= lastWallJump;
+            }
+
         }
         rb.velocity = grapplingVelocity + curVelocity + wallJump; //add in velocity based on all 2 componenets
 

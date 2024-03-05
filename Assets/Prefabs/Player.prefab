@@ -109,7 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GrappleTarget: 0
-  playerHandler: {fileID: 5401138603741292740}
   grappleRope: {fileID: 6103268942412852765}
   m_camera: {fileID: 0}
   gunHolder: {fileID: 1447075416240022511}
@@ -582,7 +581,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 01ff728269408d34bbbe1f221cc55ab3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  topSpeed: 20
+  topSpeed3: 24
+  topSpeed2: 18
   accel: 150
   jumpingPower: 35
   jumpingPowerSecond: 15
@@ -591,24 +591,30 @@ MonoBehaviour:
   gravityMod: 6
   gravityJumpMod: 1
   gravRestoreTime: 20
-  rb: {fileID: 4546988442831128946}
+  wallSlideSpeed: 0
+  wallSlideSpeedactual: 0
+  rb: {fileID: 0}
   groundCheckDistance: 0.5
   numberOfRays: 5
-  width: 2
+  width: 1
   height: 1
-  leftCheckStartPoint: {fileID: 3105252285649113836}
-  rightCheckStartPoint: {fileID: 1393666888165942156}
-  groundCheckStartPoint: {fileID: 5079682134340093951}
+  respawnTime: 1
+  wallJumpPower: 40
+  leftCheckStartPoint: {fileID: 0}
+  rightCheckStartPoint: {fileID: 0}
+  groundCheckStartPoint: {fileID: 0}
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  gunPivot: {fileID: 9208029476053926306}
-  grapplingRope: {fileID: 6103268942412852765}
-  grapplingGun: {fileID: 5486935515736676257}
+  gunPivot: {fileID: 0}
+  grapplingRope: {fileID: 0}
+  grapplingGun: {fileID: 0}
   maxDeadTime: 15
   curDeadTime: 0
   deadSpeed: 18
   maxSpeed: {x: 50, y: 50}
+  wallSlidingTime: -100
+  wallSlideDelay: 0.4
 --- !u!95 &4170775152599857667
 Animator:
   serializedVersion: 5
