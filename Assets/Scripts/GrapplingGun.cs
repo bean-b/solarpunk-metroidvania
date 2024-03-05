@@ -13,7 +13,7 @@ public class GrapplingGun : MonoBehaviour
     public bool GrappleTarget = false;
 
 
-    [SerializeField] private PlayerHandler playerHandler;  
+    private PlayerHandler playerHandler;  
     public GrapplingRope grappleRope;
 
     public Camera m_camera; 
@@ -48,7 +48,7 @@ public class GrapplingGun : MonoBehaviour
 
     [HideInInspector] public Vector2 grapplePoint; //where we are grappling too
     [HideInInspector] public Vector2 grappleDistanceVector;
-    public GameObject grapplePointObj;
+    [HideInInspector]  public GameObject grapplePointObj;
 
 
     private GrapplePoint[] grapplePoints;
@@ -56,6 +56,7 @@ public class GrapplingGun : MonoBehaviour
 
     private void Start()
     {
+        playerHandler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHandler>();
         layerMask = ~LayerMask.GetMask("Player");
         grappleRope.enabled = false;
         curMaxDistance = maxDistnace;

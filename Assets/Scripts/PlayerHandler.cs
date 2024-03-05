@@ -17,7 +17,7 @@ public class PlayerHandler : MonoBehaviour
     private bool isFacingRight = true; //which direction facing
     public float wallSlideSpeed;
     public float wallSlideSpeedactual;
-    public Rigidbody2D rb; //our rigid body
+    [HideInInspector] public Rigidbody2D rb; //our rigid body
     public float groundCheckDistance = 1.5f; // How far down we check for ground
     public int numberOfRays = 5; // Number of rays to cast
     public float width = 3f;
@@ -31,25 +31,33 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] public GrapplingRope grapplingRope; // our grappling rope
     [SerializeField] private GrapplingGun grapplingGun; //our grappling gun 
     public float maxDeadTime; // max time we can be slow while grapling before it breaks
-    public float curDeadTime = 0; //how long weve been slow 
+    [HideInInspector] public float curDeadTime = 0; //how long weve been slow 
+    
     public float deadSpeed; // minimum speed to not be considered slow grapling
     public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
+    
     private Transform originalParent;
+
     [HideInInspector] public float wallSlidingTime = -100f;
     public float wallSlideDelay = 0.5f;
+    
     private float wallSlideJumpTime = -100f;
     private float wallJumpDir = 1;
-    public Animator animator;
+    
+    private Animator animator;
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
     private Vector2 lastWallJump;
 
     private float wallSlideDuration = 0f;
 
-    [SerializeField] private CameraMotor cam;
+    private CameraMotor cam;
 
     private void Start()
     {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();    
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMotor>();
         GetComponent<Renderer>().enabled = true;
         originalParent = transform.parent;
         rb.gravityScale = gravityMod;

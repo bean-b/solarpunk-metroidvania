@@ -12,10 +12,9 @@ public class CameraMotor : MonoBehaviour
     //https://www.toptal.com/unity-unity3d/2d-camera-in-unity
 
 
-    [SerializeField]
     protected bool isYLocked = false;
 
-    [SerializeField] private Transform player;
+    private Transform player;
     [SerializeField] private Vector3 offset;
     private Stack<Vector3> dests;
     private float speed = 10f;
@@ -29,6 +28,8 @@ public class CameraMotor : MonoBehaviour
     public float followSpeed;
     void Start()
     {
+
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         dests = new Stack<Vector3>();
         transform.position = player.position;
         UpdateCurrentLaneIndex();
