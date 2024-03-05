@@ -6,12 +6,12 @@ public class SmogGenHandler : MonoBehaviour
 {
 
 
-    public Camera mainCam;
+    private Camera mainCam;
     public Vector3 offset;
     // Start is called before the first frame update
     void Start()
     {
-        
+        mainCam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
     }
 
     // Update is called once per frame
