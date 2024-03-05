@@ -2155,6 +2155,38 @@ PrefabInstance:
       propertyPath: followSpeed
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.size
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[1]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[2]
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[3]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[4]
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[5]
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
+      propertyPath: lanes.Array.data[6]
+      value: -30
+      objectReference: {fileID: 0}
     - target: {fileID: 5742816243501109025, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -2350,7 +2382,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: jumpingPower
-      value: 36
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: wallSlideDelay
