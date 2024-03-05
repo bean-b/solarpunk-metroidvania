@@ -352,10 +352,10 @@ public class PlayerHandler : MonoBehaviour
     {
         GetComponent<Renderer>().enabled = false;
         enabled = false;
-        forceMovement(new Vector2(-9f, -4f));
+        forceMovement(new Vector2(-15f, -11f));
         rb.velocity = Vector3.zero;
         Invoke("respawn", 3);
-        cam.addDest(new Vector2(-9f, -4f));
+        cam.addDest(new Vector2(-15f, -11f));
     }
     public void respawn()
     {
