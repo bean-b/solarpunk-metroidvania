@@ -19,7 +19,8 @@ public class CameraMotor : MonoBehaviour
     private Stack<Vector3> dests;
     private float speed = 10f;
     private float timeElapsed = 0;
-    private float maxTime = 2.5f;
+    public float maxTime = 1f;
+    public float respawnSpeedModifier = 0.02f;
     public float laneGizmoHeight = 10f;
     public List<float> lanes = new List<float>();
 
@@ -78,7 +79,7 @@ public class CameraMotor : MonoBehaviour
 
     public void addDest(Vector2 dest) {
         dests.Push(dest);
-        speed = Vector2.Distance(transform.position, dest) * 0.003f/maxTime;
+        speed = Vector2.Distance(transform.position, dest) * respawnSpeedModifier/maxTime;
     }
     public void clearDest() {
         dests = new Stack<Vector3>();
