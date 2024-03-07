@@ -662,6 +662,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &500893742 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5079682134340093951, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+  m_PrefabInstance: {fileID: 4817291243534731457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!20 &519420031 stripped
 Camera:
   m_CorrespondingSourceObject: {fileID: 6129058253936544159, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
@@ -884,6 +889,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 177.228}
+--- !u!4 &700991741 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1393666888165942156, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+  m_PrefabInstance: {fileID: 4817291243534731457}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &759331371
 GameObject:
   m_ObjectHideFlags: 0
@@ -1120,6 +1130,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15317c499364d174fa59c51a1a53a028, type: 3}
+--- !u!114 &1084075223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6103268942412852765, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+  m_PrefabInstance: {fileID: 4817291243534731457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ef9e7318695df749acd088ad1f4bdc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1096275485
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1526,6 +1547,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72d8158129f777c4c923bae59790ac37, type: 3}
+--- !u!114 &1800014077 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5486935515736676257, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+  m_PrefabInstance: {fileID: 4817291243534731457}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 66ff7ce698f0c224fafa5487747592c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1891589697 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
@@ -2381,9 +2413,17 @@ PrefabInstance:
       value: 26
       objectReference: {fileID: 0}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+      propertyPath: grapplingGun
+      value: 
+      objectReference: {fileID: 1800014077}
+    - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: jumpingPower
       value: 38
       objectReference: {fileID: 0}
+    - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+      propertyPath: grapplingRope
+      value: 
+      objectReference: {fileID: 1084075223}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: wallSlideDelay
       value: 0.2
@@ -2404,6 +2444,14 @@ PrefabInstance:
       propertyPath: leftCheckStartPoint
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+      propertyPath: rightCheckStartPoint
+      value: 
+      objectReference: {fileID: 700991741}
+    - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
+      propertyPath: groundCheckStartPoint
+      value: 
+      objectReference: {fileID: 500893742}
     - target: {fileID: 5401138603741292740, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: jumpingSecondGravReduction
       value: 0
