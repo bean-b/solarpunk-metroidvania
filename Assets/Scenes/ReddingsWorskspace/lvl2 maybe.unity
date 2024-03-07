@@ -368,7 +368,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
       propertyPath: lanes.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
       propertyPath: lanes.Array.data[0]
@@ -380,7 +380,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
       propertyPath: lanes.Array.data[2]
-      value: 25
+      value: 35
       objectReference: {fileID: 0}
     - target: {fileID: 2181748424656923755, guid: 37a65241f2bfa084a80e518d1c708940, type: 3}
       propertyPath: lanes.Array.data[3]
