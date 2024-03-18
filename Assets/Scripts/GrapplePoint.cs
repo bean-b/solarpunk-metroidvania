@@ -6,6 +6,8 @@ public class GrapplePoint : MonoBehaviour
 {
 
     SpriteRenderer spr;
+    public Sprite unopened;
+    public Sprite opened;
 
     public bool hasBeenGrappled = false;
 
@@ -17,18 +19,14 @@ public class GrapplePoint : MonoBehaviour
     {
         if (!hasBeenGrappled)
         {
-            spr.color = Color.yellow;
+            spr.sprite = opened;
         }
     }
 
 
-    public void turnBlue()
-    {
-        spr.color = Color.blue;
-    }
     public void NotClosest()
     {
-        spr.color = Color.white;
+        spr.sprite = unopened;
     }
 
     public void Used()
