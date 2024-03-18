@@ -56,6 +56,8 @@ public class PlayerHandler : MonoBehaviour
 
     private CameraMotor cam;
 
+
+    private Vector2 wallJumpVec = new Vector2(1.1f, 0.75f);
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -368,14 +370,13 @@ public class PlayerHandler : MonoBehaviour
             float currentSpeedBonus = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
 
             Vector2 wallJump = new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonus);
-
+            wallJump = wallJump * wallJumpVec;
             rb.velocity = rb.velocity + wallJump;
             if(lastWallJump != null)
             {
                 rb.velocity = rb.velocity - lastWallJump;
             }
             lastWallJump = wallJump;
-            rb.gravityScale = gravityJumpMod;
             shouldWallJump--;
         }
         else
@@ -435,6 +436,7 @@ public class PlayerHandler : MonoBehaviour
             if (Input.GetButtonDown("Jump"))
             {
                 shouldWallJump = 15f;
+                rb.gravityScale = gravityJumpMod;
             }
 
             if (isTouchingRightWall())
