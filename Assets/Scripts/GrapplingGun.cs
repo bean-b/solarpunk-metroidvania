@@ -27,7 +27,7 @@ public class GrapplingGun : MonoBehaviour
     public Rigidbody2D m_rigidbody; //player rigid body
 
 
-    public float maxDistnace = 10f; //max disstance our rope can shoot
+    [HideInInspector]  public float maxDistnace = 18f; //max disstance our rope can shoot
     [HideInInspector] public float curMaxDistance = 10f; // rope distance is calucating when anchoring this prevents rope from sagging out to maxdistance always
 
     [SerializeField] private float swingForce; //how much swing we

@@ -27,7 +27,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float wallJumpDir = 0;
     [HideInInspector] public Vector2 lastWallJump = new Vector2(0,0);
     [HideInInspector] public float shouldWallJump = 0;
-
+    private float wallJumpDur = 10f;
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
     public Transform groundCheckStartPoint; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
@@ -57,7 +57,10 @@ public class PlayerHandler : MonoBehaviour
     private CameraMotor cam;
 
 
-    private Vector2 wallJumpVec = new Vector2(1.1f, 0.75f);
+    private Vector2 wallJumpVecTarget = new Vector2(1.3f, 1.55f);
+    private Vector2 wallJumpVecActual = new Vector2(1.3f, 1.55f);
+    private Vector2 wallJumpDecay = new Vector2(0f, 0.06f);
+    private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -148,6 +151,15 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if(wallJumpVecActual.x < wallJumpVecTarget.x)
+        {
+            wallJumpVecActual.x += wallJumpRestore.x;
+        }
+
+        if(wallJumpVecActual.y < wallJumpVecTarget.y){
+                wallJumpVecActual.y += wallJumpRestore.y;
+        }
+
         if (!grapplingRope.isGrappling && !(wallSlideJumpTime + wallSlideDelay * 2f > Time.time))
         {
             Movement();
@@ -370,7 +382,8 @@ public class PlayerHandler : MonoBehaviour
             float currentSpeedBonus = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
 
             Vector2 wallJump = new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonus);
-            wallJump = wallJump * wallJumpVec;
+            wallJump = wallJump * wallJumpVecActual;
+            wallJumpVecActual = wallJumpVecActual - wallJumpDecay;
             rb.velocity = rb.velocity + wallJump;
             if(lastWallJump != null)
             {
@@ -435,7 +448,7 @@ public class PlayerHandler : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump"))
             {
-                shouldWallJump = 15f;
+                shouldWallJump = wallJumpDur;
                 rb.gravityScale = gravityJumpMod;
             }
 
