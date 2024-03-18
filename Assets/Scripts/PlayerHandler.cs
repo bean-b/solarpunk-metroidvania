@@ -3,30 +3,30 @@ using UnityEngine;
 
 public class PlayerHandler : MonoBehaviour
 {
-    [SerializeField] private float topSpeed3; //sprinting
+    [HideInInspector] private float topSpeed3 = 26; //sprinting
     private float topSpeed;
-    [SerializeField] private float topSpeed2; //running
-    [SerializeField] private float accel; //speed mod
-    [SerializeField] private float jumpingPower; //jump power
-    [SerializeField] private float jumpingPowerSecond; //jump power
-    [SerializeField] private float fastFallMod;
-    [SerializeField] private float jumpingSecondGravReduction;
-    public float gravityMod;
-    [SerializeField] private float gravityJumpMod;
-    [SerializeField] private float gravRestoreTime; // higher  = slower
+    [HideInInspector] private float topSpeed2 = 18; //running
+    [HideInInspector] private float accel = 130; //speed mod
+    [HideInInspector] private float jumpingPower = 35; //jump power
+    [HideInInspector] private float jumpingPowerSecond = 16; //jump power
+    [HideInInspector] private float fastFallMod = 1.5F;
+    [HideInInspector] private float jumpingSecondGravReduction =0.05f;
+    [HideInInspector] public float gravityMod = 6f;
+    [HideInInspector] private float gravityJumpMod = 1f;
+    [HideInInspector] private float gravRestoreTime = 15; // higher  = slower
     private bool isFacingRight = true; //which direction facing
-    public float wallSlideSpeed;
-    public float wallSlideSpeedactual;
+    [HideInInspector] public float wallSlideSpeed = 0;
+    [HideInInspector] public float wallSlideSpeedactual = 0;
     [HideInInspector] public Rigidbody2D rb; //our rigid body
-    public float groundCheckDistance = 1.5f; // How far down we check for ground
-    public int numberOfRays = 5; // Number of rays to cast
-    public float width = 3f;
-    public float height = 1f;
-    public float respawnTime = 1f;
+    [HideInInspector] public float groundCheckDistance = 0.5f; // How far down we check for ground
+    [HideInInspector] public int numberOfRays = 5; // Number of rays to cast
+    [HideInInspector] public float width = 1f;
+    [HideInInspector] public float height = 1f;
+    [HideInInspector] public float respawnTime = 1f;
 
-    public float wallJumpDir;
-    public Vector2 lastWallJump;
-    public float shouldWallJump;
+    [HideInInspector] public float wallJumpDir = 0;
+    [HideInInspector] public Vector2 lastWallJump = new Vector2(0,0);
+    [HideInInspector] public float shouldWallJump = 0;
 
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
@@ -35,16 +35,16 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private Transform gunPivot; //where the gun pivots from. currently set from the center of the player for gameplay reasons, can add sprites later though 
     [SerializeField] public GrapplingRope grapplingRope; // our grappling rope
     [SerializeField] private GrapplingGun grapplingGun; //our grappling gun 
-    public float maxDeadTime; // max time we can be slow while grapling before it breaks
+    [HideInInspector] public float maxDeadTime = 15; // max time we can be slow while grapling before it breaks
     [HideInInspector] public float curDeadTime = 0; //how long weve been slow 
-    
-    public float deadSpeed; // minimum speed to not be considered slow grapling
-    public Vector2 maxSpeed; //overall max possible speed, janky solution to rocketing around places lol
+
+    [HideInInspector] public float deadSpeed = 18; // minimum speed to not be considered slow grapling
+    [HideInInspector] public Vector2 maxSpeed = new Vector2(50,50); //overall max possible speed, janky solution to rocketing around places lol
     
     private Transform originalParent;
 
     [HideInInspector] public float wallSlidingTime = -100f;
-    public float wallSlideDelay = 0.5f;
+    [HideInInspector] public float wallSlideDelay = 0.25f;
     
     private float wallSlideJumpTime = -100f;
     
