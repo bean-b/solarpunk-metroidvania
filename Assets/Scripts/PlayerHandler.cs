@@ -50,6 +50,8 @@ public class PlayerHandler : MonoBehaviour
     
     private Animator animator;
 
+    public Vector2 respawnPoint;
+
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
 
     private float wallSlideDuration = 0f;
@@ -63,6 +65,7 @@ public class PlayerHandler : MonoBehaviour
     private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
     private void Start()
     {
+        respawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();    
         cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<CameraMotor>();
@@ -202,7 +205,12 @@ public class PlayerHandler : MonoBehaviour
         }
 
      
-        rb.velocity = grapplingVelocity + curVelocity; //add in velocity based on all 2 componenets
+        rb.velocity = curVelocity; //add in velocity based on all 2 componenets
+
+        if (grapplingRope.isGrappling)
+        {
+            rb.velocity += grapplingVelocity;
+        }
 
         rb.velocity = new Vector2(Mathf.Clamp(rb.velocity.x, -maxSpeed.x, maxSpeed.x), Mathf.Clamp(rb.velocity.y, -maxSpeed.y, maxSpeed.y)); //clamp based on max speed
 
@@ -350,18 +358,25 @@ public class PlayerHandler : MonoBehaviour
 
     public void die()
     {
+        grapplingRope.isGrappling = false;
+        grapplingRope.enabled = false;
+        lastGrapple = new Vector2(0,0);
+
+  
         GetComponent<Renderer>().enabled = false;
-        enabled = false;
-        forceMovement(new Vector2(-15f, -11f));
+  
+        forceMovement(respawnPoint);
         rb.velocity = Vector3.zero;
         Invoke("respawn", respawnTime);
-        cam.addDest(new Vector2(-15f, -11f));
+
+        cam.addDest(respawnPoint);
     }
     public void respawn()
     {
         cam.clearDest();
         GetComponent<Renderer>().enabled = true;
         enabled = true;
+        lastGrapple = new Vector2(0, 0);
     }
     public void forceMovement(Vector2 snap)
     {
@@ -476,5 +491,11 @@ public class PlayerHandler : MonoBehaviour
     public void addForce(Vector2 vel)
     {
         rb.AddForce(vel, ForceMode2D.Impulse);
+    }
+
+
+    public void setRespawnPoint(Vector2 pos)
+    {
+        respawnPoint = pos;
     }
 }
