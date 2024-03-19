@@ -86,7 +86,7 @@ public class MovingPlatform : MonoBehaviour
         if(playerHandler != null) {
             playerHandler.resetParent();
 
-            Vector2 velocity = new Vector2(transform.position.x, transform.position.y) - lastPos;
+          /*  Vector2 velocity = new Vector2(transform.position.x, transform.position.y) - lastPos;
 
             if (velocity.y < 0)
             {
@@ -95,7 +95,7 @@ public class MovingPlatform : MonoBehaviour
             else
             {
                 playerHandler.addForce(velocity);
-            }
+            }*/
 
           
         }
