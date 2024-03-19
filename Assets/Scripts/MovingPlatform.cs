@@ -74,7 +74,8 @@ public class MovingPlatform : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D other) { // player standing on platform
         var playerHandler = other.collider.GetComponent<PlayerHandler>();
         if(playerHandler != null) {
-            if(playerHandler.isGrounded() && transform.position.y < playerHandler.transform.position.y) { //TODO this needs to be more robust, check if the player is grounded on this object!
+            if (playerHandler.isGrounded() && transform.position.y < playerHandler.transform.position.y)
+            {
                 playerHandler.setParent(transform);
             }
         }
@@ -85,8 +86,7 @@ public class MovingPlatform : MonoBehaviour
         if(playerHandler != null) {
             playerHandler.resetParent();
 
-            Vector2 velocity = new Vector2(transform.position.x, transform.position.y) - lastPos;
-            velocity *= 600;
+          /*  Vector2 velocity = new Vector2(transform.position.x, transform.position.y) - lastPos;
 
             if (velocity.y < 0)
             {
@@ -95,7 +95,7 @@ public class MovingPlatform : MonoBehaviour
             else
             {
                 playerHandler.addForce(velocity);
-            }
+            }*/
 
           
         }
