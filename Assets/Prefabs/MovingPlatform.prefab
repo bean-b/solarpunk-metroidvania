@@ -500,7 +500,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 8712520476282221709}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 3fbd2e75834767642a662d55d0dce213, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -548,13 +548,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0850fb1d96a7c4aa6bc2bbb3e1fe0978, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _waypoints:
-  - {fileID: 3852502195947620093}
-  - {fileID: 3897387960178331247}
-  - {fileID: 6767942531083758899}
-  - {fileID: 2952942817110704220}
-  _speed: 5
-  _isCircuit: 1
+  waypoints: []
+  speed: 0
+  isCircuit: 0
 --- !u!50 &6892799523499248650
 Rigidbody2D:
   serializedVersion: 4
