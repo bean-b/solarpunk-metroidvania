@@ -7,13 +7,15 @@ public class PlayerHandler : MonoBehaviour
     private float topSpeed;
     [HideInInspector] private float topSpeed2 = 18; //running
     [HideInInspector] private float accel = 130; //speed mod
-    [HideInInspector] private float jumpingPower = 35; //jump power
-    [HideInInspector] private float jumpingPowerSecond = 16; //jump power
+    [HideInInspector] private float jumpingPower = 62; //jump power
+    [HideInInspector] private float jumpingPowerSecond = 30; //jump power
     [HideInInspector] private float fastFallMod = 1.5F;
     [HideInInspector] private float jumpingSecondGravReduction =0.05f;
     [HideInInspector] public float gravityMod = 6f;
-    [HideInInspector] private float gravityJumpMod = 1f;
-    [HideInInspector] private float gravRestoreTime = 15; // higher  = slower
+    [HideInInspector] private float gravityJumpMod = 1.25f;
+    [HideInInspector] private float gravityJumpModSec = 2f;
+    [HideInInspector] private float gravRestoreTime = 0.5F; 
+    [HideInInspector] private float gravRestoreTarget; 
     private bool isFacingRight = true; //which direction facing
     [HideInInspector] public float wallSlideSpeed = 0;
     [HideInInspector] public float wallSlideSpeedactual = 0;
@@ -23,6 +25,8 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float width = 1f;
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
+
+    private float dampening = 0.87f;
 
     [HideInInspector] public float wallJumpDir = 0;
     [HideInInspector] public Vector2 lastWallJump = new Vector2(0,0);
@@ -59,12 +63,14 @@ public class PlayerHandler : MonoBehaviour
     private CameraMotor cam;
 
 
-    private Vector2 wallJumpVecTarget = new Vector2(1.3f, 1.55f);
-    private Vector2 wallJumpVecActual = new Vector2(1.3f, 1.55f);
-    private Vector2 wallJumpDecay = new Vector2(0f, 0.06f);
+    private Vector2 wallJumpVecTarget = new Vector2(1.4f, 2f);
+    private Vector2 wallJumpVecActual;
+    private Vector2 wallJumpDecay = new Vector2(0f, 0.12f);
     private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
     private void Start()
     {
+        gravRestoreTarget = gravRestoreTime;
+        wallJumpVecActual = wallJumpVecTarget;
         respawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();    
@@ -168,9 +174,12 @@ public class PlayerHandler : MonoBehaviour
             Movement();
         }
 
+        float restoreRate = Time.deltaTime / gravRestoreTime; 
+
         if (rb.gravityScale < gravityMod)
         {
-            rb.gravityScale += ((gravityMod - rb.gravityScale) / gravRestoreTime) + 0.01f;
+            rb.gravityScale += Mathf.Pow(Mathf.Abs(gravityMod - rb.gravityScale) * restoreRate, 0.5f); // Apply inverted exponential factor
+
             if (rb.gravityScale > gravityMod)
             {
                 rb.gravityScale = gravityMod;
@@ -178,12 +187,14 @@ public class PlayerHandler : MonoBehaviour
         }
         else if (rb.gravityScale > gravityMod)
         {
-            rb.gravityScale -= ((gravityMod - rb.gravityScale / gravRestoreTime)) + 0.01f;
+            rb.gravityScale -= Mathf.Pow(Mathf.Abs(rb.gravityScale - gravityMod) * restoreRate, 0.5f); // Apply inverted exponential factor
+
             if (rb.gravityScale < gravityMod)
             {
                 rb.gravityScale = gravityMod;
             }
         }
+
         if (!(wallSlidingTime + wallSlideDelay > Time.time))
         {
             if (wallSlideSpeedactual > wallSlideSpeed)
@@ -347,9 +358,9 @@ public class PlayerHandler : MonoBehaviour
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
                 }
-                if (rb.gravityScale > gravityJumpMod)
+                if (rb.gravityScale > gravityJumpModSec)
                 {
-                    rb.gravityScale = gravityJumpMod;
+                    rb.gravityScale = gravityJumpModSec;
                 }
                 rb.AddForce(new Vector2(0f, jumpingPowerSecond), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
             }
@@ -393,23 +404,31 @@ public class PlayerHandler : MonoBehaviour
 
         if (shouldWallJump > 0f)
         {
+
             float elapsedTimeRatio = 1f - (shouldWallJump / 10f);
             float currentSpeedBonus = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
 
             Vector2 wallJump = new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonus);
             wallJump = wallJump * wallJumpVecActual;
+
             wallJumpVecActual = wallJumpVecActual - wallJumpDecay;
             rb.velocity = rb.velocity + wallJump;
-            if(lastWallJump != null)
+
+         
+            if (lastWallJump != null)
             {
-                rb.velocity = rb.velocity - lastWallJump;
+                lastWallJump = new Vector2(lastWallJump.x, lastWallJump.y * dampening);
+                rb.velocity -= lastWallJump;
+
             }
             lastWallJump = wallJump;
             shouldWallJump--;
+
         }
         else
         {
             lastWallJump = new Vector2(0f,0f);
+            gravRestoreTime = gravRestoreTarget;
         }
 
 
