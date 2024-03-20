@@ -43,7 +43,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float curDeadTime = 0; //how long weve been slow 
 
     [HideInInspector] public float deadSpeed = 18; // minimum speed to not be considered slow grapling
-    [HideInInspector] public Vector2 maxSpeed = new Vector2(50,50); //overall max possible speed, janky solution to rocketing around places lol
+    [HideInInspector] public Vector2 maxSpeed = new Vector2(50,50); //overall max possible speed
     
     private Transform originalParent;
 
@@ -65,8 +65,8 @@ public class PlayerHandler : MonoBehaviour
 
     private Vector2 wallJumpVecTarget = new Vector2(1.4f, 2f);
     private Vector2 wallJumpVecActual;
-    private Vector2 wallJumpDecay = new Vector2(0f, 0.12f);
-    private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
+    private Vector2 wallJumpDecay = new Vector2(0f, 0.16f);
+    private Vector2 wallJumpRestore = new Vector2(0f, 0.04f);
     private void Start()
     {
         gravRestoreTarget = gravRestoreTime;
@@ -160,13 +160,16 @@ public class PlayerHandler : MonoBehaviour
     }
     private void FixedUpdate()
     {
+
+        int mod = isGrounded() && !isTouchingLeftWall() && !isTouchingRightWall() ? 5 : 1;
+        
         if(wallJumpVecActual.x < wallJumpVecTarget.x)
         {
-            wallJumpVecActual.x += wallJumpRestore.x;
+            wallJumpVecActual.x += wallJumpRestore.x * mod;
         }
 
         if(wallJumpVecActual.y < wallJumpVecTarget.y){
-                wallJumpVecActual.y += wallJumpRestore.y;
+                wallJumpVecActual.y += wallJumpRestore.y * mod;
         }
 
         if (!grapplingRope.isGrappling && !(wallSlideJumpTime + wallSlideDelay * 2f > Time.time))
