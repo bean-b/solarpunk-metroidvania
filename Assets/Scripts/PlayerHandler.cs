@@ -14,7 +14,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float gravityMod = 6f;
     [HideInInspector] private float gravityJumpMod = 1.25f;
     [HideInInspector] private float gravityJumpModSec = 2f;
-    [HideInInspector] private float gravRestoreTime = 0.5F; 
+    [HideInInspector] private float gravRestoreTime = 0.25F; 
     [HideInInspector] private float gravRestoreTarget; 
     private bool isFacingRight = true; //which direction facing
     [HideInInspector] public float wallSlideSpeed = 0;
@@ -63,9 +63,9 @@ public class PlayerHandler : MonoBehaviour
     private CameraMotor cam;
 
 
-    private Vector2 wallJumpVecTarget = new Vector2(1.4f, 2f);
+    private Vector2 wallJumpVecTarget = new Vector2(1.6f, 2.4f);
     private Vector2 wallJumpVecActual;
-    private Vector2 wallJumpDecay = new Vector2(0f, 0.16f);
+    private Vector2 wallJumpDecay = new Vector2(0f, 0.2f);
     private Vector2 wallJumpRestore = new Vector2(0f, 0.04f);
     private void Start()
     {
