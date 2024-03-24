@@ -20,8 +20,8 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float wallSlideSpeed = 0;
     [HideInInspector] public float wallSlideSpeedactual = 0;
     [HideInInspector] public Rigidbody2D rb; //our rigid body
-    [HideInInspector] public float groundCheckDistance = 0.5f; // How far down we check for ground
-    [HideInInspector] public int numberOfRays = 5; // Number of rays to cast
+    [HideInInspector] public float groundCheckDistance = 2.5f; // How far down we check for ground
+    [HideInInspector] public int numberOfRays = 10; // Number of rays to cast
     [HideInInspector] public float width = 1f;
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;

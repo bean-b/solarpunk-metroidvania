@@ -42,7 +42,7 @@ TagManager:
   - name: background
     uniqueID: 2570368623
     locked: 0
-  - name: sprite assets
+  - name: sprites background
     uniqueID: 493279073
     locked: 0
   - name: Default
@@ -53,4 +53,7 @@ TagManager:
     locked: 0
   - name: player
     uniqueID: 3335546773
+    locked: 0
+  - name: sprites foregorund
+    uniqueID: 615984769
     locked: 0
