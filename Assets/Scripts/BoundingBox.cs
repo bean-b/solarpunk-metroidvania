@@ -19,4 +19,13 @@ public class BoundingBox : MonoBehaviour
             player.SendMessage("die");
         }
     }
+
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Vector3 start = new Vector3(-1000, floor, transform.position.z);
+        Vector3 end = new Vector3(1000, floor, transform.position.z);
+        Gizmos.DrawLine(start, end);
+    }
 }
