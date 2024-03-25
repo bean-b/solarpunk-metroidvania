@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 13312, guid: 0000000000000000e000000000000000, type: 0}
   m_Name: plant asset concept sketches tilemap sketches_136
   m_EditorClassIdentifier: 
-  m_Sprite: {fileID: -319333021, guid: 1fbd3bba7976b194894cba5a0e275990, type: 3}
+  m_Sprite: {fileID: -851785834, guid: 884a1456077d13e4a80697defec15d44, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
