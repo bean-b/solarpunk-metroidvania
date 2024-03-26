@@ -22,7 +22,7 @@ public class CameraMotor : MonoBehaviour
     public float maxTime = 1f;
     public float respawnSpeedModifier = 0.02f;
     public float laneGizmoHeight = 10f;
-    public List<float> lanes = new List<float>();
+    public List<Vector3> lanes = new List<Vector3>();
 
     private int currentLaneIndex = 0;
 
@@ -67,7 +67,7 @@ public class CameraMotor : MonoBehaviour
             else
             {
 
-                yNew = Mathf.Lerp(transform.position.y, lanes[currentLaneIndex], Time.deltaTime * followSpeed);
+                yNew = Mathf.Lerp(transform.position.y, lanes[currentLaneIndex].x, Time.deltaTime * followSpeed);
             }
 
 
@@ -94,11 +94,22 @@ public class CameraMotor : MonoBehaviour
         float minDistance = float.MaxValue;
         for (int i = 0; i < lanes.Count; i++)
         {
-            float distance = Mathf.Abs(player.position.y - lanes[i]);
-            if (distance < minDistance)
+
+
+            if (player.position.x > lanes[i].z || player.position.x < lanes[i].y)
             {
-                minDistance = distance;
-                currentLaneIndex = i;
+
+            }
+            else
+            {
+
+
+                float distance = Mathf.Abs(player.position.y - lanes[i].x);
+                if (distance < minDistance)
+                {
+                    minDistance = distance;
+                    currentLaneIndex = i;
+                }
             }
         }
     }
@@ -107,10 +118,10 @@ public class CameraMotor : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        foreach (float lane in lanes)
+        foreach (Vector3 lane in lanes)
         {
-            Vector3 start = new Vector3(-1000, lane, transform.position.z);
-            Vector3 end = new Vector3(1000, lane, transform.position.z);
+            Vector3 start = new Vector3(lane.y, lane.x, transform.position.z);
+            Vector3 end = new Vector3(lane.z, lane.x, transform.position.z);
             Gizmos.DrawLine(start, end);
         }
     }
