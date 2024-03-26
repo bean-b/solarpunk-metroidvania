@@ -26,7 +26,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
 
-    private float dampening = 0.87f;
+    private float dampening = 0.825f;
 
     [HideInInspector] public float wallJumpDir = 0;
     [HideInInspector] public Vector2 lastWallJump = new Vector2(0,0);
@@ -66,7 +66,7 @@ public class PlayerHandler : MonoBehaviour
     private Vector2 wallJumpVecTarget = new Vector2(1.6f, 2.4f);
     private Vector2 wallJumpVecActual;
     private Vector2 wallJumpDecay = new Vector2(0f, 0.2f);
-    private Vector2 wallJumpRestore = new Vector2(0f, 0.04f);
+    private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
     private void Start()
     {
         gravRestoreTarget = gravRestoreTime;
@@ -391,6 +391,7 @@ public class PlayerHandler : MonoBehaviour
         GetComponent<Renderer>().enabled = true;
         enabled = true;
         lastGrapple = new Vector2(0, 0);
+        wallJumpVecActual = wallJumpVecTarget;
     }
     public void forceMovement(Vector2 snap)
     {
