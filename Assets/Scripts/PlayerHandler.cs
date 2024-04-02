@@ -6,12 +6,12 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] private float topSpeed3 = 26; //sprinting
     private float topSpeed;
     [HideInInspector] private float topSpeed2 = 18; //running
-    [HideInInspector] private float accel = 130; //speed mod
-    [HideInInspector] private float jumpingPower = 62; //jump power
+    [HideInInspector] private float accel = 175; //speed mod
+    [HideInInspector] private float jumpingPower = 66; //jump power
     [HideInInspector] private float jumpingPowerSecond = 30; //jump power
     [HideInInspector] private float fastFallMod = 1.5F;
     [HideInInspector] private float jumpingSecondGravReduction =0.05f;
-    [HideInInspector] public float gravityMod = 6f;
+    [HideInInspector] public float gravityMod = 6.6f;
     [HideInInspector] private float gravityJumpMod = 1.25f;
     [HideInInspector] private float gravityJumpModSec = 2f;
     [HideInInspector] private float gravRestoreTime = 0.25F; 
@@ -65,7 +65,7 @@ public class PlayerHandler : MonoBehaviour
 
     private Vector2 wallJumpVecTarget = new Vector2(1.6f, 2.4f);
     private Vector2 wallJumpVecActual;
-    private Vector2 wallJumpDecay = new Vector2(0f, 0.2f);
+    private Vector2 wallJumpDecay = new Vector2(0f, 0.22f);
     private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
     private void Start()
     {
@@ -122,7 +122,7 @@ public class PlayerHandler : MonoBehaviour
         animator.SetBool("IsGrappling", grapplingRope.enabled);
         animator.SetBool("IsGrounded", isGrounded());
 
-        if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 10f)
+        if (Mathf.Abs(rb.velocity.x) > topSpeed2 / 5f)
         {
             animator.SetBool("isRunning", true);
             if (Mathf.Abs(rb.velocity.x) >= topSpeed2 - topSpeed2 / 50f)
