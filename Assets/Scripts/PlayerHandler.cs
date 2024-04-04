@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerHandler : MonoBehaviour
 {
@@ -7,22 +9,24 @@ public class PlayerHandler : MonoBehaviour
     private float topSpeed;
     [HideInInspector] private float topSpeed2 = 18; //running
     [HideInInspector] private float accel = 175; //speed mod
+    [HideInInspector] private float accelDefault = 175; //speed mod
+    [HideInInspector] private float accelWallJump = 50; //speed mod
     [HideInInspector] private float jumpingPower = 66; //jump power
     [HideInInspector] private float jumpingPowerSecond = 30; //jump power
-    [HideInInspector] private float fastFallMod = 1.5F;
     [HideInInspector] private float jumpingSecondGravReduction =0.05f;
-    [HideInInspector] public float gravityMod = 6.6f;
+    [HideInInspector] public float gravityMod = 6.5f;
     [HideInInspector] private float gravityJumpMod = 1.25f;
     [HideInInspector] private float gravityJumpModSec = 2f;
     [HideInInspector] private float gravRestoreTime = 0.25F; 
-    [HideInInspector] private float gravRestoreTarget; 
     private bool isFacingRight = true; //which direction facing
     [HideInInspector] public Rigidbody2D rb; //our rigid body
     [HideInInspector] public float groundCheckDistance = 2.5f; // How far down we check for ground
     [HideInInspector] public int numberOfRays = 10; // Number of rays to cast
-    [HideInInspector] public float width = 1f;
+    [HideInInspector] public float width = 0.5f;
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
+
+    private float wallSlideSpeed = -7.5f;
 
     private bool canMove = true;
 
@@ -41,9 +45,8 @@ public class PlayerHandler : MonoBehaviour
     
     private Transform originalParent;
 
-    private float deadZoneDefault = 0.5f;
-    private float deadZoneActual;
 
+    private bool wallSliding = false;
     
     private Animator animator;
 
@@ -51,14 +54,21 @@ public class PlayerHandler : MonoBehaviour
 
     private Vector2 lastGrapple; //a vector2 of the speed of the last frame that the grapple contributed to our rigid body, prevents the grappling hook from rocketing the player
 
-    private float wallSlideDuration = 0f;
 
     private CameraMotor cam;
 
+    private Boolean hasWallJumped = false;
+    private float wallJumpingDirection;
+    private float wallJumpingTime;
+    private float wallJumpingCounter;
+    private float wallJumpingDuration = 12;
+    private Vector2 wallJumpingPower = new Vector2(2.2f, 1.7f);
+
+
+
     private void Start()
     {
-        deadZoneActual = deadZoneDefault;
-        gravRestoreTarget = gravRestoreTime;
+        wallJumpingTime = -1;
         respawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();    
@@ -71,8 +81,8 @@ public class PlayerHandler : MonoBehaviour
 
     private void Update()
     {
-       
         Jump();
+        WallJump();
         Flip();
         if (isGrounded())
         {
@@ -81,6 +91,8 @@ public class PlayerHandler : MonoBehaviour
             {
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
+            hasWallJumped = false;
+            accel = accelDefault;
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -203,8 +215,6 @@ public class PlayerHandler : MonoBehaviour
         if (curDeadTime > maxDeadTime)
         {
             grapplingGun.Disable(); //if dead time over limit, break rope...prevents just hanging out on ropes 
-            rb.gravityScale = gravityMod * fastFallMod;
-            rb.velocity = new Vector2(rb.velocity.x * (1 / fastFallMod), rb.velocity.y);
         }
 
         lastGrapple = grapplingVelocity; //resets last grapple velocity vector
@@ -213,9 +223,32 @@ public class PlayerHandler : MonoBehaviour
         {
             rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
         }
+
+        wallSlide();
+
+
+        if(wallJumpingTime > 0f && !grapplingRope.isGrappling)
+        {
+            float initialVelocity = 27f;
+
+            // Exponential decay factor
+            // Adjust 'decayRate' to control the speed of the decay. A smaller value (closer to 0) will decay slower.
+            float decayRate = -0.18f; // You might need to adjust this based on the desired effect
+
+            // Calculate current velocity using exponential decay based on the remaining wallJumpingTime
+            float currentVelocity = initialVelocity * Mathf.Exp(decayRate * (wallJumpingDuration - wallJumpingTime));
+
+            // Apply the calculated velocity
+            rb.velocity = new Vector3(currentVelocity * -wallJumpingDirection * wallJumpingPower.x, currentVelocity * wallJumpingPower.y, 0f);
+
+            // Decrease wallJumpingTime
+            wallJumpingTime--;
+        }
+
     }
     public bool isGrounded()
     {
+
         bool isGrounded = false;
         float distanceBetweenRays = width / (numberOfRays - 1);
 
@@ -280,21 +313,23 @@ public class PlayerHandler : MonoBehaviour
         Vector2 targetVelocity = new Vector2(moveHorizontal * topSpeed, rb.velocity.y);
         Vector2 velocityDiff = targetVelocity - rb.velocity;
         Vector2 force = velocityDiff.x * Vector3.right * accel;
-
-        rb.AddForce(force, ForceMode2D.Force);
+        if (!(wallJumpingTime > 0f))
+        {
+            rb.AddForce(force, ForceMode2D.Force);
+        }
         transform.parent = originalParent;
     }
     private void Jump()
     {
         if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling) //can jump?
         {
-            if (isGrounded())
+            if (isGrounded() && !wallSliding)
             {
                 if (rb.velocity.y < 0f)
                 {
                     rb.velocity = new Vector2(rb.velocity.x, rb.velocity.y * jumpingSecondGravReduction);
                 }
-                rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse); //jump is not using tranform or rb velocity, but rather a force impulse
+                rb.AddForce(new Vector2(0f, jumpingPower), ForceMode2D.Impulse);
                 if (rb.gravityScale > gravityJumpMod)
                 {
                     rb.gravityScale = gravityJumpMod;
@@ -374,10 +409,47 @@ public class PlayerHandler : MonoBehaviour
     }
     private void wallSlide()
     {
-       
+
+        if (isTouchingRightWall())
+        {
+            rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, wallSlideSpeed, float.MaxValue), 0);
+            wallSliding = true;
+        }
+        else
+        {
+            wallSliding = false;
+        }
+
     }
 
-   
+
+    private void WallJump()
+    {
+
+        if (wallSliding)
+        {
+            wallJumpingCounter = 0.2f;
+        }
+        else
+        {
+            wallJumpingCounter -= Time.time;
+        }
+        if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling && wallSliding)
+        {
+            float right2 = isFacingRight ? 1 : -1;
+            // Check if the player hasn't wall jumped yet, or if they're jumping off the opposite wall
+            if ((wallJumpingCounter > 0 && right2 != wallJumpingDirection) || !hasWallJumped)
+            {
+                wallJumpingCounter = 0f;
+                wallJumpingDirection = isFacingRight ? 1 : -1;
+                wallJumpingTime = wallJumpingDuration;
+                rb.gravityScale = gravityJumpMod;
+                hasWallJumped = true;
+                accel = accelWallJump;
+            }
+        }
+    }
+
 
     public void setParent(Transform newParent)
     {
