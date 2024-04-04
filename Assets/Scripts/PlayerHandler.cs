@@ -17,8 +17,6 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] private float gravRestoreTime = 0.25F; 
     [HideInInspector] private float gravRestoreTarget; 
     private bool isFacingRight = true; //which direction facing
-    [HideInInspector] public float wallSlideSpeed = 0;
-    [HideInInspector] public float wallSlideSpeedactual = 0;
     [HideInInspector] public Rigidbody2D rb; //our rigid body
     [HideInInspector] public float groundCheckDistance = 2.5f; // How far down we check for ground
     [HideInInspector] public int numberOfRays = 10; // Number of rays to cast
@@ -26,12 +24,8 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
 
-    private float dampening = 0.825f;
+    private bool canMove = true;
 
-    [HideInInspector] public float wallJumpDir = 0;
-    [HideInInspector] public Vector2 lastWallJump = new Vector2(0,0);
-    [HideInInspector] public float shouldWallJump = 0;
-    private float wallJumpDur = 10f;
     public Transform leftCheckStartPoint;
     public Transform rightCheckStartPoint;
     public Transform groundCheckStartPoint; //this is used to check if we are touching the ground, essently a circle below our feet  ||| can be put as getComponenet later
@@ -47,10 +41,9 @@ public class PlayerHandler : MonoBehaviour
     
     private Transform originalParent;
 
-    [HideInInspector] public float wallSlidingTime = -100f;
-    [HideInInspector] public float wallSlideDelay = 0.25f;
-    
-    private float wallSlideJumpTime = -100f;
+    private float deadZoneDefault = 0.5f;
+    private float deadZoneActual;
+
     
     private Animator animator;
 
@@ -62,15 +55,10 @@ public class PlayerHandler : MonoBehaviour
 
     private CameraMotor cam;
 
-
-    private Vector2 wallJumpVecTarget = new Vector2(1.6f, 2.4f);
-    private Vector2 wallJumpVecActual;
-    private Vector2 wallJumpDecay = new Vector2(0f, 0.22f);
-    private Vector2 wallJumpRestore = new Vector2(0f, 0.02f);
     private void Start()
     {
+        deadZoneActual = deadZoneDefault;
         gravRestoreTarget = gravRestoreTime;
-        wallJumpVecActual = wallJumpVecTarget;
         respawnPoint = transform.position;
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();    
@@ -83,7 +71,7 @@ public class PlayerHandler : MonoBehaviour
 
     private void Update()
     {
-        wallJump();
+       
         Jump();
         Flip();
         if (isGrounded())
@@ -93,8 +81,6 @@ public class PlayerHandler : MonoBehaviour
             {
                 gameObjectsWithTag[i].SendMessage("PlayerGrounded");
             }
-            wallSlideJumpTime = -100f;
-            wallSlideDuration = 0f;
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -161,18 +147,9 @@ public class PlayerHandler : MonoBehaviour
     private void FixedUpdate()
     {
 
-        int mod = isGrounded() && !isTouchingLeftWall() && !isTouchingRightWall() ? 5 : 1;
-        
-        if(wallJumpVecActual.x < wallJumpVecTarget.x)
-        {
-            wallJumpVecActual.x += wallJumpRestore.x * mod;
-        }
 
-        if(wallJumpVecActual.y < wallJumpVecTarget.y){
-                wallJumpVecActual.y += wallJumpRestore.y * mod;
-        }
 
-        if (!grapplingRope.isGrappling && !(wallSlideJumpTime + wallSlideDelay * 2f > Time.time))
+        if (!grapplingRope.isGrappling)
         {
             Movement();
         }
@@ -198,17 +175,7 @@ public class PlayerHandler : MonoBehaviour
             }
         }
 
-        if (!(wallSlidingTime + wallSlideDelay > Time.time))
-        {
-            if (wallSlideSpeedactual > wallSlideSpeed)
-            {
-                wallSlideSpeedactual -= (wallSlideSpeedactual - wallSlideSpeed) / gravRestoreTime + 0.01f;
-                if (wallSlideSpeedactual < wallSlideSpeed)
-                {
-                    wallSlideSpeedactual = wallSlideSpeed;
-                }
-            }
-        }
+       
 
         Vector2 grapplingVelocity = grapplingGun.GrappleMovement(new Vector2(Input.GetAxis("Horizontal"), 0f));  //grappling component
         Vector2 curVelocity = new Vector2(rb.velocity.x, rb.velocity.y);
@@ -241,7 +208,11 @@ public class PlayerHandler : MonoBehaviour
         }
 
         lastGrapple = grapplingVelocity; //resets last grapple velocity vector
-        wallSlide();
+
+        if (!canMove)
+        {
+            rb.velocity = new Vector3(0f, rb.velocity.y, 0f);
+        }
     }
     public bool isGrounded()
     {
@@ -309,18 +280,15 @@ public class PlayerHandler : MonoBehaviour
         Vector2 targetVelocity = new Vector2(moveHorizontal * topSpeed, rb.velocity.y);
         Vector2 velocityDiff = targetVelocity - rb.velocity;
         Vector2 force = velocityDiff.x * Vector3.right * accel;
-        if (shouldWallJump == 0f)
-        {
-            rb.AddForce(force, ForceMode2D.Force);
-        }
 
+        rb.AddForce(force, ForceMode2D.Force);
         transform.parent = originalParent;
     }
     private void Jump()
     {
         if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling) //can jump?
         {
-            if (isGrounded() && !(wallSlidingTime + wallSlideDelay > Time.time))
+            if (isGrounded())
             {
                 if (rb.velocity.y < 0f)
                 {
@@ -337,7 +305,7 @@ public class PlayerHandler : MonoBehaviour
 
     private void Flip()
     { //flips our sprite if needed
-        float flipDeadzone = 0.1f;
+        float flipDeadzone = 0.5f;
         if ((isFacingRight && rb.velocity.x < -flipDeadzone) || (!isFacingRight && rb.velocity.x > flipDeadzone))
         {
             FlipCharacter();
@@ -383,15 +351,17 @@ public class PlayerHandler : MonoBehaviour
         rb.velocity = Vector3.zero;
         Invoke("respawn", respawnTime);
 
+        canMove = false;
+
         cam.addDest(respawnPoint);
     }
     public void respawn()
     {
         cam.clearDest();
+        canMove = true;
         GetComponent<Renderer>().enabled = true;
         enabled = true;
         lastGrapple = new Vector2(0, 0);
-        wallJumpVecActual = wallJumpVecTarget;
     }
     public void forceMovement(Vector2 snap)
     {
@@ -404,103 +374,10 @@ public class PlayerHandler : MonoBehaviour
     }
     private void wallSlide()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-
-        if (shouldWallJump > 0f)
-        {
-
-            float elapsedTimeRatio = 1f - (shouldWallJump / 10f);
-            float currentSpeedBonus = Mathf.Lerp(jumpingPower, 0, elapsedTimeRatio);
-
-            Vector2 wallJump = new Vector2(currentSpeedBonus * wallJumpDir, currentSpeedBonus);
-            wallJump = wallJump * wallJumpVecActual;
-
-            wallJumpVecActual = wallJumpVecActual - wallJumpDecay;
-            rb.velocity = rb.velocity + wallJump;
-
-         
-            if (lastWallJump != null)
-            {
-                lastWallJump = new Vector2(lastWallJump.x, lastWallJump.y * dampening);
-                rb.velocity -= lastWallJump;
-
-            }
-            lastWallJump = wallJump;
-            shouldWallJump--;
-
-        }
-        else
-        {
-            lastWallJump = new Vector2(0f,0f);
-            gravRestoreTime = gravRestoreTarget;
-        }
-
-
-        if (isTouchingRightWall() && horizontalInput > 0)
-        {
-            if (rb.velocity.y < 0)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
-            }
-            wallSlidingTime = Time.time;
-            wallSlideDuration++;
-
-            if (wallSlideSpeedactual < gravityMod * 4f)
-            {   
-                wallSlideSpeedactual += 0.1f;
-            }
-
-
-
-
-        }
-        else if (isTouchingLeftWall() && horizontalInput < 0)
-        {
-            if (rb.velocity.y < 0)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, -wallSlideSpeedactual);
-            }
-            wallSlidingTime = Time.time;
-            wallSlideDuration++;
-
-            if (wallSlideSpeedactual < gravityMod * 4f)
-            {
-                wallSlideSpeedactual += 0.1f;
-            }
-
-        }
-        else
-        {
-            wallSlideDuration -= 2;
-            if (wallSlideDuration < 0)
-            {
-                wallSlideDuration = 0;
-            }
-        }
+       
     }
 
-    public void wallJump()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        if (isTouchingRightWall() && horizontalInput > 0 || isTouchingLeftWall() && horizontalInput < 0)
-        {
-            if (Input.GetButtonDown("Jump"))
-            {
-                shouldWallJump = wallJumpDur;
-                rb.gravityScale = gravityJumpMod;
-            }
-
-            if (isTouchingRightWall())
-            {
-                wallJumpDir = -1;
-            }
-            else
-            {
-                wallJumpDir = 1;
-            }
-        }
-
-    }
+   
 
     public void setParent(Transform newParent)
     {
