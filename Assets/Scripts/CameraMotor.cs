@@ -88,7 +88,6 @@ public class CameraMotor : MonoBehaviour
         float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed * Time.deltaTime);
 
 
-        print(newSize);
         myCam.orthographicSize = newSize;
 
     }
