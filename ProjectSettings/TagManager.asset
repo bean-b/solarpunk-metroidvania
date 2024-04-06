@@ -51,6 +51,9 @@ TagManager:
   - name: hazards
     uniqueID: 3462200807
     locked: 0
+  - name: Tutorial
+    uniqueID: 2253455793
+    locked: 0
   - name: platform
     uniqueID: 1445999201
     locked: 0

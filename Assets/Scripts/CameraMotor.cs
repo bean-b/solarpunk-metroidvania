@@ -14,6 +14,9 @@ public class CameraMotor : MonoBehaviour
 
     protected bool isYLocked = false;
 
+
+    private float sizeGoal;
+    private float changeSpeed = 35f;
     private Transform player;
     [SerializeField] private Vector3 offset;
     private Stack<Vector3> dests;
@@ -22,14 +25,16 @@ public class CameraMotor : MonoBehaviour
     public float maxTime = 1f;
     public float respawnSpeedModifier = 0.02f;
     public float laneGizmoHeight = 10f;
-    public List<Vector3> lanes = new List<Vector3>();
+    public List<Vector4> lanes = new List<Vector4>();
+
+    public Camera myCam;
 
     private int currentLaneIndex = 0;
 
     public float followSpeed;
     void Start()
     {
-
+        sizeGoal = myCam.orthographicSize;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         dests = new Stack<Vector3>();
         transform.position = player.position;
@@ -75,6 +80,17 @@ public class CameraMotor : MonoBehaviour
 
             transform.position = new Vector3(xNew, yNew, offset.z);
         }
+
+
+
+        float currentSize = Camera.main.orthographicSize;
+
+        float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed * Time.deltaTime);
+
+
+        print(newSize);
+        myCam.orthographicSize = newSize;
+
     }
 
     public void addDest(Vector2 dest) {
@@ -112,6 +128,8 @@ public class CameraMotor : MonoBehaviour
                 }
             }
         }
+        sizeGoal = lanes[currentLaneIndex].w;
+
     }
 
 
@@ -120,9 +138,18 @@ public class CameraMotor : MonoBehaviour
         Gizmos.color = Color.red;
         foreach (Vector3 lane in lanes)
         {
+            int offset = 2;
+
             Vector3 start = new Vector3(lane.y, lane.x, transform.position.z);
             Vector3 end = new Vector3(lane.z, lane.x, transform.position.z);
             Gizmos.DrawLine(start, end);
+            Vector3 start2 = new Vector3(lane.y, lane.x+ offset, transform.position.z);
+            Vector3 end2 = new Vector3(lane.y, lane.x - offset, transform.position.z);
+            Gizmos.DrawLine(start2, end2);
+            Vector3 start3 = new Vector3(lane.z, lane.x + offset, transform.position.z);
+            Vector3 end3 = new Vector3(lane.z, lane.x - offset, transform.position.z);
+            Gizmos.DrawLine(start3, end3);
+
         }
     }
 }
