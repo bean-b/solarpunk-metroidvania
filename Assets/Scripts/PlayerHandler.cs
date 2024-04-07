@@ -11,13 +11,13 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] private float accel = 175; //speed mod
     [HideInInspector] private float accelDefault = 175; //speed mod
     [HideInInspector] private float accelWallJump = 50; //speed mod
-    [HideInInspector] private float jumpingPower = 66; //jump power
-    [HideInInspector] private float jumpingPowerSecond = 30; //jump power
+    [HideInInspector] private float jumpingPower = 68; //jump power
+    [HideInInspector] private float jumpingPowerSecond = 33; //jump power
     [HideInInspector] private float jumpingSecondGravReduction =0.05f;
     [HideInInspector] public float gravityMod = 6.5f;
     [HideInInspector] private float gravityJumpMod = 1.25f;
     [HideInInspector] private float gravityJumpModSec = 2f;
-    [HideInInspector] private float gravRestoreTime = 0.25F; 
+    [HideInInspector] private float gravRestoreTime = 0.2F; 
     private bool isFacingRight = true; //which direction facing
     [HideInInspector] public Rigidbody2D rb; //our rigid body
     [HideInInspector] public float groundCheckDistance = 2.5f; // How far down we check for ground
@@ -334,8 +334,13 @@ public class PlayerHandler : MonoBehaviour
                 {
                     rb.gravityScale = gravityJumpMod;
                 }
+                Invoke("HighGrav", 0.35f);
             }
         }
+    }
+    private void HighGrav()
+    {
+        rb.gravityScale = gravityMod * 2.25f;
     }
 
     private void Flip()

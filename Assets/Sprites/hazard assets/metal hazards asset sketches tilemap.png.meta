@@ -43,7 +43,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -108,7 +108,679 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_0
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2516
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 38aea389bacb4a84a985d9332a9aafb2
+      internalID: -358691732
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_1
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd1031a548317d5479751e542137cf4e
+      internalID: -897324636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_2
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bcdba21664192446a0c465e2d797f73
+      internalID: -262671649
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_3
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 612dbf8f41780074a8e7a943e85b0ee3
+      internalID: -52749850
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_4
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e0e503d8ed5e56c4baab8fd00da1c64b
+      internalID: 196289495
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_5
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: eb7da2b47b1215846b3ad323d3713d24
+      internalID: -696412590
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_6
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aca43515c3d035b4cac1ddbcdfe37b86
+      internalID: -473936705
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_7
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 2004
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c9ebd723f5b7e924a95979f09cf2fb94
+      internalID: 1425663968
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4f2eafd7f2f63f84aa6337ceca67390d
+      internalID: -709168499
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_9
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3a427bb501cd21c43a524bdf4577a730
+      internalID: -1437866628
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_10
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6b5dd591987f57940a3d51209c572254
+      internalID: -720888794
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_11
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc38799fd257526468dbefd399243612
+      internalID: 2105399561
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_12
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61cf7f4f57621a341823d2d92497ee79
+      internalID: -269130540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_13
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4265ea4c7deef14794042be725a317f
+      internalID: 1890767977
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_14
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0452f08f94796c04bb839536bc367c07
+      internalID: 1517365053
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_15
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 1492
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00fd8f4615439eb4f94aec93051bfc29
+      internalID: -537600438
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0a2c4cf97be256648a6136833006880a
+      internalID: 1480100644
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_17
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3863ac9d8a5663048807dd2a6a3bbbfc
+      internalID: -1794753815
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_18
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2bcb8e25ead2c6f4392b52f285aa34f3
+      internalID: 432304067
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_19
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dcf39f59dce8d4c479fae118faff9c50
+      internalID: 1139084872
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_20
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50d45c38dc2d0d24f8fd0491cae83df2
+      internalID: 2132318939
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_21
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c992d23d9e6046e4c85266ac4d28c501
+      internalID: -1723059267
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_22
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7ff2b5b2259fd447b5307887346db68
+      internalID: -1610665323
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_23
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 980
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c6bbd9d43b15a2f488bca17bad49b118
+      internalID: -1474910635
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_24
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e681a23330971646b4659690b951fcd
+      internalID: -964043686
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_25
+      rect:
+        serializedVersion: 2
+        x: 512
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7748e443c97ed1340911b90d5d9bac20
+      internalID: -788423766
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_26
+      rect:
+        serializedVersion: 2
+        x: 1024
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a76d2e6950d0139438da88aaad5847d8
+      internalID: 958757362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_27
+      rect:
+        serializedVersion: 2
+        x: 1536
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 990a3c53d32be0b4e8412c1627c483f7
+      internalID: 1073168876
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_28
+      rect:
+        serializedVersion: 2
+        x: 2048
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fd494ee0486368e42aabcf740a43b092
+      internalID: -194658155
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_29
+      rect:
+        serializedVersion: 2
+        x: 2560
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 90c5b23f1b0f1f44d9f6a147b2ed7dac
+      internalID: -2043283330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_30
+      rect:
+        serializedVersion: 2
+        x: 3072
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: caf92129c378e0b4187b6a60747f0b7f
+      internalID: 700552138
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: metal hazards asset sketches tilemap_31
+      rect:
+        serializedVersion: 2
+        x: 3584
+        y: 468
+        width: 512
+        height: 512
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4b03d6c890196d34395f94ec41fbe402
+      internalID: -1584097658
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +791,39 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      metal hazards asset sketches tilemap_0: -358691732
+      metal hazards asset sketches tilemap_1: -897324636
+      metal hazards asset sketches tilemap_10: -720888794
+      metal hazards asset sketches tilemap_11: 2105399561
+      metal hazards asset sketches tilemap_12: -269130540
+      metal hazards asset sketches tilemap_13: 1890767977
+      metal hazards asset sketches tilemap_14: 1517365053
+      metal hazards asset sketches tilemap_15: -537600438
+      metal hazards asset sketches tilemap_16: 1480100644
+      metal hazards asset sketches tilemap_17: -1794753815
+      metal hazards asset sketches tilemap_18: 432304067
+      metal hazards asset sketches tilemap_19: 1139084872
+      metal hazards asset sketches tilemap_2: -262671649
+      metal hazards asset sketches tilemap_20: 2132318939
+      metal hazards asset sketches tilemap_21: -1723059267
+      metal hazards asset sketches tilemap_22: -1610665323
+      metal hazards asset sketches tilemap_23: -1474910635
+      metal hazards asset sketches tilemap_24: -964043686
+      metal hazards asset sketches tilemap_25: -788423766
+      metal hazards asset sketches tilemap_26: 958757362
+      metal hazards asset sketches tilemap_27: 1073168876
+      metal hazards asset sketches tilemap_28: -194658155
+      metal hazards asset sketches tilemap_29: -2043283330
+      metal hazards asset sketches tilemap_3: -52749850
+      metal hazards asset sketches tilemap_30: 700552138
+      metal hazards asset sketches tilemap_31: -1584097658
+      metal hazards asset sketches tilemap_4: 196289495
+      metal hazards asset sketches tilemap_5: -696412590
+      metal hazards asset sketches tilemap_6: -473936705
+      metal hazards asset sketches tilemap_7: 1425663968
+      metal hazards asset sketches tilemap_8: -709168499
+      metal hazards asset sketches tilemap_9: -1437866628
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

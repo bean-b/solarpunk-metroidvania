@@ -29,7 +29,6 @@ public class MovingPlatformTrigger : MonoBehaviour
                 transform.position,
                 targetWaypoint.position,
                 speed * Time.deltaTime);
-            print(Vector3.Distance(this.transform.position, targetWaypoint.transform.position));
             if (Vector3.Distance(this.transform.position, targetWaypoint.transform.position) < 0.05f)
             {
                 moving = false;
