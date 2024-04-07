@@ -37,10 +37,10 @@ public class PlayerHandler : MonoBehaviour
     [SerializeField] private Transform gunPivot; //where the gun pivots from. currently set from the center of the player for gameplay reasons, can add sprites later though 
     [SerializeField] public GrapplingRope grapplingRope; // our grappling rope
     [SerializeField] private GrapplingGun grapplingGun; //our grappling gun 
-    [HideInInspector] public float maxDeadTime = 15; // max time we can be slow while grapling before it breaks
+    [HideInInspector] public float maxDeadTime = 20; // max time we can be slow while grapling before it breaks
     [HideInInspector] public float curDeadTime = 0; //how long weve been slow 
 
-    [HideInInspector] public float deadSpeed = 18; // minimum speed to not be considered slow grapling
+    [HideInInspector] public float deadSpeed = 12; // minimum speed to not be considered slow grapling
     [HideInInspector] public Vector2 maxSpeed = new Vector2(50,50); //overall max possible speed
     
     private Transform originalParent;
