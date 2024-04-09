@@ -27,7 +27,10 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
 
-    private float wallSlideSpeed = -2.5f;
+    private float wallSlideSpeed = -2f;
+    private float wallSlideSpeed1 = -2f;
+    private float wallSlideSpee2d = -15f;
+    private float wallSlideTime = 0f;
 
     private bool canMove = true;
 
@@ -416,14 +419,26 @@ public class PlayerHandler : MonoBehaviour
     private void wallSlide()
     {
 
+        if(wallSlideTime > 1.5f)
+        {
+            wallSlideSpeed = wallSlideSpee2d;
+
+        }
+        else
+        {
+            wallSlideSpeed = wallSlideSpeed1;
+        }
+
         if (isTouchingRightWall())
         {
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, wallSlideSpeed, float.MaxValue), 0);
             wallSliding = true;
+            wallSlideTime += Time.deltaTime;
         }
         else
         {
             wallSliding = false;
+            wallSlideTime = 0f;
         }
 
     }
@@ -432,7 +447,6 @@ public class PlayerHandler : MonoBehaviour
     private void WallJump()
     {
 
-        print(wallJumpingCounter);
 
         if (wallSliding)
         {
