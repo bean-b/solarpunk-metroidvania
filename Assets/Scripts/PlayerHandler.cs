@@ -406,6 +406,7 @@ public class PlayerHandler : MonoBehaviour
         GetComponent<Renderer>().enabled = true;
         enabled = true;
         lastGrapple = new Vector2(0, 0);
+        rb.velocity = new Vector3(0, 0, 0);
     }
     public void forceMovement(Vector2 snap)
     {
