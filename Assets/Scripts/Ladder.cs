@@ -5,10 +5,13 @@ using UnityEngine;
 public class Ladder : MonoBehaviour
 {
     private PlatformEffector2D effector;
+
+    private PlayerHandler handler;
     private float waitTime = 0;
     void Start()
     {
         effector = GetComponent<PlatformEffector2D>();
+        handler = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerHandler>();
     }
 
     // Update is called once per frame
@@ -16,7 +19,9 @@ public class Ladder : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.S) && waitTime <= 0) {
             effector.rotationalOffset = 180f;
-            waitTime = 0.5f;
+            handler.addForce(new Vector2(0f, -20f));
+            handler.HighGrav();
+            waitTime = 1.5f;
         }
         waitTime -= Time.deltaTime;
         if(waitTime <=0) {

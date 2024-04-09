@@ -11,7 +11,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] private float accel = 175; //speed mod
     [HideInInspector] private float accelDefault = 175; //speed mod
     [HideInInspector] private float accelWallJump = 50; //speed mod
-    private float walljumpCoyoteTime = 275f;
+    private float walljumpCoyoteTime = 0.125f;
     [HideInInspector] private float jumpingPower = 68; //jump power
     [HideInInspector] private float jumpingPowerSecond = 33; //jump power
     [HideInInspector] private float jumpingSecondGravReduction =0.05f;
@@ -23,10 +23,13 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb; //our rigid body
     [HideInInspector] public float groundCheckDistance = 2.5f; // How far down we check for ground
     [HideInInspector] public int numberOfRays = 10; // Number of rays to cast
-    [HideInInspector] public float width = 0.5f;
+    [HideInInspector] public float width = 0.9f;
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
 
+    private float groundedTime  = 0f;
+    private float coyoteJump = 0.125f;
+    private float right2 = 1;
     private float wallSlideSpeed = -2f;
     private float wallSlideSpeed1 = -2f;
     private float wallSlideSpee2d = -15f;
@@ -97,6 +100,11 @@ public class PlayerHandler : MonoBehaviour
             }
             hasWallJumped = false;
             accel = accelDefault;
+            groundedTime = coyoteJump;
+        }
+        else
+        {
+            groundedTime -= Time.deltaTime;
         }
 
         float horizontalInput = Input.GetAxis("Horizontal");
@@ -327,7 +335,7 @@ public class PlayerHandler : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling) //can jump?
         {
-            if (isGrounded() && !wallSliding)
+            if (groundedTime > 0f && !wallSliding)
             {
                 if (rb.velocity.y < 0f)
                 {
@@ -342,7 +350,7 @@ public class PlayerHandler : MonoBehaviour
             }
         }
     }
-    private void HighGrav()
+    public void HighGrav()
     {
         rb.gravityScale = gravityMod * 2.25f;
     }
@@ -388,24 +396,28 @@ public class PlayerHandler : MonoBehaviour
         grapplingRope.enabled = false;
         lastGrapple = new Vector2(0,0);
 
+
+
+        wallJumpingTime =0f;
+        wallSlideTime = 0f;
+
   
         GetComponent<Renderer>().enabled = false;
   
-        forceMovement(respawnPoint);
-        rb.velocity = Vector3.zero;
+        
         Invoke("respawn", respawnTime);
 
         canMove = false;
 
-        cam.addDest(respawnPoint);
     }
     public void respawn()
     {
-        cam.clearDest();
         canMove = true;
         GetComponent<Renderer>().enabled = true;
         enabled = true;
         lastGrapple = new Vector2(0, 0);
+        forceMovement(respawnPoint);
+        cam.addDest(respawnPoint);
         rb.velocity = new Vector3(0, 0, 0);
     }
     public void forceMovement(Vector2 snap)
@@ -435,6 +447,7 @@ public class PlayerHandler : MonoBehaviour
             rb.velocity = new Vector3(rb.velocity.x, Mathf.Clamp(rb.velocity.y, wallSlideSpeed, float.MaxValue), 0);
             wallSliding = true;
             wallSlideTime += Time.deltaTime;
+            right2 = isFacingRight ? 1 : -1;
         }
         else
         {
@@ -455,17 +468,16 @@ public class PlayerHandler : MonoBehaviour
         }
         else
         {
-            wallJumpingCounter -= Time.time;
+            wallJumpingCounter -= Time.deltaTime;
         }
 
         if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling && wallJumpingCounter > 0f)
         {
-            float right2 = isFacingRight ? 1 : -1;
             // Check if the player hasn't wall jumped yet, or if they're jumping off the opposite wall
             if ((wallJumpingCounter > 0 && right2 != wallJumpingDirection) || !hasWallJumped)
             {
                 wallJumpingCounter = 0f;
-                wallJumpingDirection = isFacingRight ? 1 : -1;
+                wallJumpingDirection = right2;
                 wallJumpingTime = wallJumpingDuration;
                 rb.gravityScale = gravityJumpMod;
                 hasWallJumped = true;
