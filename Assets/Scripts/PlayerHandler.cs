@@ -11,6 +11,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] private float accel = 175; //speed mod
     [HideInInspector] private float accelDefault = 175; //speed mod
     [HideInInspector] private float accelWallJump = 50; //speed mod
+    private float walljumpCoyoteTime = 275f;
     [HideInInspector] private float jumpingPower = 68; //jump power
     [HideInInspector] private float jumpingPowerSecond = 33; //jump power
     [HideInInspector] private float jumpingSecondGravReduction =0.05f;
@@ -26,7 +27,7 @@ public class PlayerHandler : MonoBehaviour
     [HideInInspector] public float height = 1f;
     [HideInInspector] public float respawnTime = 1f;
 
-    private float wallSlideSpeed = -7.5f;
+    private float wallSlideSpeed = -2.5f;
 
     private bool canMove = true;
 
@@ -431,15 +432,18 @@ public class PlayerHandler : MonoBehaviour
     private void WallJump()
     {
 
+        print(wallJumpingCounter);
+
         if (wallSliding)
         {
-            wallJumpingCounter = 0.2f;
+            wallJumpingCounter = walljumpCoyoteTime;
         }
         else
         {
             wallJumpingCounter -= Time.time;
         }
-        if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling && wallSliding)
+
+        if (Input.GetButtonDown("Jump") && !grapplingRope.isGrappling && wallJumpingCounter > 0f)
         {
             float right2 = isFacingRight ? 1 : -1;
             // Check if the player hasn't wall jumped yet, or if they're jumping off the opposite wall
