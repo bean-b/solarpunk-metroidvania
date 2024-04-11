@@ -16,7 +16,7 @@ public class CameraMotor : MonoBehaviour
 
 
     private float sizeGoal;
-    private float changeSpeed = 35f;
+    private float changeSpeed = 0.02f;
     private Transform player;
     [SerializeField] private Vector3 offset;
     private Stack<Vector3> dests;
@@ -74,7 +74,7 @@ public class CameraMotor : MonoBehaviour
 
         float currentSize = Camera.main.orthographicSize;
 
-        float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed * Time.deltaTime);
+        float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed);
 
         myCam.orthographicSize = newSize;
     }
