@@ -20,14 +20,15 @@ public class CameraMotor : MonoBehaviour
     private Transform player;
     [SerializeField] private Vector3 offset;
     private Stack<Vector3> dests;
-    private float speed = 10f;
-    private float timeElapsed = 0;
-    public float maxTime = 1f;
-    public float respawnSpeedModifier = 0.02f;
+    
     public float laneGizmoHeight = 10f;
     public List<Vector4> lanes = new List<Vector4>();
 
     public Camera myCam;
+
+    private float totalDist;
+    private float distElap;
+    private float speed = 5;
 
     private int currentLaneIndex = 0;
 
@@ -48,22 +49,17 @@ public class CameraMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         UpdateCurrentLaneIndex();
 
         if (dests.Count != 0) {
-            if(Vector2.Distance(transform.position, dests.Peek()) < 2) {
+            if(distElap < 2) {
                 dests.Pop();
             } else {
-                float step = speed * ((timeElapsed/maxTime > 1) ? 1 : easeOutExpo(timeElapsed/maxTime));
-                timeElapsed += Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, dests.Peek(), step);
+                float step = easeOutExpo(distElap/totalDist);
+                transform.position = Vector3.MoveTowards(transform.position, dests.Peek(), step*speed);
             }
         } else {
-
-
             float xNew = Mathf.Lerp(transform.position.x, player.position.x, Time.deltaTime * followSpeed);
-
             float yNew = transform.position.y;
             if (!isYLocked)
             {
@@ -71,30 +67,24 @@ public class CameraMotor : MonoBehaviour
             }
             else
             {
-
                 yNew = Mathf.Lerp(transform.position.y, lanes[currentLaneIndex].x, Time.deltaTime * followSpeed);
             }
-
-
-
-
             transform.position = new Vector3(xNew, yNew, offset.z);
         }
-
-
 
         float currentSize = Camera.main.orthographicSize;
 
         float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed * Time.deltaTime);
 
-
         myCam.orthographicSize = newSize;
-
     }
 
     public void addDest(Vector2 dest) {
+        if(isYLocked) {
+            dest = new Vector2 (dest.x, lanes[ClosestLane(dest)].y);
+        }
         dests.Push(dest);
-        speed = Vector2.Distance(transform.position, dest) * respawnSpeedModifier/maxTime;
+        totalDist = Vector2.Distance(transform.position, dest);
     }
     public void clearDest() {
         dests = new Stack<Vector3>();
@@ -102,35 +92,30 @@ public class CameraMotor : MonoBehaviour
     private float easeOutExpo(float num) {
         return (num == 1) ? 1 : 1 - math.pow(2, -10 * num);
     }
-
     void UpdateCurrentLaneIndex()
     {
         // Find the closest lane to the player and update currentLaneIndex
+        currentLaneIndex = ClosestLane(player.transform.position);
+        sizeGoal = lanes[currentLaneIndex].w;
+    }
+
+    int ClosestLane(Vector2 vec) {
+        int laneIndex = -1;
         float minDistance = float.MaxValue;
         for (int i = 0; i < lanes.Count; i++)
         {
-
-
-            if (player.position.x > lanes[i].z || player.position.x < lanes[i].y)
+            if (vec.x <= lanes[i].z && vec.x >= lanes[i].y)
             {
-
-            }
-            else
-            {
-
-
-                float distance = Mathf.Abs(player.position.y - lanes[i].x);
+                float distance = Mathf.Abs(vec.y - lanes[i].x);
                 if (distance < minDistance)
                 {
                     minDistance = distance;
-                    currentLaneIndex = i;
+                    laneIndex = i;
                 }
             }
         }
-        sizeGoal = lanes[currentLaneIndex].w;
-
+        return laneIndex;
     }
-
 
     void OnDrawGizmos()
     {

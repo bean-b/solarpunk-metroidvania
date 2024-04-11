@@ -56242,6 +56242,7 @@ GameObject:
   - component: {fileID: 505088552}
   - component: {fileID: 505088556}
   - component: {fileID: 505088557}
+  - component: {fileID: 505088558}
   m_Layer: 6
   m_Name: Platform (1)
   m_TagString: Untagged
@@ -56404,6 +56405,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.0000076293945}
   serializedVersion: 2
   m_Radius: 5.115
+--- !u!114 &505088558
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505088550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &524131497
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59228,11 +59241,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1447075416240022511, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -315.7
+      value: -161.2
       objectReference: {fileID: 0}
     - target: {fileID: 1447075416240022511, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -8.2
+      value: 34.8
       objectReference: {fileID: 0}
     - target: {fileID: 1447075416240022511, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -59600,6 +59613,7 @@ GameObject:
   - component: {fileID: 1186365969}
   - component: {fileID: 1186365973}
   - component: {fileID: 1186365974}
+  - component: {fileID: 1186365975}
   m_Layer: 6
   m_Name: Platform (1)
   m_TagString: Untagged
@@ -59762,6 +59776,18 @@ CircleCollider2D:
   m_Offset: {x: -0.000030517578, y: 0}
   serializedVersion: 2
   m_Radius: 5.115
+--- !u!114 &1186365975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1186365967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1235159630 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3852502195947620093, guid: dbb3339ec48a136409f8ce706bfdd347, type: 3}
@@ -60227,6 +60253,7 @@ GameObject:
   - component: {fileID: 1387537988}
   - component: {fileID: 1387537992}
   - component: {fileID: 1387537993}
+  - component: {fileID: 1387537994}
   m_Layer: 6
   m_Name: Platform (1)
   m_TagString: Untagged
@@ -60389,6 +60416,18 @@ CircleCollider2D:
   m_Offset: {x: -0.000015258789, y: 0}
   serializedVersion: 2
   m_Radius: 5.115
+--- !u!114 &1387537994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1387537986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1409594936 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3067431696033406991, guid: 803cf5fc598c1f64fa8850fd54e8b08b, type: 3}
@@ -60627,6 +60666,7 @@ GameObject:
   - component: {fileID: 1491709248}
   - component: {fileID: 1491709247}
   - component: {fileID: 1491709246}
+  - component: {fileID: 1491709249}
   m_Layer: 0
   m_Name: round saw blade sketch
   m_TagString: Untagged
@@ -60748,6 +60788,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1491709249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1491709244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1544104870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 234809255593229944, guid: dbb3339ec48a136409f8ce706bfdd347, type: 3}
@@ -61515,6 +61567,7 @@ GameObject:
   - component: {fileID: 1803301970}
   - component: {fileID: 1803301969}
   - component: {fileID: 1803301968}
+  - component: {fileID: 1803301973}
   m_Layer: 6
   m_Name: Platform (1)
   m_TagString: Untagged
@@ -61677,6 +61730,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1803301973
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1803301966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1822310580
 GameObject:
   m_ObjectHideFlags: 0
