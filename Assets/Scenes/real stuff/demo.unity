@@ -74299,7 +74299,7 @@ MonoBehaviour:
   - {fileID: 328821674}
   - {fileID: 1748059496}
   - {fileID: 125292796}
-  speed: 19
+  speed: 24
   isCircuit: 1
 --- !u!114 &2089181056
 MonoBehaviour:
