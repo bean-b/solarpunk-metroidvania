@@ -5,7 +5,8 @@ using UnityEngine;
 public class SpinningBlade : MonoBehaviour
 {
     private bool running = false;
-    private float speed = 0.75f;
+    public float speed = 0.75f;
+
     // Start is called before the first frame update
     void Start()
     {
