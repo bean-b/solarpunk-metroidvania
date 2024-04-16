@@ -1,0 +1,434 @@
+fileFormatVersion: 2
+guid: 1e3ecb5cc5409ee4c91b12f2379a2353
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_1
+      rect:
+        serializedVersion: 2
+        x: 7
+        y: 2029
+        width: 389
+        height: 709
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 6, z: 6, w: 1}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3e4ab7a73f54e9c41a097d92c8adadfb
+      internalID: 1948186125
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_3
+      rect:
+        serializedVersion: 2
+        x: 401
+        y: 2015
+        width: 857
+        height: 640
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 17, z: 7, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 46c5fddd8aa054e4c9dde4c966920ff4
+      internalID: 895917238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_5
+      rect:
+        serializedVersion: 2
+        x: 1241
+        y: 2005
+        width: 819
+        height: 694
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 24, y: 27, z: 11, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 98620215cf1b2d84aa94cec3d27de7db
+      internalID: 2004059390
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_9
+      rect:
+        serializedVersion: 2
+        x: 2033
+        y: 2020
+        width: 1168
+        height: 560
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 17, y: 12, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53aef8ad529e61a4893ef9a6b824b0bf
+      internalID: 1355952743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_11
+      rect:
+        serializedVersion: 2
+        x: 3270
+        y: 2021
+        width: 904
+        height: 561
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 11, z: 55, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4c379fff4a3238246a0ef645ceaff505
+      internalID: -2021013038
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_30
+      rect:
+        serializedVersion: 2
+        x: 3222
+        y: 932
+        width: 649
+        height: 1223
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 15, z: 0, w: 163}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: db91b08a0cc262b42b01ee7e50f5600e
+      internalID: 1381831758
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_36
+      rect:
+        serializedVersion: 2
+        x: 766
+        y: 935
+        width: 844
+        height: 1093
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 10, z: 0, w: 11}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1528e3ddb4ea5384e9b663442aeeba1c
+      internalID: -1206686494
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_46
+      rect:
+        serializedVersion: 2
+        x: 65
+        y: 912
+        width: 694
+        height: 943
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab4ca4c99a1a67d4d8c15cfdc238b1ff
+      internalID: -600780602
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_47
+      rect:
+        serializedVersion: 2
+        x: 1692
+        y: 940
+        width: 689
+        height: 911
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 9}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a54ae91cad5f0c54f84d2382c12eac5a
+      internalID: -863183001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_49
+      rect:
+        serializedVersion: 2
+        x: 2443
+        y: 945
+        width: 687
+        height: 780
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bfdd1c3cfd1a4204eba9ee9d373d188f
+      internalID: 135720757
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: druid sketch pose sprite sheet_67
+      rect:
+        serializedVersion: 2
+        x: 1530
+        y: 41
+        width: 428
+        height: 1023
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 320a49cf6c8a9d6429318485a4f39c44
+      internalID: -1801178919
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      druid sketch pose sprite sheet_0: 876617752
+      druid sketch pose sprite sheet_1: 1948186125
+      druid sketch pose sprite sheet_10: -120136071
+      druid sketch pose sprite sheet_11: -2021013038
+      druid sketch pose sprite sheet_12: -27223878
+      druid sketch pose sprite sheet_13: 1260753644
+      druid sketch pose sprite sheet_14: -119843549
+      druid sketch pose sprite sheet_15: -1683969619
+      druid sketch pose sprite sheet_16: -1878545516
+      druid sketch pose sprite sheet_17: -1035885527
+      druid sketch pose sprite sheet_18: -1549195084
+      druid sketch pose sprite sheet_19: -1388069579
+      druid sketch pose sprite sheet_2: -1181110166
+      druid sketch pose sprite sheet_20: 1805439433
+      druid sketch pose sprite sheet_21: 2079972610
+      druid sketch pose sprite sheet_22: -1240778103
+      druid sketch pose sprite sheet_23: 392371318
+      druid sketch pose sprite sheet_24: 806942456
+      druid sketch pose sprite sheet_25: 1082553567
+      druid sketch pose sprite sheet_26: -620746793
+      druid sketch pose sprite sheet_27: -2013146706
+      druid sketch pose sprite sheet_28: 1475886910
+      druid sketch pose sprite sheet_29: -446539793
+      druid sketch pose sprite sheet_3: 895917238
+      druid sketch pose sprite sheet_30: 1381831758
+      druid sketch pose sprite sheet_31: -1213242922
+      druid sketch pose sprite sheet_32: 1209184199
+      druid sketch pose sprite sheet_33: -520341292
+      druid sketch pose sprite sheet_34: -1673094389
+      druid sketch pose sprite sheet_35: 534418273
+      druid sketch pose sprite sheet_36: -1206686494
+      druid sketch pose sprite sheet_37: 828678441
+      druid sketch pose sprite sheet_38: -1450841133
+      druid sketch pose sprite sheet_39: 1976595863
+      druid sketch pose sprite sheet_4: -435357425
+      druid sketch pose sprite sheet_40: -226025385
+      druid sketch pose sprite sheet_41: -1084224948
+      druid sketch pose sprite sheet_42: 1454314323
+      druid sketch pose sprite sheet_43: 834256947
+      druid sketch pose sprite sheet_44: -1356690609
+      druid sketch pose sprite sheet_45: -959354101
+      druid sketch pose sprite sheet_46: -600780602
+      druid sketch pose sprite sheet_47: -863183001
+      druid sketch pose sprite sheet_48: 1981720090
+      druid sketch pose sprite sheet_49: 135720757
+      druid sketch pose sprite sheet_5: 2004059390
+      druid sketch pose sprite sheet_50: 479607824
+      druid sketch pose sprite sheet_51: -277274138
+      druid sketch pose sprite sheet_52: 1277329707
+      druid sketch pose sprite sheet_53: 840230356
+      druid sketch pose sprite sheet_54: 2102688350
+      druid sketch pose sprite sheet_55: 72348553
+      druid sketch pose sprite sheet_56: 1256186721
+      druid sketch pose sprite sheet_57: -1272817021
+      druid sketch pose sprite sheet_58: 1907365406
+      druid sketch pose sprite sheet_59: 719048983
+      druid sketch pose sprite sheet_6: 1287985165
+      druid sketch pose sprite sheet_60: -1094463648
+      druid sketch pose sprite sheet_61: -477648600
+      druid sketch pose sprite sheet_62: -956288349
+      druid sketch pose sprite sheet_63: -1209188382
+      druid sketch pose sprite sheet_64: -1541246133
+      druid sketch pose sprite sheet_65: -442146907
+      druid sketch pose sprite sheet_66: 1691726621
+      druid sketch pose sprite sheet_67: -1801178919
+      druid sketch pose sprite sheet_68: 1441694710
+      druid sketch pose sprite sheet_69: -204432802
+      druid sketch pose sprite sheet_7: 878940537
+      druid sketch pose sprite sheet_70: 1001376546
+      druid sketch pose sprite sheet_71: -1987383875
+      druid sketch pose sprite sheet_72: 429809321
+      druid sketch pose sprite sheet_73: 462673754
+      druid sketch pose sprite sheet_74: 842728705
+      druid sketch pose sprite sheet_75: 1739930752
+      druid sketch pose sprite sheet_8: -94632802
+      druid sketch pose sprite sheet_9: 1355952743
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
