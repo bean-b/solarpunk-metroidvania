@@ -67377,8 +67377,8 @@ GameObject:
   - component: {fileID: 363350110}
   - component: {fileID: 363350109}
   - component: {fileID: 363350108}
-  - component: {fileID: 363350107}
   - component: {fileID: 363350111}
+  - component: {fileID: 363350112}
   m_Layer: 0
   m_Name: round saw blade sketch (1)
   m_TagString: Untagged
@@ -67401,27 +67401,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1535253893}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &363350107
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 363350105}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0850fb1d96a7c4aa6bc2bbb3e1fe0978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 423295948}
-  - {fileID: 733837140}
-  - {fileID: 1159449048}
-  - {fileID: 189087669}
-  - {fileID: 1159449048}
-  - {fileID: 733837140}
-  speed: 20
-  isCircuit: 1
 --- !u!114 &363350108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67533,7 +67512,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -1.25
+  speed: -2
+--- !u!114 &363350112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 363350105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87f0baacf55d8e43ad0cd84ec6a2077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 423295948}
+  - {fileID: 733837140}
+  - {fileID: 1159449048}
+  - {fileID: 189087669}
+  - {fileID: 1159449048}
+  - {fileID: 733837140}
+  speed: 20
+  isCircuit: 1
 --- !u!1 &366312802
 GameObject:
   m_ObjectHideFlags: 0
@@ -75632,8 +75632,8 @@ GameObject:
   - component: {fileID: 2089181058}
   - component: {fileID: 2089181057}
   - component: {fileID: 2089181056}
-  - component: {fileID: 2089181055}
   - component: {fileID: 2089181054}
+  - component: {fileID: 2089181059}
   m_Layer: 0
   m_Name: round saw blade sketch (1)
   m_TagString: Untagged
@@ -75668,28 +75668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -1.25
---- !u!114 &2089181055
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2089181052}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0850fb1d96a7c4aa6bc2bbb3e1fe0978, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 883890452}
-  - {fileID: 125292796}
-  - {fileID: 1748059496}
-  - {fileID: 328821674}
-  - {fileID: 1748059496}
-  - {fileID: 125292796}
-  speed: 24
-  isCircuit: 1
+  speed: -2
 --- !u!114 &2089181056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75789,6 +75768,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2089181059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089181052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c87f0baacf55d8e43ad0cd84ec6a2077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 883890452}
+  - {fileID: 125292796}
+  - {fileID: 1748059496}
+  - {fileID: 328821674}
+  - {fileID: 1748059496}
+  - {fileID: 125292796}
+  speed: 24
+  isCircuit: 1
 --- !u!1001 &2097107171
 PrefabInstance:
   m_ObjectHideFlags: 0
