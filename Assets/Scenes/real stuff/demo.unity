@@ -73421,7 +73421,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -2
+  speed: 500
 --- !u!114 &363350112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -73455,7 +73455,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c5c7e912808024b688fef41727fe517d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.027
+  m_Volume: 0.1
   m_Pitch: 1.46
   Loop: 1
   Mute: 0
@@ -77580,11 +77580,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1447075416240022511, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.4
+      value: -159.5
       objectReference: {fileID: 0}
     - target: {fileID: 1447075416240022511, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 47.8
+      value: 38
       objectReference: {fileID: 0}
     - target: {fileID: 1447075416240022511, guid: 8e6ef9f71ef0181448943ab902c45e9c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -79181,7 +79181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dab56fbc88234cfd931a5301eb549b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -1.25
+  speed: 500
 --- !u!82 &1491709250
 AudioSource:
   m_ObjectHideFlags: 0
@@ -79194,7 +79194,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: c5c7e912808024b688fef41727fe517d, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.027
+  m_Volume: 0.1
   m_Pitch: 1.46
   Loop: 1
   Mute: 0
