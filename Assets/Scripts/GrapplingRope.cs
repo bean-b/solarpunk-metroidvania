@@ -29,11 +29,12 @@ public class GrapplingRope : MonoBehaviour
     private LineRenderer lineRenderer;
 
     [HideInInspector] public float lastEnabled;
+    public AudioSource audioSource;
 
+    private bool firstplay = false;
     private void Start()
     {
         lineRenderer = GetComponent<LineRenderer>();
-
 
 
     }
@@ -51,7 +52,14 @@ public class GrapplingRope : MonoBehaviour
 
 
         m_lineRenderer.enabled = true;
-
+        if(firstplay)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            firstplay = true;
+        }
         
     }
 
@@ -83,6 +91,7 @@ public class GrapplingRope : MonoBehaviour
         if (isGrappling)
         {
             grapplingGun.grapplePointObj.SendMessage("Used");
+            audioSource.Stop();
         }
     }
 
