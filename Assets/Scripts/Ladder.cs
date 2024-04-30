@@ -17,7 +17,7 @@ public class Ladder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.S) && waitTime <= 0) {
+        if((Input.GetKeyDown(KeyCode.DownArrow))||(Input.GetKeyDown(KeyCode.S)) && waitTime <= 0) {
             effector.rotationalOffset = 180f;
             handler.addForce(new Vector2(0f, -20f));
             handler.HighGrav();
