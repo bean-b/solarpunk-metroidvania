@@ -24,6 +24,8 @@ public class CameraMotor : MonoBehaviour
     public float laneGizmoHeight = 10f;
     public List<Vector4> lanes = new List<Vector4>();
 
+    public bool enabled = true;
+
     public Camera myCam;
 
     private float totalDist;
@@ -49,34 +51,36 @@ public class CameraMotor : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdateCurrentLaneIndex();
+        if(enabled){
+            UpdateCurrentLaneIndex();
 
-        if (dests.Count != 0) {
-            if(distElap < 2) {
-                dests.Pop();
+            if (dests.Count != 0) {
+                if(distElap < 2) {
+                    dests.Pop();
+                } else {
+                    float step = easeOutExpo(distElap/totalDist);
+                    transform.position = Vector3.MoveTowards(transform.position, dests.Peek(), step*speed);
+                }
             } else {
-                float step = easeOutExpo(distElap/totalDist);
-                transform.position = Vector3.MoveTowards(transform.position, dests.Peek(), step*speed);
+                float xNew = Mathf.Lerp(transform.position.x, player.position.x, Time.deltaTime * followSpeed);
+                float yNew = transform.position.y;
+                if (!isYLocked)
+                {
+                    yNew = Mathf.Lerp(transform.position.y, player.position.y, Time.deltaTime * followSpeed);
+                }
+                else
+                {
+                    yNew = Mathf.Lerp(transform.position.y, lanes[currentLaneIndex].x, Time.deltaTime * followSpeed);
+                }
+                transform.position = new Vector3(xNew, yNew, offset.z);
             }
-        } else {
-            float xNew = Mathf.Lerp(transform.position.x, player.position.x, Time.deltaTime * followSpeed);
-            float yNew = transform.position.y;
-            if (!isYLocked)
-            {
-                yNew = Mathf.Lerp(transform.position.y, player.position.y, Time.deltaTime * followSpeed);
-            }
-            else
-            {
-                yNew = Mathf.Lerp(transform.position.y, lanes[currentLaneIndex].x, Time.deltaTime * followSpeed);
-            }
-            transform.position = new Vector3(xNew, yNew, offset.z);
+
+            float currentSize = Camera.main.orthographicSize;
+
+            float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed);
+
+            myCam.orthographicSize = newSize;
         }
-
-        float currentSize = Camera.main.orthographicSize;
-
-        float newSize = Mathf.SmoothStep(currentSize, sizeGoal, changeSpeed);
-
-        myCam.orthographicSize = newSize;
     }
 
     public void addDest(Vector2 dest) {
